@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Change packages">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/DataContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/DataContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Sync.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Sync.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Support Sync Delete">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/EventContext.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Reaction.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/ActionRow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/ActionRow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/InteractionContext.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/ModalContext.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Modal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Modal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +34,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2Dl0IK3QzT5rUR5ZCiiY5DUZaSo" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -56,6 +63,7 @@
       <recent name="D:\Deve\2022\Discord\discord-ui\src\main\kotlin" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="net.sonmoosans.dui.context" />
       <recent name="utils" />
       <recent name="" />
       <recent name="context" />
@@ -104,7 +112,7 @@
       <workItem from="1661340005273" duration="9604000" />
       <workItem from="1661434907682" duration="10771000" />
       <workItem from="1661478371285" duration="25437000" />
-      <workItem from="1661505318862" duration="1094000" />
+      <workItem from="1661505318862" duration="2821000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -197,7 +205,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661506107246</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Support Sync Delete">
+      <created>1661506531667</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1661506531667</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,6 +243,7 @@
     <MESSAGE value="Update Demo" />
     <MESSAGE value="Fix bugs" />
     <MESSAGE value="Change packages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change packages" />
+    <MESSAGE value="Support Sync Delete" />
+    <option name="LAST_COMMIT_MESSAGE" value="Support Sync Delete" />
   </component>
 </project>

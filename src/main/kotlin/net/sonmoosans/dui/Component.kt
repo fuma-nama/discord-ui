@@ -3,10 +3,10 @@ import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.RenderContextCreate
 import net.sonmoosans.dui.context.RenderContextEdit
 import net.sonmoosans.dui.listeners.Handler
-import net.sonmoosans.dui.listeners.ModalHandler
 import net.dv8tion.jda.api.utils.messages.AbstractMessageBuilder
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
+import net.sonmoosans.dui.context.EventContext
 import net.sonmoosans.dui.utils.apply
 
 typealias MessageBuilder = AbstractMessageBuilder<*, *>
@@ -17,8 +17,7 @@ open class Component<P : Any>(
     val store: DataStore<P> = DataStoreImpl(),
     val render: RenderContext<P, *>.() -> Unit
 ) {
-    val listeners = hashMapOf<Int, Handler<*, P>>()
-    val modals = hashMapOf<Int, ModalHandler<P>>()
+    val listeners = hashMapOf<Int, Handler<EventContext<*, P>>>()
 
     /**
      * Update Data and renders Component

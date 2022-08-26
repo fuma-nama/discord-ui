@@ -1,8 +1,5 @@
 package net.sonmoosans.dui.components
 
-import net.sonmoosans.dui.context.Container
-import net.sonmoosans.dui.context.RenderContainer
-import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.listeners.Handler
 import net.sonmoosans.dui.listeners.interaction
 import net.dv8tion.jda.api.entities.emoji.Emoji
@@ -20,6 +17,7 @@ import net.dv8tion.jda.api.interactions.components.text.TextInputStyle
 import net.dv8tion.jda.internal.interactions.component.ButtonImpl
 import net.dv8tion.jda.internal.interactions.component.SelectMenuImpl
 import net.dv8tion.jda.internal.interactions.component.TextInputImpl
+import net.sonmoosans.dui.context.*
 import net.sonmoosans.dui.utils.SelectOptionImpl
 import net.sonmoosans.dui.utils.join
 import net.sonmoosans.dui.utils.lambdaList
@@ -56,7 +54,7 @@ fun<P: Any> RenderContainer<in Button, P>.button(
     disabled: Boolean = false,
     emoji: Emoji? = null,
     style: ButtonStyle = ButtonStyle.PRIMARY,
-    onClick: Handler<ButtonInteractionEvent, P>,
+    onClick: InteractionContext<ButtonInteractionEvent, P>.() -> Unit,
 ) {
     val id = context.interaction(onClick)
 
@@ -128,7 +126,7 @@ fun Container<in SelectOption>.option(
 class MenuBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<SelectOption, P>(context) {
     lateinit var id: String
 
-    fun submit(onSubmit: Handler<SelectMenuInteractionEvent, P>): String {
+    fun submit(onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, P>>): String {
         id = context.interaction(onSubmit)
 
         return id

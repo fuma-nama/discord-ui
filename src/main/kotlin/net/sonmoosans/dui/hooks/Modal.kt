@@ -2,11 +2,14 @@ package net.sonmoosans.dui.hooks
 
 import net.sonmoosans.dui.context.RenderContainer
 import net.sonmoosans.dui.context.RenderContext
-import net.sonmoosans.dui.listeners.ModalHandler
 import net.sonmoosans.dui.listeners.modal
 import net.dv8tion.jda.api.interactions.components.ActionRow
 import net.dv8tion.jda.api.interactions.components.Modal
+import net.sonmoosans.dui.context.ModalContext
+import net.sonmoosans.dui.listeners.Handler
 import net.sonmoosans.dui.utils.ModalFactory
+
+private typealias ModalHandler<P> = Handler<ModalContext<P>>
 
 fun<P: Any> RenderContext<P, *>.useModal(init: ModalBuilder<P>.() -> Unit): Modal {
     with (ModalBuilder(this).apply(init)) {
