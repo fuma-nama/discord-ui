@@ -31,11 +31,11 @@ val example = component {
         }
     }
 
-    useEffect("name") {
+    useEffect {
         println("Init")
     }
 
-    useEffect("count", count.value) {
+    useEffect(count.value) {
         println("Count updated")
     }
 

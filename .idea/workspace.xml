@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Change File Structure">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/components/File.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Add File Component">
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/hooks/LifeCycle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/hooks/LifeCycle.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +93,7 @@
       <workItem from="1661337551249" duration="1199000" />
       <workItem from="1661340005273" duration="9604000" />
       <workItem from="1661434907682" duration="10771000" />
-      <workItem from="1661478371285" duration="13847000" />
+      <workItem from="1661478371285" duration="14262000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -122,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661492065857</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add File Component">
+      <created>1661492696985</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1661492696985</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,6 +152,7 @@
     <MESSAGE value="Supports Embed" />
     <MESSAGE value="Add Modal System" />
     <MESSAGE value="Change File Structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change File Structure" />
+    <MESSAGE value="Add File Component" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add File Component" />
   </component>
 </project>
