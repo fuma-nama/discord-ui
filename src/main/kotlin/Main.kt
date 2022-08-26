@@ -77,7 +77,7 @@ val example = component {
 }
 
 fun main() {
-    val jda = JDABuilder.createDefault("OTA3OTU1NzgxOTcyOTE4Mjgz.Gr4wp2.kgCl7znvdc3jRlP8Je46QB2M4_p9vu2VB1gbcE")
+    val jda = JDABuilder.createDefault(System.getenv("TOKEN"))
         .addEventListeners(ComponentListener())
         .build()
         .awaitReady()

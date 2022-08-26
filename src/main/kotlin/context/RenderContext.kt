@@ -4,8 +4,6 @@ import Component
 import Data
 import MessageBuilder
 import hooks.Context
-import listeners.*
-import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 
