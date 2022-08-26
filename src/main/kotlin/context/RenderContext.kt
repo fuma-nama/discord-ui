@@ -45,24 +45,6 @@ open class RenderContext<P: Any, B: MessageBuilder>(
             run(this as RenderContextCreate<P>)
         }
     }
-
-    fun<S: Any> useState(id: String, initial: S): State<S> {
-        val cache = data.states[id]
-
-        if (cache != null) {
-            return cache as State<S>
-        }
-
-        val state = State(id, initial)
-
-        data.states[id] = state
-        return state
-    }
-
-    fun<S> useState(id: String): State<S?> {
-        return State(id, null)
-    }
-
 }
 
 class State<S>(

@@ -2,6 +2,7 @@ package hooks
 
 import HookKey
 import context.RenderContext
+import utils.generateId
 
 fun RenderContext<*, *>.useEffect(vararg dependencies: Any?, id: String? = null, handle: () -> Unit) {
     val key = HookKey(generateId(id, handle), "useEffect")
@@ -27,13 +28,6 @@ fun<T> RenderContext<*, *>.useMemo(vararg dependencies: Any?, id: String? = null
             data.hooks[key] = MemoData(dependencies, it)
         }
     } else cache!!.value
-}
-
-/**
- * In default, we will use the hashcode of the interface class
- */
-private fun generateId(id: String?, func: () -> Any?): String {
-    return id?: func::class.hashCode().toString()
 }
 
 class MemoData<T>(val dependencies: Array<*>, val value: T)
