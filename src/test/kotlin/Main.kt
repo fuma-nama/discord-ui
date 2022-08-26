@@ -12,6 +12,7 @@ import net.sonmoosans.dui.hooks.sync
 import net.sonmoosans.dui.hooks.useModal
 import net.sonmoosans.dui.hooks.useState
 import net.sonmoosans.dui.hooks.useSync
+import net.sonmoosans.dui.utils.field
 import net.sonmoosans.dui.utils.get
 import net.sonmoosans.dui.utils.value
 
@@ -80,6 +81,35 @@ val example = component {
     }
 }
 
+val todo = component<Unit> {
+    val todos = useState("todos", arrayListOf<String>())
+    val addModal = useModal {
+        title = "Add Todo"
+
+        row {
+            input("todo", "Todo Content")
+        }
+
+        submit {
+            todos.value += event["todo"]
+
+            event.edit()
+        }
+    }
+
+    embed(title = "Todos") {
+        for (todo in todos.value) {
+            field(name = todo)
+        }
+    }
+
+    row {
+        button(label = "Add") {
+            addModal.open(event)
+        }
+    }
+}
+
 fun main() {
     val jda = JDABuilder.createDefault(System.getenv("TOKEN"))
         .addEventListeners(ComponentListener())
@@ -94,7 +124,7 @@ fun main() {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
-        val ui = example.create(event.user.id, "Hello World") {
+        val ui = todo.create(event.user.id, Unit) {
             sync(event.hook)
         }
 
