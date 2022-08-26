@@ -8,7 +8,6 @@ import listeners.ComponentListener
 import utils.open
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
-import utils.field
 import utils.get
 import utils.value
 
@@ -20,6 +19,17 @@ fun RenderContext<*, *>.counter(count: State<Int>) {
     )
 
     rowLayout {
+        menu(placeholder = "Select a Value", selected = count.value) {
+            option("Small", "0")
+            option("Big", "10")
+
+            submit {
+                count *= event.value().toInt()
+
+                event.edit()
+            }
+        }
+
         button("Increase") {
             count.value += 1
 
@@ -31,26 +41,12 @@ fun RenderContext<*, *>.counter(count: State<Int>) {
 
             event.edit()
         }
-
-        menu(placeholder = "Select a Value", selected = count.value) {
-            option("Small", "0")
-            option("Big", "10")
-
-            submit {
-                count *= event.value().toInt()
-
-                event.edit()
-            }
-        }
     }
 }
 
 val example = component {
     val sync = useSync()
     val count = useState("count", 0)
-
-    counter(count)
-
     val deleteModal = useModal {
         title = "Do You sure You want to Delete this Message?"
 
@@ -66,6 +62,8 @@ val example = component {
             }
         }
     }
+
+    counter(count)
 
     row {
         button("Sync") {
