@@ -8,10 +8,12 @@ import net.sonmoosans.dui.Component
 
 @DslBuilder
 open class DataContext<P : Any>(
-    override val id: String,
+    val id: String,
     final override val data: Data<P>,
-    override val component: Component<P>
+    val component: Component<P>
 ): StateContext<P>, SyncContext<P> {
+    override val context
+        get() = this
     var props by data::props
 
     /**

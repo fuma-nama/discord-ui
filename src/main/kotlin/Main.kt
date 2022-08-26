@@ -60,7 +60,7 @@ val example = component {
 
         submit {
             if (event["name"] == count.asString()) {
-                event.delete()
+                sync.delete(event)
             } else {
                 event.ignore()
             }

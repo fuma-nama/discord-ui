@@ -1,12 +1,12 @@
 package net.sonmoosans.dui.hooks
 
-import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.HookKey
 import net.sonmoosans.dui.context.RenderContext
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
 import net.dv8tion.jda.api.utils.messages.MessageEditData
+import net.sonmoosans.dui.context.DataContext
 
 fun RenderContext<*, *>.useSync(id: String = ""): Sync {
     val key = HookKey(id, "useSync")
@@ -47,21 +47,37 @@ class SyncHook(
 class Sync(val hook: SyncHook)
 
 interface SyncContext<P : Any> {
-    val id: String
-    val data: Data<P>
-    val component: Component<P>
+    val context: DataContext<P>
+
+    private fun edit() = context.component.edit(context.id, context.data)
 
     fun Sync.edit(event: IMessageEditCallback) {
-        val rendered = component.edit(id, data)
+        val rendered = edit()
 
         event.editMessage(rendered).queue {
             invoke(it)
         }
     }
 
+    fun Sync.delete() {
+
+        for (hook in hook.hooks) {
+            hook.deleteOriginal().queue()
+        }
+
+        context.destroy()
+    }
+
+    fun Sync.delete(event: IMessageEditCallback) {
+
+        event.deferEdit().queue {
+            delete()
+        }
+    }
+
     operator fun Sync.invoke(
         event: InteractionHook,
-        rendered: MessageEditData = component.edit(id, data)
+        rendered: MessageEditData = edit()
     ) {
 
         event.retrieveOriginal().queue { original ->
@@ -75,7 +91,7 @@ interface SyncContext<P : Any> {
     }
 
     operator fun Sync.invoke() {
-        val rendered = component.edit(id, data)
+        val rendered = edit()
 
         hook.hooks.forEach {
             it.editOriginal(rendered).queue()
