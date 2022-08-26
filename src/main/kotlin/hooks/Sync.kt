@@ -1,25 +1,14 @@
 package hooks
 
+import Component
 import Data
 import HookKey
-import context.DataContext
 import context.RenderContext
 import net.dv8tion.jda.api.interactions.InteractionHook
+import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
+import net.dv8tion.jda.api.utils.messages.MessageEditData
 
-private fun<P: Any> DataContext<P>.sync(hook: SyncHook, event: InteractionHook) {
-    val rendered = this.component.edit(this.id, this.data)
-
-    event.retrieveOriginal().queue { original ->
-        hook.hooks.forEach {
-
-            if (it.interaction.id != original.interaction?.id) {
-                it.editOriginal(rendered).queue()
-            }
-        }
-    }
-}
-
-fun RenderContext<*, *>.useSync(id: String = ""): (InteractionHook) -> Unit {
+fun RenderContext<*, *>.useSync(id: String = ""): Sync {
     val key = HookKey(id, "useSync")
     var hook = data.hooks[key] as SyncHook?
 
@@ -28,7 +17,7 @@ fun RenderContext<*, *>.useSync(id: String = ""): (InteractionHook) -> Unit {
         data.hooks[key] = hook
     }
 
-    return { event -> sync(hook, event) }
+    return Sync(hook)
 }
 
 fun<P: Any> Data<P>.sync(event: InteractionHook, id: String = "") {
@@ -54,3 +43,42 @@ fun<P: Any> Data<P>.unsync(event: InteractionHook, id: String = "") {
 class SyncHook(
     val hooks: ArrayList<InteractionHook> = arrayListOf()
 )
+
+class Sync(val hook: SyncHook)
+
+interface SyncContext<P : Any> {
+    val id: String
+    val data: Data<P>
+    val component: Component<P>
+
+    fun Sync.edit(event: IMessageEditCallback) {
+        val rendered = component.edit(id, data)
+
+        event.editMessage(rendered).queue {
+            invoke(it)
+        }
+    }
+
+    operator fun Sync.invoke(
+        event: InteractionHook,
+        rendered: MessageEditData = component.edit(id, data)
+    ) {
+
+        event.retrieveOriginal().queue { original ->
+            hook.hooks.forEach {
+
+                if (it.interaction.id != original.interaction?.id) {
+                    it.editOriginal(rendered).queue()
+                }
+            }
+        }
+    }
+
+    operator fun Sync.invoke() {
+        val rendered = component.edit(id, data)
+
+        hook.hooks.forEach {
+            it.editOriginal(rendered).queue()
+        }
+    }
+}

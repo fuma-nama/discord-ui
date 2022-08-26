@@ -2,16 +2,17 @@ package context
 
 import Component
 import Data
+import hooks.SyncContext
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback
 
 @DslBuilder
 open class DataContext<P : Any>(
-    val id: String,
+    override val id: String,
     final override val data: Data<P>,
-    val component: Component<P>
-): StateContext<P> {
-    val props by data::props
+    override val component: Component<P>
+): StateContext<P>, SyncContext<P> {
+    var props by data::props
 
     /**
      * Delete the Message

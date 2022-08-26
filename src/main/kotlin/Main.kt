@@ -1,6 +1,8 @@
 import command.SuperCommandModule
 import command.builder.command
 import components.*
+import context.RenderContext
+import context.State
 import hooks.*
 import listeners.ComponentListener
 import utils.open
@@ -10,9 +12,44 @@ import utils.field
 import utils.get
 import utils.value
 
+fun RenderContext<*, *>.counter(count: State<Int>) {
+
+    embed(
+        title = "Counter",
+        description = count.asString(),
+    )
+
+    rowLayout {
+        button("Increase") {
+            count.value += 1
+
+            event.edit()
+        }
+
+        button("Decrease") {
+            count.value -= 1
+
+            event.edit()
+        }
+
+        menu(placeholder = "Select a Value", selected = count.value) {
+            option("Small", "0")
+            option("Big", "10")
+
+            submit {
+                count *= event.value().toInt()
+
+                event.edit()
+            }
+        }
+    }
+}
+
 val example = component {
     val sync = useSync()
-    val count = useState("name", 0)
+    val count = useState("count", 0)
+
+    counter(count)
 
     val deleteModal = useModal {
         title = "Do You sure You want to Delete this Message?"
@@ -30,40 +67,13 @@ val example = component {
         }
     }
 
-    embed(
-        title = props,
-        description = count.asString(),
-        fields = {
-            field("Test", "Hello")
-        }
-    )
-    rowLayout {
-        button("Increase") {
-            count.value += 1
-
-            event.edit()
-            sync(event.hook)
-        }
-
-        button("Decrease") {
-            count.value -= 1
-
-            event.edit()
+    row {
+        button("Sync") {
+            sync.edit(event)
         }
 
         button("Close", style = ButtonStyle.DANGER) {
             deleteModal.open(event)
-        }
-
-        menu(placeholder = "Select a Value", selected = count.value) {
-            option("Small", "0")
-            option("Big", "10")
-
-            submit {
-                count *= event.value().toInt()
-
-                event.edit()
-            }
         }
     }
 }
