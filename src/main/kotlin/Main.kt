@@ -1,15 +1,19 @@
-import command.SuperCommandModule
-import command.builder.command
-import components.*
-import context.RenderContext
-import context.State
-import hooks.*
-import listeners.ComponentListener
-import utils.open
+import net.sonmoosans.dui.command.SuperCommandModule
+import net.sonmoosans.dui.command.builder.command
+import net.sonmoosans.dui.context.RenderContext
+import net.sonmoosans.dui.context.State
+import net.sonmoosans.dui.listeners.ComponentListener
+import net.sonmoosans.dui.utils.open
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
-import utils.get
-import utils.value
+import net.sonmoosans.dui.component
+import net.sonmoosans.dui.components.*
+import net.sonmoosans.dui.hooks.sync
+import net.sonmoosans.dui.hooks.useModal
+import net.sonmoosans.dui.hooks.useState
+import net.sonmoosans.dui.hooks.useSync
+import net.sonmoosans.dui.utils.get
+import net.sonmoosans.dui.utils.value
 
 fun RenderContext<*, *>.counter(count: State<Int>) {
 
