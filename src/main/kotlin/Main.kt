@@ -1,12 +1,9 @@
 import command.SuperCommandModule
 import command.builder.command
 import components.*
-import hooks.useEffect
-import hooks.useMemo
+import hooks.*
 import listeners.ComponentListener
 import utils.open
-import hooks.useModal
-import hooks.useState
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
 import utils.field
@@ -14,6 +11,7 @@ import utils.get
 import utils.value
 
 val example = component {
+    val sync = useSync()
     val count = useState("name", 0)
 
     val deleteModal = useModal {
@@ -32,25 +30,10 @@ val example = component {
         }
     }
 
-    useEffect {
-        println("Init")
-    }
-
-    useEffect(count.value) {
-        println("Count updated")
-    }
-
-    val memo = useMemo(count.value) {
-        println("processing")
-
-        count.value + 1
-    }
-
     embed(
         title = props,
         description = count.asString(),
         fields = {
-            field("Memo", memo.toString())
             field("Test", "Hello")
         }
     )
@@ -60,6 +43,7 @@ val example = component {
             count.value += 1
 
             event.edit()
+            sync(event.hook)
         }
 
         button("Decrease") {
@@ -79,7 +63,7 @@ val example = component {
             submit {
                 count *= event.value().toInt()
 
-                event.delete()
+                event.edit()
             }
         }
     }
@@ -99,7 +83,10 @@ fun main() {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
+        val ui = example.create(event.user.id, "Hello World") {
+            sync(event.hook)
+        }
 
-        event.reply(example.create("Hello World")).queue()
+        event.reply(ui).queue()
     }
 }

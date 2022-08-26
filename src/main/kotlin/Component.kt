@@ -6,12 +6,13 @@ import listeners.ModalHandler
 import net.dv8tion.jda.api.utils.messages.AbstractMessageBuilder
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
+import utils.apply
 
 typealias MessageBuilder = AbstractMessageBuilder<*, *>
 
 fun<P: Any> component(render: RenderContext<P, *>.() -> Unit) = Component(render = render)
 
-class Component<P : Any>(
+open class Component<P : Any>(
     val store: DataStore<P> = DataStoreImpl(),
     val render: RenderContext<P, *>.() -> Unit
 ) {
@@ -19,30 +20,39 @@ class Component<P : Any>(
     val modals = hashMapOf<Int, ModalHandler<P>>()
 
     /**
-     * Renders Component with temp Data
+     * Update Data and renders Component
+     *
+     * Update only will be invoked if key already exists
      */
-    fun once(props: P): MessageCreateData {
-        val context = RenderContextCreate("", Data(props), this)
-
-        render(context)
-
-        return context.builder.build()
-    }
-
-    /**
-     * Store new Data and renders Component
-     */
-    fun create(props: P): MessageCreateData {
-        val data = Data(props)
-        val id = store.register(data)
+    fun update(id: String, update: Data<P>.() -> Unit, default: () -> P): MessageCreateData {
+        val data = store[id]?.apply(update)?: Data(default())
+        store[id] = data
 
         return render(id, data)
     }
 
     /**
+     * Store new Data and renders Component
+     *
+     * Update props If key duplicated
+     */
+    fun create(id: String, props: P, init: (Data<P>.() -> Unit)? = null): MessageCreateData {
+        var cache = store[id]
+
+        if (cache == null) {
+            cache = Data(props)
+            store[id] = cache
+        } else {
+            cache.props = props
+        }
+
+        return render(id, cache.apply(init))
+    }
+
+    /**
      * renders Component
      */
-    fun render(id: String, data: Data<P>): MessageCreateData {
+    fun render(id: String, data: Data<P> = store[id]!!): MessageCreateData {
         val context = RenderContextCreate(id, data, this)
 
         render(context)

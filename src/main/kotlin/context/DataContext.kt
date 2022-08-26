@@ -18,6 +18,7 @@ open class DataContext<P : Any>(
      * @param destroy If enabled, Data will be destroyed after delete
      */
     fun IMessageEditCallback.delete(destroy: Boolean = true) {
+
         deferEdit().queue {
             it.deleteOriginal().queue {
                 if (destroy) {
@@ -27,7 +28,7 @@ open class DataContext<P : Any>(
         }
     }
 
-    fun IMessageEditCallback.edit() {
+    fun IMessageEditCallback.edit() = with (this@DataContext) {
         editMessage(component.edit(id, data)).queue()
     }
 
@@ -35,7 +36,7 @@ open class DataContext<P : Any>(
         deferEdit().queue()
     }
 
-    fun IReplyCallback.reply() {
+    fun IReplyCallback.reply() = with (this@DataContext) {
         reply(component.render(id, data)).queue()
     }
 

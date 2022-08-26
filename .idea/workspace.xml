@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Improve Hooks">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/hooks/State.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/utils/Internal.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Improve State Hook">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/hooks/Sync.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Component.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DataStore.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DataStore.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/context/RenderContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/context/RenderContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/hooks/LifeCycle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/hooks/LifeCycle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/context/DataContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/context/DataContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/utils/Internal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/utils/Internal.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +98,7 @@
       <workItem from="1661337551249" duration="1199000" />
       <workItem from="1661340005273" duration="9604000" />
       <workItem from="1661434907682" duration="10771000" />
-      <workItem from="1661478371285" duration="15072000" />
+      <workItem from="1661478371285" duration="22499000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -141,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661493304315</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Improve State Hook">
+      <created>1661493914360</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1661493914360</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -165,6 +173,7 @@
     <MESSAGE value="Change File Structure" />
     <MESSAGE value="Add File Component" />
     <MESSAGE value="Improve Hooks" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improve Hooks" />
+    <MESSAGE value="Improve State Hook" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve State Hook" />
   </component>
 </project>

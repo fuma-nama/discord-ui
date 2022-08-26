@@ -3,11 +3,6 @@ import context.State
 
 interface DataStore<P> {
     /**
-     * @return Props ID
-     */
-    fun register(data: Data<P>): String
-
-    /**
      * Get Props by id
      */
     operator fun get(id: String): Data<P>?
@@ -18,26 +13,18 @@ interface DataStore<P> {
 }
 
 class DataStoreImpl<P> : DataStore<P> {
-    var nextId = 0
-    val map = hashMapOf<Int, Data<P>>()
-
-    override fun register(data: Data<P>): String {
-        val id = nextId++
-        map[id] = data
-
-        return id.toString()
-    }
+    val map = hashMapOf<String, Data<P>>()
 
     override fun get(id: String): Data<P>? {
-        return map[id.toInt()]
+        return map[id]
     }
 
     override fun remove(key: String) {
-        map.remove(key.toInt())
+        map.remove(key)
     }
 
     override fun set(key: String, value: Data<P>) {
-        map[key.toInt()] = value
+        map[key] = value
     }
 }
 
