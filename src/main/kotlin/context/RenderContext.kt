@@ -3,6 +3,7 @@ package context
 import Component
 import Data
 import MessageBuilder
+import hooks.Context
 import listeners.*
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
@@ -27,6 +28,7 @@ open class RenderContext<P: Any, B: MessageBuilder>(
     val builder: B,
     component: Component<P>
 ): DataContext<P>(id, data, component) {
+    val contexts by lazy { hashMapOf<Context<*>, Any?>() }
 
     /**
      * Run lambda if render mode is edit
@@ -44,6 +46,13 @@ open class RenderContext<P: Any, B: MessageBuilder>(
         if (this is RenderContextCreate) {
             run(this as RenderContextCreate<P>)
         }
+    }
+
+    fun<C : Any> Context<C>.provider(value: C, children: RenderContext<P, B>.() -> Unit) {
+        contexts[this] = value
+
+        children(this@RenderContext)
+        contexts.remove(this)
     }
 }
 

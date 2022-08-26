@@ -37,7 +37,6 @@ val example = component {
             field("Test", "Hello")
         }
     )
-
     rowLayout {
         button("Increase") {
             count.value += 1
