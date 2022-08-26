@@ -33,6 +33,13 @@ fun<P : Any> RenderContext<P, *>.row(components: RenderContainer<ActionComponent
     builder.setComponents(rows)
 }
 
+fun Container<in ActionRow>.row(components: Container<ActionComponent>.() -> Unit) {
+
+    add(
+        ActionRow.of(lambdaList(components))
+    )
+}
+
 fun Container<in Button>.button(
     label: String,
     id: String? = null,
@@ -55,6 +62,29 @@ fun<P: Any> RenderContainer<in Button, P>.button(
 
     add(
         ButtonImpl(id, label, style, null, disabled, emoji)
+    )
+}
+
+fun Container<in SelectMenu>.menu(
+    id: String,
+    placeholder: String? = null,
+    minValues: Int = 1,
+    maxValues: Int = 1,
+    disabled: Boolean = false,
+    selected: Any? = null,
+    init: Container<SelectOption>.() -> Unit
+) {
+    var options: List<SelectOption> = lambdaList(init)
+
+    if (selected != null) {
+        options = options.map {
+
+            it.withDefault(it.value == selected.toString())
+        }
+    }
+
+    add(
+        SelectMenuImpl(id, placeholder, minValues, maxValues, disabled, options)
     )
 }
 
@@ -81,20 +111,20 @@ fun<P: Any> RenderContainer<in SelectMenu, P>.menu(
     )
 }
 
+fun Container<in SelectOption>.option(
+    label: String,
+    value: String,
+    description: String? = null,
+    selected: Boolean = false,
+    emoji: Emoji? = null,
+) {
+    add(SelectOptionImpl(
+        label, value, description, selected, emoji
+    ))
+}
+
 class MenuBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<SelectOption, P>(context) {
     lateinit var id: String
-
-    fun option(
-        label: String,
-        value: String,
-        description: String? = null,
-        selected: Boolean = false,
-        emoji: Emoji? = null,
-    ) {
-        add(SelectOptionImpl(
-            label, value, description, selected, emoji
-        ))
-    }
 
     fun submit(onSubmit: Handler<SelectMenuInteractionEvent, P>): String {
         id = context.interaction(onSubmit)

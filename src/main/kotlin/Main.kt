@@ -4,12 +4,32 @@ import components.*
 import hooks.useEffect
 import hooks.useMemo
 import listeners.ComponentListener
+import modal.get
+import modal.open
+import modal.useModal
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
+import utils.field
 import utils.value
 
 val example = component {
     val count = useState("name", 0)
+
+    val deleteModal = useModal {
+        title = "Do You sure You want to Delete this Message?"
+
+        row {
+            input("name", "Type $count to delete")
+        }
+
+        submit {
+            if (event["name"] == count.asString()) {
+                event.delete()
+            } else {
+                event.ignore()
+            }
+        }
+    }
 
     useEffect("name") {
         println("Init")
@@ -25,28 +45,30 @@ val example = component {
         count.value + 1
     }
 
-    text(props)
-    text(count.asString(), TextType.AppendLine)
+    embed(
+        title = props,
+        description = count.asString(),
+        fields = {
+            field("Memo", memo.toString())
+            field("Test", "Hello")
+        }
+    )
 
     rowLayout {
-        button("Do Nothing") {
-            edit()
-        }
-
         button("Increase") {
             count.value += 1
 
-            edit()
+            event.edit()
         }
 
         button("Decrease") {
             count.value -= 1
 
-            edit()
+            event.edit()
         }
 
         button("Close", style = ButtonStyle.DANGER) {
-            delete()
+            deleteModal.open(event)
         }
 
         menu(placeholder = "Select a Value", selected = count.value) {
@@ -56,7 +78,7 @@ val example = component {
             submit {
                 count *= event.value().toInt()
 
-                edit()
+                event.delete()
             }
         }
     }

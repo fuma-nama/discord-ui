@@ -1,9 +1,10 @@
 package components
 
+import context.Container
 import context.RenderContext
 import net.dv8tion.jda.api.entities.EmbedType
 import net.dv8tion.jda.api.entities.MessageEmbed
-import utils.Embed
+import utils.*
 import java.awt.Color
 import java.time.OffsetDateTime
 
@@ -28,13 +29,13 @@ fun RenderContext<*, *>.embed(
     type: EmbedType = EmbedType.RICH,
     timestamp: OffsetDateTime? = null,
     color: Color = Color.BLACK,
-    thumbnail: MessageEmbed.Thumbnail? = null,
-    provider: MessageEmbed.Provider? = null,
-    author: MessageEmbed.AuthorInfo? = null,
-    videoInfo: MessageEmbed.VideoInfo? = null,
-    footer: MessageEmbed.Footer? = null,
-    image: MessageEmbed.ImageInfo? = null,
-    fields: List<MessageEmbed.Field>? = null,
+    thumbnail: (ThumbnailBuilder.() -> Unit)? = null,
+    provider: (ProviderBuilder.() -> Unit)? = null,
+    author: (AuthorBuilder.() -> Unit)? = null,
+    videoInfo: (VideoBuilder.() -> Unit)? = null,
+    footer: (FooterBuilder.() -> Unit)? = null,
+    image: (ImageBuilder.() -> Unit)? = null,
+    fields: (Container<MessageEmbed.Field>.() -> Unit)? = null,
 ) {
     builder.setEmbeds(
         builder.embeds + Embed(url, title, description, type, timestamp, color, thumbnail, provider, author, videoInfo, footer, image, fields)

@@ -4,40 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Component.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/DataStore.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/OptionValue.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/SuperCommand.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/SuperCommandGroup.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/SuperCommandModule.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/SuperContext.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/builder/OptionBuilder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/builder/SuperCommandBuilder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/builder/SuperContextBuilder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/entries/Localization.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/entries/PermissionEntry.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/command/entries/SuperNode.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/components/ActionRow.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/components/Content.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/components/RowLayout.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/context/Container.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/context/DataContext.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/context/InteractionContext.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/context/RenderContext.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/hooks/LifeCycle.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/listeners/ComponentListener.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/utils/Action.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Initial Commit">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/context/ModalContext.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/modal/Modal.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/kotlin/utils/Embed.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/utils/List.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Component.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/components/ActionRow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/components/ActionRow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/components/Content.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/components/Content.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/components/RowLayout.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/components/RowLayout.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/context/DataContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/context/DataContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/context/InteractionContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/context/InteractionContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/listeners/ComponentListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/listeners/ComponentListener.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,8 +102,16 @@
       <workItem from="1661337551249" duration="1199000" />
       <workItem from="1661340005273" duration="9604000" />
       <workItem from="1661434907682" duration="10771000" />
-      <workItem from="1661478371285" duration="7253000" />
+      <workItem from="1661478371285" duration="12872000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial Commit">
+      <created>1661485727410</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1661485727410</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,5 +127,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
   </component>
 </project>

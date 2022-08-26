@@ -1,5 +1,6 @@
 package components
 
+import context.Container
 import context.RenderContainer
 import context.RenderContext
 import net.dv8tion.jda.api.interactions.components.ActionComponent
@@ -21,6 +22,15 @@ fun<P : Any> RenderContext<P, *>.rowLayout(components: RenderContainer<ActionCom
     )
 
     builder.setComponents(rows)
+}
+
+/**
+ * Detects and split overflowed components into multi Action Rows
+ */
+fun Container<in ActionRow>.rowLayout(components: Container<ActionComponent>.() -> Unit) {
+    for (row in split(lambdaList(components))) {
+        add(row)
+    }
 }
 
 private fun split(components: List<ActionComponent>): List<ActionRow> {

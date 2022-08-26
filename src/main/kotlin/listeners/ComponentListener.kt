@@ -3,10 +3,12 @@ package listeners
 import Component
 import Data
 import context.*
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
 typealias Handler<E, P> = InteractionContext<E, P>.() -> Unit
+typealias ModalHandler<P> = ModalContext<P>.() -> Unit
 
 /** Pair<ComponentId, Component> **/
 val components = hashMapOf<Int, Component<*>>()
@@ -38,10 +40,23 @@ fun<E: GenericComponentInteractionCreateEvent, P : Any> RenderContext<P, *>.inte
     return id
 }
 
+fun<P : Any> RenderContext<P, *>.modal(
+    handler: ModalHandler<P>
+): String {
+    listen(component)
+    val modalId = handler::class.hashCode()
+    val id = encodeId(this.component, this.id, modalId)
+
+    component.modals[modalId] = handler
+
+    return id
+}
+
 data class RawId<P: Any>(val comp: Component<P>, val dataId: String, val listenerId: Int)
 
 class ComponentListener : ListenerAdapter() {
     override fun onGenericComponentInteractionCreate(event: GenericComponentInteractionCreateEvent) = handle<Any>(event)
+    override fun onModalInteraction(event: ModalInteractionEvent) = handle<Any>(event)
 
     private fun<P: Any> handle(event: GenericComponentInteractionCreateEvent) {
         val (comp, dataId, listenerId) = decodeId(event.componentId)?: return
@@ -50,6 +65,16 @@ class ComponentListener : ListenerAdapter() {
 
         (listener as Handler<*, P>).invoke(
             InteractionContext(event, dataId, data as Data<P>, comp as Component<P>)
+        )
+    }
+
+    private fun<P: Any> handle(event: ModalInteractionEvent) {
+        val (comp, dataId, modalId) = decodeId(event.modalId)?: return
+        val data = comp.store[dataId]?: return
+        val modal = comp.modals[modalId]?: return
+
+        (modal as ModalHandler<P>).invoke(
+            ModalContext(event, dataId, data as Data<P>, comp as Component<P>)
         )
     }
 }

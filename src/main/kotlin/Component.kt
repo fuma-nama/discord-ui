@@ -2,6 +2,7 @@ import context.RenderContext
 import context.RenderContextCreate
 import context.RenderContextEdit
 import listeners.Handler
+import listeners.ModalHandler
 import net.dv8tion.jda.api.utils.messages.AbstractMessageBuilder
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
@@ -15,6 +16,7 @@ class Component<P : Any>(
     val render: RenderContext<P, *>.() -> Unit
 ) {
     val listeners = hashMapOf<Int, Handler<*, P>>()
+    val modals = hashMapOf<Int, ModalHandler<P>>()
 
     /**
      * Renders Component with temp Data

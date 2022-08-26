@@ -2,6 +2,8 @@ package context
 
 import Component
 import Data
+import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback
 
 @DslBuilder
 open class DataContext<P : Any>(
@@ -10,6 +12,32 @@ open class DataContext<P : Any>(
     val component: Component<P>
 ): StateContext<P> {
     val props by data::props
+
+    /**
+     * Delete the Message
+     * @param destroy If enabled, Data will be destroyed after delete
+     */
+    fun IMessageEditCallback.delete(destroy: Boolean = true) {
+        deferEdit().queue {
+            it.deleteOriginal().queue {
+                if (destroy) {
+                    destroy()
+                }
+            }
+        }
+    }
+
+    fun IMessageEditCallback.edit() {
+        editMessage(component.edit(id, data)).queue()
+    }
+
+    fun IMessageEditCallback.ignore() {
+        deferEdit().queue()
+    }
+
+    fun IReplyCallback.reply() {
+        reply(component.render(id, data)).queue()
+    }
 
     fun destroy() {
         component.store.remove(id)
