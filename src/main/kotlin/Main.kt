@@ -4,12 +4,12 @@ import components.*
 import hooks.useEffect
 import hooks.useMemo
 import listeners.ComponentListener
-import modal.get
-import modal.open
-import modal.useModal
+import utils.open
+import hooks.useModal
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
 import utils.field
+import utils.get
 import utils.value
 
 val example = component {
@@ -19,7 +19,7 @@ val example = component {
         title = "Do You sure You want to Delete this Message?"
 
         row {
-            input("name", "Type $count to delete")
+            input("name", "Type ${count.asString()} to delete")
         }
 
         submit {
