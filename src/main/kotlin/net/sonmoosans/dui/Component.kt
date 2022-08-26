@@ -21,14 +21,12 @@ open class Component<P : Any>(
 
     /**
      * Update Data and renders Component
-     *
-     * Update only will be invoked if key already exists
      */
     fun update(id: String, update: Data<P>.() -> Unit, default: () -> P): MessageCreateData {
-        val data = store[id]?.apply(update)?: Data(default())
+        val data = store[id]?: Data(default())
         store[id] = data
 
-        return render(id, data)
+        return render(id, data.apply(update))
     }
 
     /**
