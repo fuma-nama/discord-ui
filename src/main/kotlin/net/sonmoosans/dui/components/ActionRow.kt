@@ -119,8 +119,8 @@ fun Container<in SelectOption>.option(
 ) {
     add(
         SelectOptionImpl(
-        label, value, description, selected, emoji
-    )
+            label, value, description, selected, emoji
+        )
     )
 }
 

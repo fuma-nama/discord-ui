@@ -79,13 +79,10 @@ fun main() {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
-        try {
         val ui = example.create(event.user.idLong, Unit) {
             sync(event.hook)
         }
 
         event.reply(ui).queue()
-        } catch (e: Throwable) {e.printStackTrace()}
-
     }
 }
