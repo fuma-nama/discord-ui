@@ -1,9 +1,9 @@
-package net.sonmoosans.dui.command
+package command
 
-import net.sonmoosans.dui.command.builder.OptionBuilder
-import net.sonmoosans.dui.command.entries.SlashLocalization
+import command.builder.OptionBuilder
+import command.entries.SlashLocalization
 import bjda.plugins.supercommand.entries.PermissionEntry
-import net.sonmoosans.dui.command.entries.SuperNode
+import command.entries.SuperNode
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData

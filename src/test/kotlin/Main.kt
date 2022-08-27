@@ -1,5 +1,5 @@
-import net.sonmoosans.dui.command.SuperCommandModule
-import net.sonmoosans.dui.command.builder.command
+import command.SuperCommandModule
+import command.builder.command
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.State
 import net.sonmoosans.dui.listeners.ComponentListener
@@ -49,7 +49,7 @@ fun RenderContext<*, *>.counter(count: State<Int>) {
     }
 }
 
-val example = component {
+val example = component<Unit> {
     val sync = useSync()
     val count = useState("count", 0)
     val deleteModal = useModal {

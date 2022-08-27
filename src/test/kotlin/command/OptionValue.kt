@@ -1,7 +1,7 @@
-package net.sonmoosans.dui.command
+package command
 
 import net.sonmoosans.dui.context.DslBuilder
-import net.sonmoosans.dui.command.builder.ChoicesBuilder
+import command.builder.ChoicesBuilder
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.dv8tion.jda.api.interactions.commands.Command

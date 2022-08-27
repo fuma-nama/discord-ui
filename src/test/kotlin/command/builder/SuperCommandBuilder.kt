@@ -1,5 +1,6 @@
-package net.sonmoosans.dui.command.builder
+package command.builder
 
+import command.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.interactions.DiscordLocale

@@ -1,8 +1,8 @@
-package net.sonmoosans.dui.command.builder
+package command.builder
 
 import net.sonmoosans.dui.context.DslBuilder
-import net.sonmoosans.dui.command.NumberOption
-import net.sonmoosans.dui.command.OptionValue
+import command.NumberOption
+import command.OptionValue
 import net.dv8tion.jda.api.entities.*
 import net.dv8tion.jda.api.interactions.commands.Command
 import net.dv8tion.jda.api.interactions.commands.OptionType

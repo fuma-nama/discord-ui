@@ -1,6 +1,6 @@
-package net.sonmoosans.dui.command
+package command
 
-import net.sonmoosans.dui.command.entries.SuperNode
+import command.entries.SuperNode
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent

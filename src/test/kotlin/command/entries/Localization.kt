@@ -1,4 +1,4 @@
-package net.sonmoosans.dui.command.entries
+package command.entries
 
 import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData

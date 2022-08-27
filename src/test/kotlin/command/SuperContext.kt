@@ -1,8 +1,8 @@
-package net.sonmoosans.dui.command
+package command
 
-import net.sonmoosans.dui.command.entries.CommandLocalization
+import command.entries.CommandLocalization
 import bjda.plugins.supercommand.entries.PermissionEntry
-import net.sonmoosans.dui.command.entries.SuperNode
+import command.entries.SuperNode
 import net.dv8tion.jda.api.events.interaction.command.GenericContextInteractionEvent
 import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionEvent
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent

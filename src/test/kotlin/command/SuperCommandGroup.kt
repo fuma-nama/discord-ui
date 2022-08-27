@@ -1,10 +1,10 @@
-package net.sonmoosans.dui.command
+package command
 
-import net.sonmoosans.dui.command.builder.SuperCommandBuilder
+import command.builder.SuperCommandBuilder
 import bjda.plugins.supercommand.entries.*
-import net.sonmoosans.dui.command.entries.SlashLocalization
-import net.sonmoosans.dui.command.entries.SuperNode
-import net.sonmoosans.dui.command.entries.localizes
+import command.entries.SlashLocalization
+import command.entries.SuperNode
+import command.entries.localizes
 import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
@@ -126,7 +126,7 @@ class SuperCommandGroupBuilder(val base: SuperCommandGroupImpl) {
         permissions: DefaultMemberPermissions? = null,
         init: SuperCommandBuilder.() -> Unit
     ) {
-        val command = net.sonmoosans.dui.command.builder.command(
+        val command = command.builder.command(
             name, description, guildOnly, permissions, init
         )
 

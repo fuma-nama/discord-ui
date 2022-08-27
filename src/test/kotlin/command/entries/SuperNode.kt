@@ -1,6 +1,6 @@
-package net.sonmoosans.dui.command.entries
+package command.entries
 
-import net.sonmoosans.dui.command.Listeners
+import command.Listeners
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 
 interface SuperNode {
