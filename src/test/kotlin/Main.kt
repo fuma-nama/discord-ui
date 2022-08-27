@@ -16,67 +16,20 @@ import net.sonmoosans.dui.utils.field
 import net.sonmoosans.dui.utils.get
 import net.sonmoosans.dui.utils.value
 
-fun RenderContext<*, *>.counter(count: State<Int>) {
-
-    embed(
-        title = "Counter",
-        description = count.asString(),
-    )
-
-    rowLayout {
-        menu(placeholder = "Select a Value", selected = count.value) {
-            option("Small", "0")
-            option("Big", "10")
-
-            submit {
-                count *= event.value().toInt()
-
-                event.edit()
-            }
-        }
-
-        button("Increase") {
-            count.value += 1
-
-            event.edit()
-        }
-
-        button("Decrease") {
-            count.value -= 1
-
-            event.edit()
-        }
-    }
-}
-
 val example = component<Unit> {
-    val sync = useSync()
-    val count = useState("count", 0)
-    val deleteModal = useModal {
-        title = "Do You sure You want to Delete this Message?"
+    val page = useState("page", 0)
 
-        row {
-            input("name", "Type ${count.asString()} to delete")
+    tabLayout(page) {
+        tab("Todos") {
+            todo(data.id, Unit)
         }
 
-        submit {
-            if (event["name"] == count.asString()) {
-                sync.delete(event)
-            } else {
-                event.ignore()
+        tab("Settings") {
+            row {
+                button("Close") {
+                    event.delete()
+                }
             }
-        }
-    }
-
-    counter(count)
-
-    row {
-        button("Sync") {
-            sync.edit(event)
-        }
-
-        button("Close", style = ButtonStyle.DANGER) {
-            deleteModal.open(event)
         }
     }
 }
@@ -125,7 +78,7 @@ fun main() {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
-        val ui = todo.create(event.user.idLong, Unit) {
+        val ui = example.create(event.user.idLong, Unit) {
             sync(event.hook)
         }
 
