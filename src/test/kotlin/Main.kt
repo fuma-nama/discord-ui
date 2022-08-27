@@ -16,11 +16,12 @@ import net.sonmoosans.dui.utils.field
 import net.sonmoosans.dui.utils.get
 import net.sonmoosans.dui.utils.value
 
-val example = component<Unit> {
+val example = component {
     val page = useState("page", 0)
 
     tabLayout(page) {
         tab("Todos") {
+            text("Hello World")
             todo()
         }
 

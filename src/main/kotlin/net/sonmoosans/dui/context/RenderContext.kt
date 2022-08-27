@@ -13,7 +13,7 @@ annotation class DslBuilder
 class RenderContextEdit<P: Any>(
     data: Data<P>,
     component: Component<P>,
-    builder: MessageEditBuilder = MessageEditBuilder().apply { this.setEmbeds() }
+    builder: MessageEditBuilder = MessageEditBuilder().setReplace(true)
 ) :
     RenderContext<P, MessageEditBuilder>(
         data, builder, component

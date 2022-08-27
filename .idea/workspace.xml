@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Add Pager and TabLayout Components">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/DataStore.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/DataStore.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/RenderContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/RenderContext.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Fix Embeds Legacy issue">
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +117,7 @@
       <workItem from="1661478371285" duration="25437000" />
       <workItem from="1661505318862" duration="3050000" />
       <workItem from="1661523376831" duration="1210000" />
-      <workItem from="1661592478760" duration="12531000" />
+      <workItem from="1661592478760" duration="12853000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -291,7 +287,21 @@
       <option name="project" value="LOCAL" />
       <updated>1661606666567</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fix Nested Component issues">
+      <created>1661607628517</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1661607628517</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Fix Embeds Legacy issue">
+      <created>1661607706644</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1661607706644</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -309,7 +319,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Initial Commit" />
     <MESSAGE value="Supports Embed" />
     <MESSAGE value="Add Modal System" />
     <MESSAGE value="Change File Structure" />
@@ -333,6 +342,8 @@
     <MESSAGE value="Change Data Id to Long" />
     <MESSAGE value="Support Nested Components" />
     <MESSAGE value="Add Pager and TabLayout Components" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Pager and TabLayout Components" />
+    <MESSAGE value="Fix Nested Component issues" />
+    <MESSAGE value="Fix Embeds Legacy issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Embeds Legacy issue" />
   </component>
 </project>
