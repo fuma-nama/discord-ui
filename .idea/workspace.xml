@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Change Data Id to Long">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Add Pager and TabLayout Components">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/DataStore.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/DataStore.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/RenderContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/RenderContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Internal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Internal.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -124,7 +121,7 @@
       <workItem from="1661478371285" duration="25437000" />
       <workItem from="1661505318862" duration="3050000" />
       <workItem from="1661523376831" duration="1210000" />
-      <workItem from="1661592478760" duration="11725000" />
+      <workItem from="1661592478760" duration="12531000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -280,7 +277,21 @@
       <option name="project" value="LOCAL" />
       <updated>1661601397769</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Support Nested Components">
+      <created>1661606645664</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1661606645664</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Add Pager and TabLayout Components">
+      <created>1661606666567</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1661606666567</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,6 +331,8 @@
     <MESSAGE value="Supports Nested Contexts" />
     <MESSAGE value="Move State Context" />
     <MESSAGE value="Change Data Id to Long" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change Data Id to Long" />
+    <MESSAGE value="Support Nested Components" />
+    <MESSAGE value="Add Pager and TabLayout Components" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Pager and TabLayout Components" />
   </component>
 </project>

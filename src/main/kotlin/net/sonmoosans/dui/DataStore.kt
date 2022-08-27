@@ -49,8 +49,7 @@ class ParentData<P: Any>(val component: Component<P>, val data: Long)
 
 class Data<P>(
     val id: Long,
-    var props: P,
-    var parent: ParentData<*>? = null
+    var props: P
 ) {
     val states by lazy { hashMapOf<String, State<*>>() }
     val hooks by lazy { hashMapOf<HookKey, Any>() }

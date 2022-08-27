@@ -21,7 +21,7 @@ val example = component<Unit> {
 
     tabLayout(page) {
         tab("Todos") {
-            todo(data.id, Unit)
+            todo()
         }
 
         tab("Settings") {

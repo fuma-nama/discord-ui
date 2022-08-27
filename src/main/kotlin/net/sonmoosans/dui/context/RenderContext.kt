@@ -6,8 +6,6 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.MessageBuilder
-import net.sonmoosans.dui.ParentData
-import net.sonmoosans.dui.utils.renderExternal
 
 @DslMarker
 annotation class DslBuilder
@@ -55,15 +53,12 @@ open class RenderContext<P: Any, B: MessageBuilder>(
         }
     }
 
-    operator fun<P: Any> Component<P>.invoke(id: Long, props: P) {
-        val data = store.setOrCreate(id, props)
-        data.parent = ParentData(
-            this@RenderContext.component,
-            this@RenderContext.data.id
-        )
-
-        renderExternal(data, builder)
-    }
+    /**
+     * Force renders another component, ignoring the data of component
+     *
+     * We don't recommend to use nested components, use extension function instead
+     */
+    operator fun Component<P>.invoke() = render.invoke(this@RenderContext)
 
     fun<C : Any> Context<C>.provider(value: C, children: RenderContext<P, B>.() -> Unit) {
         val prev = contexts
