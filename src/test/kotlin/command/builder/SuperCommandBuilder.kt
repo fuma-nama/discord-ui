@@ -5,7 +5,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions
-import net.sonmoosans.dui.command.*
 import java.util.*
 
 typealias OptionInit<T> = OptionValue<T, T>.() -> Unit

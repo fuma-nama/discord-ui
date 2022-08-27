@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="move Test Sources" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Remove Command package">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/DUI.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/command/builder/SuperCommandBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/command/builder/SuperCommandBuilder.kt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +68,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Kotlin.MainKt">
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <envs>
         <env name="TOKEN" value="OTA3OTU1NzgxOTcyOTE4Mjgz.GQGdqc.lnCBQvZYxGg7kwdkCBBTrwpIsnMRLo1qa8rB4s" />
@@ -70,6 +76,13 @@
       <option name="MAIN_CLASS_NAME" value="MainKt" />
       <module name="consoleApp" />
       <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TestKt" />
+      <module name="consoleApp" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -88,6 +101,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.TestKt" />
       </list>
     </recent_temporary>
   </component>
@@ -107,6 +121,7 @@
       <workItem from="1661478371285" duration="25437000" />
       <workItem from="1661505318862" duration="3050000" />
       <workItem from="1661523376831" duration="1210000" />
+      <workItem from="1661592478760" duration="4070000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -227,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661524215557</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Remove Command package">
+      <created>1661592675135</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1661592675135</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -262,6 +284,7 @@
     <MESSAGE value="Combine component listeners" />
     <MESSAGE value="Change Component update method" />
     <MESSAGE value="move Test Sources" />
-    <option name="LAST_COMMIT_MESSAGE" value="move Test Sources" />
+    <MESSAGE value="Remove Command package" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove Command package" />
   </component>
 </project>

@@ -19,6 +19,12 @@ open class Component<P : Any>(
 ) {
     val listeners = hashMapOf<Int, Handler<EventContext<*, P>>>()
 
+    fun listen(listener: Handler<EventContext<*, P>>): Int {
+        val id = listener::class.hashCode()
+        listeners[id] = listener
+        return id
+    }
+
     /**
      * Update Data and renders Component
      */
