@@ -11,6 +11,22 @@ import net.sonmoosans.dui.utils.apply
 
 typealias MessageBuilder = AbstractMessageBuilder<*, *>
 
+private inline fun renderParent(data: Data<*>, skip: (MessageCreateData) -> Unit) {
+    val parent = data.parent?: return
+
+    skip(
+        parent.component.render(parent.data)!!
+    )
+}
+
+private inline fun editParent(data: Data<*>, skip: (MessageEditData) -> Unit) {
+    val parent = data.parent?: return
+
+    skip(
+        parent.component.edit(parent.data)!!
+    )
+}
+
 fun<P: Any> component(render: RenderContext<P, *>.() -> Unit) = Component(render = render)
 
 open class Component<P : Any>(
@@ -41,16 +57,9 @@ open class Component<P : Any>(
      * Update props If key duplicated
      */
     fun create(id: Long, props: P, init: (Data<P>.() -> Unit)? = null): MessageCreateData {
-        var cache = store[id]
+        val data = store.setOrCreate(id, props)
 
-        if (cache == null) {
-            cache = Data(id, props)
-            store[id] = cache
-        } else {
-            cache.props = props
-        }
-
-        return render(cache.apply(init))
+        return render(data.apply(init))
     }
 
     /**
@@ -62,6 +71,7 @@ open class Component<P : Any>(
      * renders Component
      */
     fun render(data: Data<P>): MessageCreateData {
+        renderParent(data) { return it }
         val context = RenderContextCreate(data, this)
 
         render(context)
@@ -78,6 +88,7 @@ open class Component<P : Any>(
      * Parse data from id and renders Component
      */
     fun edit(data: Data<P>): MessageEditData {
+        editParent(data) { return it }
         val context = RenderContextEdit(data, this)
 
         render(context)

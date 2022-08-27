@@ -6,19 +6,29 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.MessageBuilder
+import net.sonmoosans.dui.ParentData
+import net.sonmoosans.dui.utils.renderExternal
 
 @DslMarker
 annotation class DslBuilder
 
-class RenderContextEdit<P: Any>(data: Data<P>, component: Component<P>) :
+class RenderContextEdit<P: Any>(
+    data: Data<P>,
+    component: Component<P>,
+    builder: MessageEditBuilder = MessageEditBuilder()
+) :
     RenderContext<P, MessageEditBuilder>(
-    data, MessageEditBuilder(), component
-)
+        data, builder, component
+    )
 
-class RenderContextCreate<P: Any>(data: Data<P>, component: Component<P>) :
+class RenderContextCreate<P: Any>(
+    data: Data<P>,
+    component: Component<P>,
+    builder: MessageCreateBuilder = MessageCreateBuilder()
+) :
     RenderContext<P, MessageCreateBuilder>(
-    data, MessageCreateBuilder(), component
-)
+        data, builder, component
+    )
 
 open class RenderContext<P: Any, B: MessageBuilder>(
     data: Data<P>,
@@ -43,6 +53,16 @@ open class RenderContext<P: Any, B: MessageBuilder>(
         if (this is RenderContextCreate) {
             run(this as RenderContextCreate<P>)
         }
+    }
+
+    operator fun<P: Any> Component<P>.invoke(id: Long, props: P) {
+        val data = store.setOrCreate(id, props)
+        data.parent = ParentData(
+            this@RenderContext.component,
+            this@RenderContext.data.id
+        )
+
+        renderExternal(data, builder)
     }
 
     fun<C : Any> Context<C>.provider(value: C, children: RenderContext<P, B>.() -> Unit) {

@@ -11,6 +11,21 @@ interface DataStore<P> {
     operator fun set(key: Long, value: Data<P>)
 
     fun remove(key: Long)
+
+    /**
+     * If data exists, update its props
+     *
+     * Otherwise, create a new one
+     */
+    fun setOrCreate(id: Long, props: P): Data<P> {
+        val data = this[id]?.also {
+            it.props = props
+        } ?: Data(id, props).also {
+            this[id] = it
+        }
+
+        return data
+    }
 }
 
 class DataStoreImpl<P> : DataStore<P> {
@@ -30,9 +45,13 @@ class DataStoreImpl<P> : DataStore<P> {
 }
 
 data class HookKey(val id: String, val type: String)
+class ParentData<P: Any>(val component: Component<P>, val data: Long)
+
 class Data<P>(
     val id: Long,
     var props: P,
-    val states: HashMap<String, State<*>> = hashMapOf(),
-    val hooks: HashMap<HookKey, Any> = hashMapOf()
-)
+    var parent: ParentData<*>? = null
+) {
+    val states by lazy { hashMapOf<String, State<*>>() }
+    val hooks by lazy { hashMapOf<HookKey, Any>() }
+}
