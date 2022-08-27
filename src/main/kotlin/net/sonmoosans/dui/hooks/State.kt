@@ -8,7 +8,7 @@ import net.sonmoosans.dui.utils.generateId
 /**
  * Generates an ID from holder's class
  */
-fun<S: Any> RenderContext<*, *>.useState(initial: S, holder: () -> Unit) = useState(generateId(null, holder), initial)
+fun<S: Any> RenderContext<*, *>.useState(initial: S, holder: () -> Unit) = useState(generateId(null as String?, holder), initial)
 
 fun<S> RenderContext<*, *>.useState(id: String, initial: S): State<S> {
     val cache = data.states[id]

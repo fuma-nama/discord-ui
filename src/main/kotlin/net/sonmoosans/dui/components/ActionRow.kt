@@ -128,8 +128,9 @@ class MenuBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<SelectO
     lateinit var id: String
 
     fun submit(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, P>>): String {
+        this.id = context.interaction(id, onSubmit)
 
-        return context.interaction(id, onSubmit)
+        return this.id
     }
 }
 
