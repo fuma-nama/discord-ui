@@ -9,7 +9,6 @@ import net.sonmoosans.dui.hooks.StateContext
 
 @DslBuilder
 open class DataContext<P : Any>(
-    val id: String,
     final override val data: Data<P>,
     val component: Component<P>
 ): StateContext<P>, SyncContext<P> {
@@ -19,7 +18,7 @@ open class DataContext<P : Any>(
 
     /**
      * Delete the Message
-     * @param destroy If enabled, net.sonmoosans.dui.Data will be destroyed after delete
+     * @param destroy If enabled, Data will be destroyed after delete
      */
     fun IMessageEditCallback.delete(destroy: Boolean = true) {
 
@@ -33,7 +32,7 @@ open class DataContext<P : Any>(
     }
 
     fun IMessageEditCallback.edit() = with (this@DataContext) {
-        editMessage(component.edit(id, data)).queue()
+        editMessage(component.edit(data)).queue()
     }
 
     fun IMessageEditCallback.ignore() {
@@ -41,10 +40,10 @@ open class DataContext<P : Any>(
     }
 
     fun IReplyCallback.reply() = with (this@DataContext) {
-        reply(component.render(id, data)).queue()
+        reply(component.render(data)).queue()
     }
 
     fun destroy() {
-        component.store.remove(id)
+        component.store.remove(data.id)
     }
 }

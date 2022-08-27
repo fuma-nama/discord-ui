@@ -28,11 +28,11 @@ open class Component<P : Any>(
     /**
      * Update Data and renders Component
      */
-    fun update(id: String, update: Data<P>.() -> Unit, default: () -> P): MessageCreateData {
-        val data = store[id]?: Data(default())
+    fun update(id: Long, update: Data<P>.() -> Unit, default: () -> P): MessageCreateData {
+        val data = store[id]?: Data(id, default())
         store[id] = data
 
-        return render(id, data.apply(update))
+        return render(data.apply(update))
     }
 
     /**
@@ -40,24 +40,29 @@ open class Component<P : Any>(
      *
      * Update props If key duplicated
      */
-    fun create(id: String, props: P, init: (Data<P>.() -> Unit)? = null): MessageCreateData {
+    fun create(id: Long, props: P, init: (Data<P>.() -> Unit)? = null): MessageCreateData {
         var cache = store[id]
 
         if (cache == null) {
-            cache = Data(props)
+            cache = Data(id, props)
             store[id] = cache
         } else {
             cache.props = props
         }
 
-        return render(id, cache.apply(init))
+        return render(cache.apply(init))
     }
 
     /**
      * renders Component
      */
-    fun render(id: String, data: Data<P> = store[id]!!): MessageCreateData {
-        val context = RenderContextCreate(id, data, this)
+    fun render(id: Long) = store[id]?.let { render(it) }
+
+    /**
+     * renders Component
+     */
+    fun render(data: Data<P>): MessageCreateData {
+        val context = RenderContextCreate(data, this)
 
         render(context)
 
@@ -67,17 +72,13 @@ open class Component<P : Any>(
     /**
      * Parse data from id and renders Component
      */
-    fun edit(id: String): MessageEditData? {
-        val data = store[id] ?: return null
-
-        return edit(id, data)
-    }
+    fun edit(id: Long) = store[id]?.let { edit(it) }
 
     /**
      * Parse data from id and renders Component
      */
-    fun edit(id: String, data: Data<P>): MessageEditData {
-        val context = RenderContextEdit(id, data, this)
+    fun edit(data: Data<P>): MessageEditData {
+        val context = RenderContextEdit(data, this)
 
         render(context)
 

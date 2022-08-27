@@ -7,11 +7,11 @@ fun<C> createContext(): Context<C> {
 }
 
 fun<C> RenderContext<*, *>.useContext(context: Context<C>): C {
-    return this.contexts[context] as C
+    return this.contexts?.get(context) as C
 }
 
 fun<C> RenderContext<*, *>.useContext(context: Context<C>, initial: C): C {
-    return this.contexts[context] as C?
+    return this.contexts?.get(context) as C?
         ?: initial
 }
 

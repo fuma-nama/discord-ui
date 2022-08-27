@@ -49,7 +49,7 @@ class Sync(val hook: SyncHook)
 interface SyncContext<P : Any> {
     val context: DataContext<P>
 
-    private fun edit() = context.component.edit(context.id, context.data)
+    private fun edit() = context.component.edit(context.data)
 
     fun Sync.edit(event: IMessageEditCallback) {
         val rendered = edit()

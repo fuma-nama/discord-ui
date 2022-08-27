@@ -10,22 +10,21 @@ import net.sonmoosans.dui.MessageBuilder
 @DslMarker
 annotation class DslBuilder
 
-class RenderContextEdit<P: Any>(id: String, data: Data<P>, component: Component<P>) :
+class RenderContextEdit<P: Any>(data: Data<P>, component: Component<P>) :
     RenderContext<P, MessageEditBuilder>(
-    id, data, MessageEditBuilder(), component
+    data, MessageEditBuilder(), component
 )
 
-class RenderContextCreate<P: Any>(id: String, data: Data<P>, component: Component<P>) :
+class RenderContextCreate<P: Any>(data: Data<P>, component: Component<P>) :
     RenderContext<P, MessageCreateBuilder>(
-    id, data, MessageCreateBuilder(), component
+    data, MessageCreateBuilder(), component
 )
 
 open class RenderContext<P: Any, B: MessageBuilder>(
-    id: String,
     data: Data<P>,
     val builder: B,
     component: Component<P>
-): DataContext<P>(id, data, component) {
+): DataContext<P>(data, component) {
     var contexts: Map<Context<*>, Any?>? = null
 
     /**

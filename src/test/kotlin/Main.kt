@@ -125,7 +125,7 @@ fun main() {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
-        val ui = todo.create(event.user.id, Unit) {
+        val ui = todo.create(event.user.idLong, Unit) {
             sync(event.hook)
         }
 

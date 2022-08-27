@@ -6,31 +6,32 @@ interface DataStore<P> {
     /**
      * Get Props by id
      */
-    operator fun get(id: String): Data<P>?
+    operator fun get(id: Long): Data<P>?
 
-    operator fun set(key: String, value: Data<P>)
+    operator fun set(key: Long, value: Data<P>)
 
-    fun remove(key: String)
+    fun remove(key: Long)
 }
 
 class DataStoreImpl<P> : DataStore<P> {
-    val map = hashMapOf<String, Data<P>>()
+    val map = hashMapOf<Long, Data<P>>()
 
-    override fun get(id: String): Data<P>? {
+    override fun get(id: Long): Data<P>? {
         return map[id]
     }
 
-    override fun remove(key: String) {
-        map.remove(key)
+    override fun set(key: Long, value: Data<P>) {
+        map[key] = value
     }
 
-    override fun set(key: String, value: Data<P>) {
-        map[key] = value
+    override fun remove(key: Long) {
+        map.remove(key)
     }
 }
 
 data class HookKey(val id: String, val type: String)
 class Data<P>(
+    val id: Long,
     var props: P,
     val states: HashMap<String, State<*>> = hashMapOf(),
     val hooks: HashMap<HookKey, Any> = hashMapOf()
