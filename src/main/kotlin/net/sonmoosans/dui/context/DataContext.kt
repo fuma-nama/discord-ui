@@ -1,10 +1,11 @@
 package net.sonmoosans.dui.context
 
 import net.sonmoosans.dui.Data
-import net.sonmoosans.dui.hooks.SyncContext
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback
 import net.sonmoosans.dui.Component
+import net.sonmoosans.dui.hooks.SyncContext
+import net.sonmoosans.dui.hooks.StateContext
 
 @DslBuilder
 open class DataContext<P : Any>(
@@ -46,29 +47,4 @@ open class DataContext<P : Any>(
     fun destroy() {
         component.store.remove(id)
     }
-}
-
-interface StateContext<P> {
-    val data: Data<P>
-
-    val<S> State<S>.current
-        get() = data.states[id]!! as State<S>
-
-    var <S> State<S>.value: S
-        get() = current.raw
-        set(v) {
-            current.raw = v
-        }
-
-    infix fun<S> State<S>.update(updater: S.() -> Unit) {
-        updater(value)
-    }
-
-    operator fun<S> State<S>.timesAssign(value: S) { this.value = value }
-
-    infix fun<S> State<S>.set(value: (prev: S) -> S) {
-        this.value = value(this.value)
-    }
-
-    fun<S> State<S>.asString() = raw.toString()
 }

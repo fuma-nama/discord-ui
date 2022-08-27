@@ -26,7 +26,7 @@ open class RenderContext<P: Any, B: MessageBuilder>(
     val builder: B,
     component: Component<P>
 ): DataContext<P>(id, data, component) {
-    val contexts by lazy { hashMapOf<Context<*>, Any?>() }
+    var contexts: Map<Context<*>, Any?>? = null
 
     /**
      * Run lambda if render mode is edit
@@ -47,10 +47,15 @@ open class RenderContext<P: Any, B: MessageBuilder>(
     }
 
     fun<C : Any> Context<C>.provider(value: C, children: RenderContext<P, B>.() -> Unit) {
-        contexts[this] = value
+        val prev = contexts
+
+        contexts = HashMap(prev).also {
+            it[this] = value
+        }
 
         children(this@RenderContext)
-        contexts.remove(this)
+
+        contexts = prev
     }
 }
 
