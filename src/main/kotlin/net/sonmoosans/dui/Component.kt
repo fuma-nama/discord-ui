@@ -17,11 +17,11 @@ open class Component<P : Any>(
     val store: DataStore<P> = DataStoreImpl(),
     val render: RenderContext<P, *>.() -> Unit
 ) {
-    val listeners = hashMapOf<Int, Handler<EventContext<*, P>>>()
+    val listeners = hashMapOf<String, Handler<EventContext<*, P>>>()
 
-    fun listen(listener: Handler<EventContext<*, P>>): Int {
-        val id = listener::class.hashCode()
+    fun listen(id: String, listener: Handler<EventContext<*, P>>): String {
         listeners[id] = listener
+
         return id
     }
 

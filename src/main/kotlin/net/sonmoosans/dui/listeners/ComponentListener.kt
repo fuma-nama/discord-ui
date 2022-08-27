@@ -6,13 +6,16 @@ import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.sonmoosans.dui.context.*
+import net.sonmoosans.dui.utils.generateId
 
 typealias Handler<E> = E.() -> Unit
 
 fun<C: EventContext<*, P>, P : Any> RenderContext<P, *>.on(
-    handler: Handler<C>
+    id: String? = null,
+    handler: Handler<C>,
 ): String {
     val listenerId = component.listen(
+        generateId(id, handler),
         handler as Handler<EventContext<*, P>>
     )
 
@@ -20,21 +23,23 @@ fun<C: EventContext<*, P>, P : Any> RenderContext<P, *>.on(
 }
 
 fun<E: GenericComponentInteractionCreateEvent, P : Any> RenderContext<P, *>.interaction(
+    id: String? = null,
     handler: InteractionContext<E, P>.() -> Unit
-) = on(handler)
+) = on(id, handler)
 
 fun<P : Any> RenderContext<P, *>.modal(
+    id: String? = null,
     handler: ModalContext<P>.() -> Unit
-) = on(handler)
+) = on(id, handler)
 
-data class RawId(val comp: Int, val dataId: Long, val listenerId: Int)
+data class RawId(val comp: Int, val dataId: Long, val listenerId: String)
 
 object ComponentListener : ListenerAdapter() {
     /** Pair<ComponentId, Component> **/
     val components = hashMapOf<Int, Component<*>>()
     var encoder: Encoder = DefaultEncoder()
 
-    fun listen(component: Component<*>, data: Data<*>, listener: Int): String {
+    fun listen(component: Component<*>, data: Data<*>, listener: String): String {
         components[component.hashCode()] = component
 
         return encoder.encodeId(component, data.id, listener)
@@ -62,20 +67,23 @@ object ComponentListener : ListenerAdapter() {
         val data = comp.store[dataId]?: return
         val modal = comp.listeners[modalId]?: return
 
-        (modal as Handler<ModalContext<P>>).invoke(
+        (modal as Handler<ModalContext<*>>).invoke(
             ModalContext(event, data as Data<P>, comp as Component<P>)
         )
     }
 }
 
 interface Encoder {
-    fun encodeId(comp: Component<*>, dataId: Long, listenerId: Int): String
+    fun encodeId(comp: Component<*>, dataId: Long, listenerId: String): String
 
     fun decodeId(id: String): RawId
 }
 
 class DefaultEncoder : Encoder {
-    override fun encodeId(comp: Component<*>, dataId: Long, listenerId: Int): String {
+    override fun encodeId(comp: Component<*>, dataId: Long, listenerId: String): String {
+
+        if (listenerId.contains("-"))
+            error("Listener Id cannot contains '-'")
 
         return "${comp.hashCode()}-$dataId-$listenerId"
     }
@@ -83,6 +91,6 @@ class DefaultEncoder : Encoder {
     override fun decodeId(id: String): RawId {
         val (compId, dataId, listenerId) = id.split("-")
 
-        return RawId(compId.toInt(), dataId.toLong(), listenerId.toInt())
+        return RawId(compId.toInt(), dataId.toLong(), listenerId)
     }
 }

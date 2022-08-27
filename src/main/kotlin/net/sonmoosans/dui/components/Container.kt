@@ -1,21 +1,31 @@
 package net.sonmoosans.dui.components
 
 import net.dv8tion.jda.api.entities.emoji.Emoji
+import net.sonmoosans.dui.annotations.RequireListener
+import net.sonmoosans.dui.annotations.RequireStates
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.State
+import net.sonmoosans.dui.hooks.useState
 import net.sonmoosans.dui.utils.ContainerImpl
 import net.sonmoosans.dui.utils.value
 
-fun<C: RenderContext<*, *>> C.pager(page: State<Int>, vararg pages: C.() -> Unit) {
+@RequireStates("__pager_page")
+@RequireListener("__pager_prev", "__pager_next")
+fun<C: RenderContext<*, *>> C.pager(
+    page: State<Int> = useState("__pager_page", 0),
+    prev: String = "__pager_prev",
+    next: String = "__pager_next",
+    vararg pages: C.() -> Unit
+) {
     val current = page.value
     pages[current].invoke(this)
 
     row {
-        button("<-", disabled = current <= 0) {
+        button("<-", disabled = current <= 0, id = prev) {
             page.value -= 1
         }
 
-        button("->", disabled = current >= pages.lastIndex) {
+        button("->", disabled = current >= pages.lastIndex, id = next) {
             page.value += 1
         }
     }
@@ -39,7 +49,13 @@ class TabBuilder<C: RenderContext<*, *>>: ContainerImpl<Tab<C>>() {
     }
 }
 
-fun<C: RenderContext<*, *>> C.tabLayout(page: State<Int>, init: TabBuilder<C>.() -> Unit) {
+@RequireListener("__tab_change_tab")
+@RequireStates("__tab_page")
+fun<C: RenderContext<*, *>> C.tabLayout(
+    page: State<Int> = useState("__tab_page", 0),
+    onChange: String = "__tab_change_tab",
+    init: TabBuilder<C>.() -> Unit
+) {
     val tabs = TabBuilder<C>().apply(init).list
     val current = page.value
     tabs[current].page(this)
@@ -55,7 +71,7 @@ fun<C: RenderContext<*, *>> C.tabLayout(page: State<Int>, init: TabBuilder<C>.()
                 )
             }
 
-            submit {
+            submit(onChange) {
                 page *= event.value().toInt()
                 event.edit()
             }

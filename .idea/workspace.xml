@@ -5,6 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Fix Embeds Legacy issue">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/annotations/Require.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/Component.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/ActionRow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/ActionRow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Internal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Internal.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

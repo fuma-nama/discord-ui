@@ -12,7 +12,14 @@ import net.sonmoosans.dui.context.RenderContextEdit
 /**
  * Generate ID with the hashcode of the interface class
  */
-fun generateId(id: String?, func: () -> Any?): String {
+fun generateId(id: Int?, func: Function<*>): Int {
+    return id?: func::class.hashCode()
+}
+
+/**
+ * Generate ID with the hashcode of the interface class
+ */
+fun generateId(id: String?, func: Function<*>): String {
     return id?: func::class.hashCode().toString()
 }
 

@@ -40,11 +40,11 @@ fun Container<in ActionRow>.row(components: Container<ActionComponent>.() -> Uni
 
 fun Container<in Button>.button(
     label: String,
-    id: String? = null,
     url: String? = null,
     disabled: Boolean = false,
     emoji: Emoji? = null,
     style: ButtonStyle? = if (url != null) ButtonStyle.LINK else ButtonStyle.PRIMARY,
+    id: String? = null,
 ) = add(
     ButtonImpl(id, label, style, url, disabled, emoji)
 )
@@ -54,12 +54,13 @@ fun<P: Any> RenderContainer<in Button, P>.button(
     disabled: Boolean = false,
     emoji: Emoji? = null,
     style: ButtonStyle = ButtonStyle.PRIMARY,
+    id: String? = null,
     onClick: InteractionContext<ButtonInteractionEvent, P>.() -> Unit,
 ) {
-    val id = context.interaction(onClick)
+    val listenerId = context.interaction(id, onClick)
 
     add(
-        ButtonImpl(id, label, style, null, disabled, emoji)
+        ButtonImpl(listenerId, label, style, null, disabled, emoji)
     )
 }
 
@@ -126,10 +127,9 @@ fun Container<in SelectOption>.option(
 class MenuBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<SelectOption, P>(context) {
     lateinit var id: String
 
-    fun submit(onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, P>>): String {
-        id = context.interaction(onSubmit)
+    fun submit(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, P>>): String {
 
-        return id
+        return context.interaction(id, onSubmit)
     }
 }
 
