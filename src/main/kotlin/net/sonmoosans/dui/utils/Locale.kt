@@ -31,6 +31,13 @@ fun DataContext<out LocaleProps>.locale(
 /**
  * Localize given string
  */
+fun DataContext<out LocaleProps>.locale(locales: Map<DiscordLocale, String>): String {
+    return locales[props.locale]!!
+}
+
+/**
+ * Localize given string
+ */
 fun DataContext<out LocaleProps>.locale(
     default: String,
     locales: Map<DiscordLocale, String>
