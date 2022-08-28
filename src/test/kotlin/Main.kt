@@ -1,26 +1,21 @@
-import command.SuperCommandModule
-import command.builder.command
-import net.sonmoosans.dui.context.RenderContext
-import net.sonmoosans.dui.context.State
+import bjda.bjda
+import bjda.plugins.supercommand.builder.command
+import bjda.plugins.supercommand.supercommand
+import bjda.wrapper.Mode
 import net.sonmoosans.dui.utils.open
-import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
-import net.sonmoosans.dui.DUI
+import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
-import net.sonmoosans.dui.context.scope
 import net.sonmoosans.dui.hooks.sync
 import net.sonmoosans.dui.hooks.useModal
 import net.sonmoosans.dui.hooks.useState
-import net.sonmoosans.dui.hooks.useSync
 import net.sonmoosans.dui.utils.field
 import net.sonmoosans.dui.utils.get
-import net.sonmoosans.dui.utils.value
 
 val example = component {
-    println(this.data.hooks)
-    println(this.data.states)
-    println(this.component.listeners)
+    println("Hooks: ${data.hooks.size}")
+    println("States: ${data.states.size}")
+    println("Listeners: ${component.listeners.size}")
 
     tabLayout(scope = "Tab1") {
         tab("Todos") {
@@ -82,16 +77,18 @@ val todo = component<Unit> {
     }
 }
 
-fun main() {
-    val jda = JDABuilder.createDefault(System.getenv("TOKEN"))
-        .build()
-        .awaitReady()
+suspend fun main() {
+    bjda(Mode.Default) {
+        config {
+            setToken(System.getenv("TOKEN"))
+        }
 
-    DUI.install(jda)
+        supercommand(
+            TestCommand()
+        )
 
-    SuperCommandModule(
-        TestCommand()
-    ).init(jda)
+        + DUIModule()
+    }
 }
 
 fun TestCommand() = command("test", "Testing Command") {
