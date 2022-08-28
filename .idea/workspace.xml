@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Support to use as BJDA Module">
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="useSync Hook always use Root ID Scope">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Sync.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Sync.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/DataContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/DataContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/RenderContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/RenderContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +126,7 @@
       <workItem from="1661592478760" duration="12853000" />
       <workItem from="1661653714217" duration="3552000" />
       <workItem from="1661667574705" duration="8745000" />
-      <workItem from="1661688183549" duration="737000" />
+      <workItem from="1661688183549" duration="4097000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -370,7 +373,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661677574745</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="useSync Hook always use Root ID Scope">
+      <created>1661690010446</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1661690010446</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -388,7 +398,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Improve Sync Hook" />
     <MESSAGE value="Update Demo" />
     <MESSAGE value="Fix bugs" />
     <MESSAGE value="Change packages" />
@@ -413,6 +422,7 @@
     <MESSAGE value="Update README" />
     <MESSAGE value="Improve README" />
     <MESSAGE value="Support to use as BJDA Module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Support to use as BJDA Module" />
+    <MESSAGE value="useSync Hook always use Root ID Scope" />
+    <option name="LAST_COMMIT_MESSAGE" value="useSync Hook always use Root ID Scope" />
   </component>
 </project>

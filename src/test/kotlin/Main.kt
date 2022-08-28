@@ -2,17 +2,19 @@ import bjda.bjda
 import bjda.plugins.supercommand.builder.command
 import bjda.plugins.supercommand.supercommand
 import bjda.wrapper.Mode
-import net.sonmoosans.dui.utils.open
+import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
+import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.hooks.sync
 import net.sonmoosans.dui.hooks.useModal
 import net.sonmoosans.dui.hooks.useState
-import net.sonmoosans.dui.utils.field
-import net.sonmoosans.dui.utils.get
+import net.sonmoosans.dui.utils.*
 
-val example = component {
+data class Props(override val locale: DiscordLocale): LocaleProps
+
+val example = component<Props> {
     println("Hooks: ${data.hooks.size}")
     println("States: ${data.states.size}")
     println("Listeners: ${component.listeners.size}")
@@ -33,8 +35,10 @@ val example = component {
     }
 
     tabLayout(scope = "Tab2") {
-        tab("Todos") {
-            text("Hello World")
+        tab(
+            locale("Todos", chinese("待辦事項"))
+        ) {
+            text(locale + chinese("Chinese") + english("English") + "Default")
             todo()
         }
 
@@ -48,7 +52,7 @@ val example = component {
     }
 }
 
-val todo = component<Unit> {
+fun RenderContext<*, *>.todo() {
     val todos = useState("todos", arrayListOf<String>())
     val addModal = useModal {
         title = "Add Todo"
@@ -94,7 +98,7 @@ suspend fun main() {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
-        val ui = example.create(event.user.idLong, Unit) {
+        val ui = example.create(event.user.idLong, Props(locale = event.userLocale)) {
             sync(event.hook)
         }
 

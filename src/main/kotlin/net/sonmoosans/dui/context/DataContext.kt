@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.hooks.SyncContext
 import net.sonmoosans.dui.hooks.StateContext
+import net.sonmoosans.dui.utils.LocaleBuilder
+import net.sonmoosans.dui.utils.LocalePair
 
 @DslBuilder
 open class DataContext<P : Any>(
