@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Update README" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Improve README">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,7 +122,7 @@
       <workItem from="1661523376831" duration="1210000" />
       <workItem from="1661592478760" duration="12853000" />
       <workItem from="1661653714217" duration="3552000" />
-      <workItem from="1661667574705" duration="5277000" />
+      <workItem from="1661667574705" duration="5898000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -345,7 +348,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661672513831</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Update README">
+      <created>1661673107450</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1661673107450</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -363,7 +373,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Impl Sync Hook" />
     <MESSAGE value="Impl Context Hook" />
     <MESSAGE value="Improve Sync Hook" />
     <MESSAGE value="Update Demo" />
@@ -388,6 +397,7 @@
     <MESSAGE value="Add README" />
     <MESSAGE value="Deploy to Maven" />
     <MESSAGE value="Update README" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update README" />
+    <MESSAGE value="Improve README" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve README" />
   </component>
 </project>

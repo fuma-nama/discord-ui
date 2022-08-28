@@ -1,5 +1,8 @@
-![alt](document/Icon.jpg)
-# DUI - Discord UI ![GitHub](https://img.shields.io/github/license/SonMooSans/discord-ui) ![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.sonmoosans/dui?server=https%3A%2F%2Fs01.oss.sonatype.org) ![GitHub Repo stars](https://img.shields.io/github/stars/SonMooSans/discord-ui?style=social)
+<div align="center">
+    <img src="./document/Icon.jpg" alt="banner" width="600px"/>
+</div>
+
+# DUI - Discord UI ![GitHub](https://img.shields.io/github/license/SonMooSans/discord-ui?style=for-the-badge) ![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.sonmoosans/dui?server=https%3A%2F%2Fs01.oss.sonatype.org) ![GitHub Repo stars](https://img.shields.io/github/stars/SonMooSans/discord-ui?style=social)
 High-performance Discord Message Component Based Kotlin UI Framework
 <br>
 Render Interactive Message and Manage States and Listeners
@@ -20,9 +23,9 @@ DUI provides high code quality, high performance, memory safe UI System
 ```kotlin
 val counter = component<Unit> {
     val count = useState("count", 0)
-    
+
     embed(title = "Counter", description = count.asString())
-    
+
     row {
         button("Increase") {
             count.value++
@@ -40,11 +43,11 @@ val sync = useSync()
 val memo = useMemo(dependencies) { processString(state.value) }
 val confirmModal = useModal {
     title = "Do you sure?"
-    
+
     row {
         input(id = "confirm", label = "Type 'I am gay' to confirm")
     }
-    
+
     submit {
         //do something
     }
@@ -63,10 +66,10 @@ rowLayout { //Split into multi Action Rows if overflow
     button(label = "Test") {
         event.ignore()
     }
-    
+
     menu {
         option("Label", "Value")
-        
+
         submit {
             event.ignore()
         }
@@ -82,7 +85,7 @@ tabLayout { //Adds a SelectMenu to switch between Tabs
         text("Your Profile")
         proflie()
     }
-    
+
     tab("Settings") {
         embed(title = "Settings Tab")
     }
@@ -115,9 +118,9 @@ Create a Component
 ```kotlin
 val example = component {
     val count = useState("count", 0)
-    
+
     text(count.asString())
-    
+
     row {
         button("Increase") {
             count.value++
@@ -130,7 +133,7 @@ In above example, we create a `count` state
 <br>
 When "Increase" Button is clicked, Increase count state and Reply to the event
 
-Then, Register a Slash command (We use [BJDA](https://github.com/SonMooSans/B-JDA) for this) 
+Then, Register a Slash command (We use [BJDA](https://github.com/SonMooSans/B-JDA) for this)
 <br>
 See their tutorial to learn how to use BJDA
 ```kotlin
