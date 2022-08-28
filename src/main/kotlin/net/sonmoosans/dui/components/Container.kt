@@ -3,24 +3,33 @@ package net.sonmoosans.dui.components
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.sonmoosans.dui.annotations.RequireListener
 import net.sonmoosans.dui.annotations.RequireStates
+import net.sonmoosans.dui.context.Container
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.State
 import net.sonmoosans.dui.context.scope
 import net.sonmoosans.dui.hooks.useState
 import net.sonmoosans.dui.utils.ContainerImpl
+import net.sonmoosans.dui.utils.lambdaList
 import net.sonmoosans.dui.utils.value
+
+class Page<C: RenderContext<*, *>>(val render: C.() -> Unit)
+
+class PagesBuilder<C: RenderContext<*, *>> : ContainerImpl<Page<C>>() {
+    fun page(render: C.() -> Unit) = add(Page(render))
+}
 
 @RequireStates("page")
 @RequireListener("prev", "next")
 fun<C: RenderContext<*, *>> C.pager(
     page: State<Int>? = null,
-    vararg pages: C.() -> Unit,
     scope: String? = "pager",
+    init: PagesBuilder<C>.() -> Unit,
 ) = scope(scope) {
     val state = page?: useState("page", 0)
     val current = state.value
+    val pages = PagesBuilder<C>().apply(init).list
 
-    pages[current].invoke(this)
+    pages[current].render(this)
 
     row {
         button("<-", disabled = current <= 0, id = "prev") {

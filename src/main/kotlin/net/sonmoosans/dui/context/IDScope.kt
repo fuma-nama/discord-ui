@@ -34,7 +34,7 @@ inline fun<C: IDScope> C.scope(prefix: String? = null, body: C.() -> Unit) {
     }
 
     val prev = scope
-    scope += "__$prefix"
+    scope += "_$prefix"
 
     body(this)
     scope = prev
