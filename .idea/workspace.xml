@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Supports IDScope">
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Add README">
+      <change afterPath="$PROJECT_DIR$/document/Icon.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/IDScope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/IDScope.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +43,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/Deve/2022/Discord/discord-ui/src/main/kotlin",
+    "last_opened_file_path": "D:/Deve/2022/Discord/discord-ui/document",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
@@ -53,6 +53,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Deve\2022\Discord\discord-ui\document" />
       <recent name="D:\Deve\2022\Discord\discord-ui\src\main\kotlin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -123,7 +124,7 @@
       <workItem from="1661523376831" duration="1210000" />
       <workItem from="1661592478760" duration="12853000" />
       <workItem from="1661653714217" duration="3552000" />
-      <workItem from="1661667574705" duration="2193000" />
+      <workItem from="1661667574705" duration="4720000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -321,7 +322,21 @@
       <option name="project" value="LOCAL" />
       <updated>1661657167271</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Improve Pager">
+      <created>1661669815480</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1661669815480</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Add README">
+      <created>1661670095422</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1661670095422</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -339,8 +354,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Change File Structure" />
-    <MESSAGE value="Add File Component" />
     <MESSAGE value="Improve Hooks" />
     <MESSAGE value="Improve State Hook" />
     <MESSAGE value="Impl Sync Hook" />
@@ -364,6 +377,8 @@
     <MESSAGE value="Fix Embeds Legacy issue" />
     <MESSAGE value="Avoid ID duplication" />
     <MESSAGE value="Supports IDScope" />
-    <option name="LAST_COMMIT_MESSAGE" value="Supports IDScope" />
+    <MESSAGE value="Improve Pager" />
+    <MESSAGE value="Add README" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add README" />
   </component>
 </project>
