@@ -1,5 +1,5 @@
 ![alt](document/Icon.jpg)
-# DUI - Discord UI ![GitHub](https://img.shields.io/github/license/SonMooSans/discord-ui)
+# DUI - Discord UI ![GitHub](https://img.shields.io/github/license/SonMooSans/discord-ui) ![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/io.github.sonmoosans/dui?server=https%3A%2F%2Fs01.oss.sonatype.org) ![GitHub Repo stars](https://img.shields.io/github/stars/SonMooSans/discord-ui?style=social)
 High-performance Discord Message Component Based Kotlin UI Framework
 <br>
 Render Interactive Message and Manage States and Listeners
