@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Support Localization">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Improve Localization Utils">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +123,7 @@
       <workItem from="1661592478760" duration="12853000" />
       <workItem from="1661653714217" duration="3552000" />
       <workItem from="1661667574705" duration="8745000" />
-      <workItem from="1661688183549" duration="4714000" />
+      <workItem from="1661688183549" duration="5378000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -383,7 +384,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661693546267</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Improve Localization Utils">
+      <created>1661693966866</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1661693966866</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -401,7 +409,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix bugs" />
     <MESSAGE value="Change packages" />
     <MESSAGE value="Support Sync Delete" />
     <MESSAGE value="Combine component listeners" />
@@ -426,6 +433,7 @@
     <MESSAGE value="Support to use as BJDA Module" />
     <MESSAGE value="useSync Hook always use Root ID Scope" />
     <MESSAGE value="Support Localization" />
-    <option name="LAST_COMMIT_MESSAGE" value="Support Localization" />
+    <MESSAGE value="Improve Localization Utils" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve Localization Utils" />
   </component>
 </project>
