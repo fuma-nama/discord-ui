@@ -1,7 +1,17 @@
-# DUI - Discord UI
-High-performance Kotlin Message Component Based UI Framework
+![alt](document/Icon.jpg)
+# DUI - Discord UI ![GitHub](https://img.shields.io/github/license/SonMooSans/discord-ui)
+High-performance Discord Message Component Based Kotlin UI Framework
 <br>
 Render Interactive Message and Manage States and Listeners
+
+## Installation
+```xml
+<dependency>
+    <groupId>io.github.sonmoosans</groupId>
+    <artifactId>dui</artifactId>
+    <version>1.0</version>
+</dependency>
+```
 
 ## Features
 DUI provides high code quality, high performance, memory safe UI System
@@ -99,3 +109,45 @@ row {
     }
 }
 ```
+
+## Getting Started
+Create a Component
+```kotlin
+val example = component {
+    val count = useState("count", 0)
+    
+    text(count.asString())
+    
+    row {
+        button("Increase") {
+            count.value++
+            event.edit()
+        }
+    }
+}
+```
+In above example, we create a `count` state
+<br>
+When "Increase" Button is clicked, Increase count state and Reply to the event
+
+Then, Register a Slash command (We use [BJDA](https://github.com/SonMooSans/B-JDA) for this) 
+<br>
+See their tutorial to learn how to use BJDA
+```kotlin
+fun TestCommand() = command("test", "Testing Command") {
+
+    execute {
+        val ui = example.create(event.user.idLong, Unit) {
+            sync(event.hook)
+        }
+
+        event.reply(ui).queue()
+    }
+}
+```
+
+## Known issues
+* Dynamic Listeners unmounted after restarting bot
+
+## Support My Job
+Give this repo a star!
