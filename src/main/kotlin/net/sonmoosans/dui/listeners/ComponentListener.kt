@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.sonmoosans.dui.context.*
+import net.sonmoosans.dui.utils.createId
 import net.sonmoosans.dui.utils.generateId
 
 typealias Handler<E> = E.() -> Unit
@@ -15,7 +16,7 @@ fun<C: EventContext<*, P>, P : Any> RenderContext<P, *>.on(
     handler: Handler<C>,
 ): String {
     val listenerId = component.listen(
-        generateId(id, handler),
+        createId(id, handler),
         handler as Handler<EventContext<*, P>>
     )
 

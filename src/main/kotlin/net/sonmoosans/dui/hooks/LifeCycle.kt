@@ -1,11 +1,10 @@
 package net.sonmoosans.dui.hooks
 
-import net.sonmoosans.dui.HookKey
 import net.sonmoosans.dui.context.RenderContext
-import net.sonmoosans.dui.utils.generateId
+import net.sonmoosans.dui.utils.createKey
 
 fun RenderContext<*, *>.useEffect(vararg dependencies: Any?, id: String? = null, handle: () -> Unit) {
-    val key = HookKey(generateId(id, handle), "useEffect")
+    val key = createKey(id, handle, "useEffect")
 
     val cache = data.hooks[key] as Array<*>?
     val updated = cache == null || !cache.contentEquals(dependencies)
@@ -18,7 +17,7 @@ fun RenderContext<*, *>.useEffect(vararg dependencies: Any?, id: String? = null,
 }
 
 fun<T> RenderContext<*, *>.useMemo(vararg dependencies: Any?, id: String? = null, func: () -> T): T {
-    val key = HookKey(generateId(id, func), "useMemo")
+    val key = createKey(id, func, "useMemo")
 
     val cache = data.hooks[key] as MemoData<T>?
     val updated = cache == null || !cache.dependencies.contentEquals(dependencies)

@@ -32,7 +32,11 @@ open class RenderContext<P: Any, B: MessageBuilder>(
     data: Data<P>,
     val builder: B,
     component: Component<P>
-): DataContext<P>(data, component) {
+): DataContext<P>(data, component), IDScope {
+    /**
+     * Current ID Scope, used for avoiding ID duplication
+     */
+    override var scope = ""
     var contexts: Map<Context<*>, Any?>? = null
 
     /**

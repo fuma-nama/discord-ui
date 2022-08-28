@@ -4,16 +4,30 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.Data
+import net.sonmoosans.dui.HookKey
 import net.sonmoosans.dui.MessageBuilder
+import net.sonmoosans.dui.context.IDScope
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.RenderContextCreate
 import net.sonmoosans.dui.context.RenderContextEdit
 
 /**
+ * Create Hook Key
+ */
+fun IDScope.createKey(id: String?, func: Function<*>, type: String) =
+    createKey(generateId(id, func), type)
+
+/**
+ * Create an ID from scope
+ */
+fun IDScope.createId(id: String?, func: Function<*>) =
+    createId(generateId(id, func))
+
+/**
  * Generate ID with the hashcode of the interface class
  */
-fun generateId(id: Int?, func: Function<*>): Int {
-    return id?: func::class.hashCode()
+fun generateId(func: Function<*>): String {
+    return func::class.hashCode().toString()
 }
 
 /**

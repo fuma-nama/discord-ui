@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.ButtonStyle
 import net.sonmoosans.dui.DUI
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
+import net.sonmoosans.dui.context.scope
 import net.sonmoosans.dui.hooks.sync
 import net.sonmoosans.dui.hooks.useModal
 import net.sonmoosans.dui.hooks.useState
@@ -17,9 +18,26 @@ import net.sonmoosans.dui.utils.get
 import net.sonmoosans.dui.utils.value
 
 val example = component {
-    val page = useState("page", 0)
+    println(this.data.hooks)
+    println(this.data.states)
+    println(this.component.listeners)
 
-    tabLayout(page) {
+    tabLayout(scope = "Tab1") {
+        tab("Todos") {
+            text("Hello World")
+            todo()
+        }
+
+        tab("Settings") {
+            row {
+                button("Close") {
+                    event.delete()
+                }
+            }
+        }
+    }
+
+    tabLayout(scope = "Tab2") {
         tab("Todos") {
             text("Hello World")
             todo()

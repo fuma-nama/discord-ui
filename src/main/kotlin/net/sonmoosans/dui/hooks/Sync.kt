@@ -7,9 +7,10 @@ import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
 import net.dv8tion.jda.api.utils.messages.MessageEditData
 import net.sonmoosans.dui.context.DataContext
+import net.sonmoosans.dui.context.IDScope
 
 fun RenderContext<*, *>.useSync(id: String = ""): Sync {
-    val key = HookKey(id, "useSync")
+    val key = createKey(id, "useSync")
     var hook = data.hooks[key] as SyncHook?
 
     if (hook == null) {
@@ -20,8 +21,8 @@ fun RenderContext<*, *>.useSync(id: String = ""): Sync {
     return Sync(hook)
 }
 
-fun<P: Any> Data<P>.sync(event: InteractionHook, id: String = "") {
-    val key = HookKey(id, "useSync")
+fun<P: Any> Data<P>.sync(event: InteractionHook, id: String = "", scope: IDScope? = null) {
+    val key = scope?.createKey(id, "useSync")?: HookKey(id, "useSync")
     val hook = hooks[key] as SyncHook?
 
     if (hook != null) {
@@ -31,8 +32,9 @@ fun<P: Any> Data<P>.sync(event: InteractionHook, id: String = "") {
     }
 }
 
-fun<P: Any> Data<P>.unsync(event: InteractionHook, id: String = "") {
-    val key = HookKey(id, "useSync")
+fun<P: Any> Data<P>.unsync(event: InteractionHook, id: String = "", scope: IDScope? = null) {
+    val key = scope?.createKey(id, "useSync")?: HookKey(id, "useSync")
+
     val hook = hooks[key] as SyncHook?
 
     if (hook != null) {
