@@ -20,11 +20,17 @@ fun<P: Any> RenderContext<P, *>.useModal(init: ModalBuilder<P>.() -> Unit): Moda
     }
 }
 
+fun<P: Any> RenderContext<P, *>.useModalLazy(init: ModalBuilder<P>.() -> Unit) =
+    ModalHook { useModal(init) }
+
 fun<P: Any> RenderContext<P, *>.useModal(factory: ModalFactory, id: String? = null, handler: ModalHandler<P>): Modal {
     val listener = modal(id, handler)
 
     return factory.build(listener)
 }
+
+fun<P: Any> RenderContext<P, *>.useModalLazy(factory: ModalFactory, id: String? = null, handler: ModalHandler<P>) =
+    ModalHook { useModal(factory, id, handler) }
 
 class ModalBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<ActionRow, P>(context) {
     lateinit var title: String
@@ -32,5 +38,16 @@ class ModalBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<Action
 
     fun submit(id: String? = null, handler: ModalHandler<P>) {
         this.id = context.modal(id, handler)
+    }
+}
+
+/**
+ * Render Modal when access it
+ */
+fun interface ModalHook {
+    fun create(): Modal
+
+    operator fun<P> getValue(parent: P, prop: Any): Modal {
+        return create()
     }
 }
