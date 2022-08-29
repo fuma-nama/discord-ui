@@ -1,6 +1,7 @@
 package net.sonmoosans.dui.context
 
 import net.sonmoosans.dui.HookKey
+import net.sonmoosans.dui.utils.generateId
 
 interface IDScope {
     var scope: String
@@ -26,9 +27,16 @@ open class IDScopeImpl(default: String = "") : IDScope {
 }
 
 /**
+ * Generate Prefix from body lambda
+ *
  * Open new ID Scope, used for avoiding ID duplication
  */
-inline fun<C: IDScope> C.scope(prefix: String? = null, body: C.() -> Unit) {
+fun<C: IDScope> C.scope(body: C.() -> Unit) = scope(generateId(body), body)
+
+/**
+ * Open new ID Scope, used for avoiding ID duplication
+ */
+inline fun<C: IDScope> C.scope(prefix: String?, body: C.() -> Unit) {
     if (prefix == null) {
         return body(this)
     }
