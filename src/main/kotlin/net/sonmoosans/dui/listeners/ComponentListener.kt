@@ -83,10 +83,17 @@ interface Encoder {
 class DefaultEncoder : Encoder {
     override fun encodeId(comp: Component<*>, dataId: Long, listenerId: String): String {
 
-        if (listenerId.contains("-"))
-            error("Listener Id cannot contains '-'")
+        if (listenerId.contains("-")) error(
+            "Listener Id cannot contains '-'"
+        )
 
-        return "${comp.hashCode()}-$dataId-$listenerId"
+        val id = "${comp.hashCode()}-$dataId-$listenerId"
+
+        if (id.length > 100) error(
+            "Your Listener ID is too long: $id, try reduce Scopes amount or Listener ID length"
+        )
+
+        return id
     }
 
     override fun decodeId(id: String): RawId {
