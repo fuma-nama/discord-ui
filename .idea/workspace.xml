@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Release 1.1.0">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/components/Container.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/IDScope.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/context/IDScope.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/LifeCycle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/LifeCycle.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Modal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/Modal.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/State.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/hooks/State.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/listeners/ComponentListener.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Internal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Internal.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Checks Listener ID Length">
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -209,7 +200,7 @@
       <workItem from="1661653714217" duration="3552000" />
       <workItem from="1661667574705" duration="8745000" />
       <workItem from="1661688183549" duration="5378000" />
-      <workItem from="1661779885595" duration="647000" />
+      <workItem from="1661779885595" duration="1092000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -477,7 +468,42 @@
       <option name="project" value="LOCAL" />
       <updated>1661693966866</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="useState supports Anonymous Hook ID">
+      <created>1661780608723</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1661780608724</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Supports Anonymous Scope ID">
+      <created>1661780621942</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1661780621942</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Improve doc">
+      <created>1661780640695</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1661780640695</updated>
+    </task>
+    <task id="LOCAL-00042" summary="useModal Supports Lazy Rendering">
+      <created>1661780665460</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1661780665460</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Checks Listener ID Length">
+      <created>1661780700798</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1661780700798</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,11 +521,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Change packages" />
-    <MESSAGE value="Support Sync Delete" />
-    <MESSAGE value="Combine component listeners" />
-    <MESSAGE value="Change Component update method" />
-    <MESSAGE value="move Test Sources" />
     <MESSAGE value="Remove Command package" />
     <MESSAGE value="Make Component Listener flexible" />
     <MESSAGE value="Supports Nested Contexts" />
@@ -520,6 +541,11 @@
     <MESSAGE value="useSync Hook always use Root ID Scope" />
     <MESSAGE value="Support Localization" />
     <MESSAGE value="Improve Localization Utils" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improve Localization Utils" />
+    <MESSAGE value="useState supports Anonymous Hook ID" />
+    <MESSAGE value="Supports Anonymous Scope ID" />
+    <MESSAGE value="Improve doc" />
+    <MESSAGE value="useModal Supports Lazy Rendering" />
+    <MESSAGE value="Checks Listener ID Length" />
+    <option name="LAST_COMMIT_MESSAGE" value="Checks Listener ID Length" />
   </component>
 </project>

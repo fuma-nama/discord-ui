@@ -8,6 +8,19 @@ interface LocaleProps {
     val locale: DiscordLocale
 }
 
+operator fun DiscordLocale.invoke(
+    default: String,
+    vararg locales: LocalePair,
+): String {
+    for (locale in locales) {
+        if (locale.match(this)) {
+            return locale.text
+        }
+    }
+
+    return default
+}
+
 fun DataContext<out LocaleProps>.locale(
     default: String,
     vararg locales: LocalePair,

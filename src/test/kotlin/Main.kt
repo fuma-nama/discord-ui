@@ -32,10 +32,7 @@ val example = component<Props> {
     }
 
     tabLayout {
-        tab(
-            locale("Todos", chinese("待辦事項"))
-        ) {
-            text(locale + chinese("Chinese") + english("English") + "Default")
+        tab(locale("Todos", chinese("待辦事項"))) {
             todo()
         }
 
