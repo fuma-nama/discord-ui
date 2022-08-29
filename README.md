@@ -36,6 +36,7 @@ val counter = component<Unit> {
 ```
 
 ### Useful Hooks
+Built-in Hook IDs can also be anonymous, including `useState`
 ```kotlin
 val theme = useContext(ThemeContext)
 val state = useState("id", "initial value")

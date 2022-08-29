@@ -6,11 +6,11 @@ import net.sonmoosans.dui.context.State
 import net.sonmoosans.dui.utils.generateId
 
 /**
- * Generates an ID from holder's class
+ * Create a State
+ *
+ * State will be memorized every renders
  */
-fun<S: Any> RenderContext<*, *>.useState(initial: S, holder: () -> Unit) = useState(generateId(holder), initial)
-
-fun<S> RenderContext<*, *>.useState(id: String, initial: S): State<S> {
+fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): State<S> {
     val key = createId(id)
 
     val cache = data.states[key]
@@ -19,13 +19,18 @@ fun<S> RenderContext<*, *>.useState(id: String, initial: S): State<S> {
         return cache as State<S>
     }
 
-    val state = State(key, initial)
+    val state = State(key, initial())
 
     data.states[key] = state
     return state
 }
 
-fun<S: Any, P: Any> RenderContext<P, *>.useState(id: String) = useState<S?>(id, null)
+/**
+ * Generates an ID from initial lambda's class
+ */
+fun<S: Any> RenderContext<*, *>.useState(initial: () -> S) = useState(generateId(initial), initial)
+
+fun<S> RenderContext<*, *>.useState(id: String, initial: S) = useState(id) { initial }
 
 interface StateContext<P> {
     val data: Data<P>
