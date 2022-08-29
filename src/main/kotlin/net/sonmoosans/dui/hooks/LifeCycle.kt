@@ -3,6 +3,9 @@ package net.sonmoosans.dui.hooks
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.utils.createKey
 
+/**
+ * @param id ID of hook. If null, generate the ID from lambda
+ */
 fun RenderContext<*, *>.useEffect(vararg dependencies: Any?, id: String? = null, handle: () -> Unit) {
     val key = createKey(id, handle, "useEffect")
 
@@ -16,6 +19,9 @@ fun RenderContext<*, *>.useEffect(vararg dependencies: Any?, id: String? = null,
     }
 }
 
+/**
+ * @param id ID of hook. If null, generate the ID from lambda
+ */
 fun<T> RenderContext<*, *>.useMemo(vararg dependencies: Any?, id: String? = null, func: () -> T): T {
     val key = createKey(id, func, "useMemo")
 

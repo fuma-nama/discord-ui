@@ -9,6 +9,7 @@ import net.sonmoosans.dui.context.State
 import net.sonmoosans.dui.context.scope
 import net.sonmoosans.dui.hooks.useState
 import net.sonmoosans.dui.utils.ContainerImpl
+import net.sonmoosans.dui.utils.generateId
 import net.sonmoosans.dui.utils.lambdaList
 import net.sonmoosans.dui.utils.value
 
@@ -18,11 +19,29 @@ class PagesBuilder<C: RenderContext<*, *>> : ContainerImpl<Page<C>>() {
     fun page(render: C.() -> Unit) = add(Page(render))
 }
 
+/**
+ * Generate The ScopeID from init lambda
+ * @see pager
+ */
 @RequireStates("page")
 @RequireListener("prev", "next")
 fun<C: RenderContext<*, *>> C.pager(
     page: State<Int>? = null,
-    scope: String? = "pager",
+    init: PagesBuilder<C>.() -> Unit,
+) = pager(page, generateId(init), init)
+
+/**
+ * Pager Adds a Button Row to change current page
+ *
+ * And render the current page
+ *
+ * @param scope Scope ID, set to null to directly use root scope
+ */
+@RequireStates("page")
+@RequireListener("prev", "next")
+fun<C: RenderContext<*, *>> C.pager(
+    page: State<Int>? = null,
+    scope: String?,
     init: PagesBuilder<C>.() -> Unit,
 ) = scope(scope) {
     val state = page?: useState("page", 0)
@@ -32,11 +51,11 @@ fun<C: RenderContext<*, *>> C.pager(
     pages[current].render(this)
 
     row {
-        button("<-", disabled = current <= 0, id = "prev") {
+        button("<", disabled = current <= 0, id = "prev") {
             state.value -= 1
         }
 
-        button("->", disabled = current >= pages.lastIndex, id = "next") {
+        button(">", disabled = current >= pages.lastIndex, id = "next") {
             state.value += 1
         }
     }
@@ -60,11 +79,29 @@ class TabBuilder<C: RenderContext<*, *>>: ContainerImpl<Tab<C>>() {
     }
 }
 
+/**
+ * Generate the Scope ID from init lambda
+ * @see tabLayout
+ */
 @RequireListener("change_tab")
 @RequireStates("page")
 fun<C: RenderContext<*, *>> C.tabLayout(
     page: State<Int>? = null,
-    scope: String? = "tabs",
+    init: TabBuilder<C>.() -> Unit,
+) = tabLayout(page, generateId(init), init)
+
+/**
+ * TabLayout adds a SelectMenu to switch between tabs
+ *
+ * And renders the current Tab
+ *
+ * @param scope Scope ID, set to null to directly use root scope
+ */
+@RequireListener("change_tab")
+@RequireStates("page")
+fun<C: RenderContext<*, *>> C.tabLayout(
+    page: State<Int>? = null,
+    scope: String?,
     init: TabBuilder<C>.() -> Unit,
 ) = scope(scope) {
     val state = page?: useState("page", 0)
