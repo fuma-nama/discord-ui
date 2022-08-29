@@ -12,7 +12,7 @@ Render Interactive Message and Manage States and Listeners
 <dependency>
     <groupId>io.github.sonmoosans</groupId>
     <artifactId>dui</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.2</version>
 </dependency>
 ```
 

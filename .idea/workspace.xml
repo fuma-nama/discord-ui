@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Checks Listener ID Length">
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/net/sonmoosans/dui/utils/Locale.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/Main.kt" afterDir="false" />
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Improve Locale API">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +200,7 @@
       <workItem from="1661653714217" duration="3552000" />
       <workItem from="1661667574705" duration="8745000" />
       <workItem from="1661688183549" duration="5378000" />
-      <workItem from="1661779885595" duration="1092000" />
+      <workItem from="1661779885595" duration="1928000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -503,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661780700798</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Improve Locale API">
+      <created>1661781003360</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1661781003360</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,7 +528,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Remove Command package" />
     <MESSAGE value="Make Component Listener flexible" />
     <MESSAGE value="Supports Nested Contexts" />
     <MESSAGE value="Move State Context" />
@@ -546,6 +552,7 @@
     <MESSAGE value="Improve doc" />
     <MESSAGE value="useModal Supports Lazy Rendering" />
     <MESSAGE value="Checks Listener ID Length" />
-    <option name="LAST_COMMIT_MESSAGE" value="Checks Listener ID Length" />
+    <MESSAGE value="Improve Locale API" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve Locale API" />
   </component>
 </project>
