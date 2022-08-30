@@ -4,22 +4,56 @@ import net.sonmoosans.dui.context.Container
 import net.sonmoosans.dui.context.RenderContext
 import net.dv8tion.jda.api.entities.EmbedType
 import net.dv8tion.jda.api.entities.MessageEmbed
+import net.sonmoosans.bjda.utils.text
 import net.sonmoosans.dui.utils.*
 import java.awt.Color
 import java.time.OffsetDateTime
 
-fun RenderContext<*, *>.text(content: String, type: TextType = TextType.Set) {
-    with (builder) {
-        when (type) {
-            TextType.Set -> setContent(content)
-            TextType.Append -> setContent(this.content + content)
-            TextType.AppendLine -> setContent("${this.content}\n$content")
-        }
-    }
+/**
+ * Append Message Content
+ */
+fun RenderContext<*, *>.text(content: String) {
+    builder.text += content
 }
 
-enum class TextType {
-    Set, Append, AppendLine
+/**
+ * Append Message Content Line
+ */
+fun RenderContext<*, *>.textln(content: String) {
+    builder.text += (content + "\n")
+}
+
+/**
+ * Append Code Line to Message Content
+ */
+fun RenderContext<*, *>.code(content: String) {
+    builder.text += "`$content`"
+}
+
+/**
+ * Append Code Line to Message Content
+ */
+fun RenderContext<*, *>.codeln(content: String) {
+    builder.text += "`$content`\n"
+}
+
+
+/**
+ * Append Code Line to Message Content
+ */
+fun RenderContext<*, *>.codeBlock(content: String, language: String? = null) {
+    builder.text += """
+        ```${language.orEmpty()}
+        $content
+        ```
+    """.trimIndent()
+}
+
+/**
+ * Set MessageContent
+ */
+fun RenderContext<*, *>.content(content: String) {
+    builder.setContent(content)
 }
 
 fun RenderContext<*, *>.embed(
