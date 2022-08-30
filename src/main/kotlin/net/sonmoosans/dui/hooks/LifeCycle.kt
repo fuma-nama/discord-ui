@@ -28,13 +28,12 @@ fun RenderContext<*, *>.useEffect(vararg dependencies: Any?, id: String? = null,
  */
 fun RenderContext<*, *>.useChange(vararg dependencies: Any?, id: String? = null, handle: () -> Unit) {
     val key = createKey(id, handle, "useChange")
-
     val cache = data.hooks[key] as Array<*>?
-    val updated = !cache.contentEquals(dependencies)
 
-    if (updated) {
-        handle()
+    val updated = cache != null && !cache.contentEquals(dependencies)
 
+    if (updated) handle()
+    if (cache == null || updated) {
         data.hooks[key] = dependencies
     }
 }

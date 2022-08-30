@@ -11,6 +11,7 @@ import net.sonmoosans.dui.graphics.drawStringCenter
 import net.sonmoosans.dui.graphics.paint
 import net.sonmoosans.dui.graphics.toInputStream
 import net.sonmoosans.dui.hooks.sync
+import net.sonmoosans.dui.hooks.useChange
 import net.sonmoosans.dui.hooks.useModalLazy
 import net.sonmoosans.dui.hooks.useState
 import net.sonmoosans.dui.utils.*
@@ -97,6 +98,10 @@ suspend fun main() {
 
 val ModernTodoApp = component<Unit> {
     val todos = useState { mutableListOf("hello") }
+
+    useChange(todos.value) {
+        println("Changed")
+    }
 
     var expectedHeight = (110 * todos.value.size) + (50 * 2)
 
