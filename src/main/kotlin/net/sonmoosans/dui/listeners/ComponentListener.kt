@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteract
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.sonmoosans.dui.context.*
 import net.sonmoosans.dui.utils.createId
-import net.sonmoosans.dui.utils.generateId
 
 typealias Handler<E> = E.() -> Unit
 
@@ -33,7 +32,17 @@ fun<P : Any> RenderContext<P, *>.modal(
     handler: ModalContext<P>.() -> Unit
 ) = on(id, handler)
 
-data class RawId(val comp: Int, val dataId: Long, val listenerId: String)
+data class RawId(val comp: Int, val dataId: Long, val listenerId: String) {
+    fun<P: Any, E> build(): DynamicId<P, E>? {
+        val comp = ComponentListener.components[this.comp]?: return null
+        val data = comp.store[this.dataId]?: return null
+        val listener = comp.listeners[this.listenerId]?: return null
+
+        return DynamicId(comp as Component<P>, data as Data<P>, listener as Handler<E>)
+    }
+}
+
+data class DynamicId<P: Any, E>(val comp: Component<P>, val data: Data<P>, val listener: Handler<E>)
 
 object ComponentListener : ListenerAdapter() {
     /** Pair<ComponentId, Component> **/
@@ -50,26 +59,20 @@ object ComponentListener : ListenerAdapter() {
     override fun onModalInteraction(event: ModalInteractionEvent) = handle<Any>(event)
 
     private fun<P: Any> handle(event: GenericComponentInteractionCreateEvent) {
-        val (compId, dataId, modalId) = encoder.decodeId(event.componentId)
+        val id = encoder.decodeId(event.componentId)?: return
+        val (comp, data, listener) = id.build<P, InteractionContext<*, P>>()?: return
 
-        val comp = components[compId]?: return
-        val data = comp.store[dataId]?: return
-        val listener = comp.listeners[modalId]?: return
-
-        (listener as Handler<InteractionContext<*, P>>).invoke(
-            InteractionContext(event, data as Data<P>, comp as Component<P>)
+        listener.invoke(
+            InteractionContext(event, data, comp)
         )
     }
 
     private fun<P: Any> handle(event: ModalInteractionEvent) {
-        val (compId, dataId, modalId) = encoder.decodeId(event.modalId)
+        val id = encoder.decodeId(event.modalId)?: return
+        val (comp, data, listener) = id.build<P, ModalContext<P>>()?: return
 
-        val comp = components[compId]?: return
-        val data = comp.store[dataId]?: return
-        val modal = comp.listeners[modalId]?: return
-
-        (modal as Handler<ModalContext<*>>).invoke(
-            ModalContext(event, data as Data<P>, comp as Component<P>)
+        listener.invoke(
+            ModalContext(event, data, comp)
         )
     }
 }
@@ -77,7 +80,7 @@ object ComponentListener : ListenerAdapter() {
 interface Encoder {
     fun encodeId(comp: Component<*>, dataId: Long, listenerId: String): String
 
-    fun decodeId(id: String): RawId
+    fun decodeId(id: String): RawId?
 }
 
 class DefaultEncoder : Encoder {
@@ -96,9 +99,17 @@ class DefaultEncoder : Encoder {
         return id
     }
 
-    override fun decodeId(id: String): RawId {
-        val (compId, dataId, listenerId) = id.split("-")
+    override fun decodeId(id: String): RawId? {
+        val (compId, dataId, listenerId) = id.split("-").verify {
+            return null
+        }
 
         return RawId(compId.toInt(), dataId.toLong(), listenerId)
+    }
+
+    private inline fun List<String>.verify(onFail: () -> Unit): List<String> {
+        if (size != 3) onFail()
+
+        return this
     }
 }
