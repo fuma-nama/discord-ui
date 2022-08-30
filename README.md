@@ -12,7 +12,7 @@ Render Interactive Message and Manage States and Listeners
 <dependency>
     <groupId>io.github.sonmoosans</groupId>
     <artifactId>dui</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.2</version>
 </dependency>
 ```
 
@@ -36,7 +36,7 @@ val counter = component<Unit> {
 ```
 
 ### Useful Hooks
-Built-in Hook IDs can also be anonymous, including `useState`
+ID of Built-in Hooks can also be anonymous, which is generated from lambda
 ```kotlin
 val theme = useContext(ThemeContext)
 val state = useState("id", "initial value")
@@ -111,6 +111,35 @@ row {
     button("Remove", id = "onRemove") { //ID: 4343243243-3-onRemove
         println("Component Interaction Event")
     }
+}
+```
+
+### Highly Flexible
+Not only embed or text, DUI supports render everything. Including rendering UI with Graphics2D
+<br>
+DUI also has a small Utility for Rendering with Graphics2D
+
+```kotlin
+//You may wrap this in useMemo Hook
+val image = BufferedImage(500, 600, BufferedImage.TYPE_INT_RGB)
+
+with (image.createGraphics()) {
+    val (w, h) = 450 to 100
+
+    font = font.deriveFont(25f)
+    translate((500 - w) / 2, 50)
+
+    for (i in 0..3) {
+        paint(Color.DARK_GRAY) {
+            fillRoundRect(0, 0, w, h, 20, 20)
+        }
+
+        translate(0, h + 10)
+    }
+}
+
+files {
+    file("ui.png", image.toInputStream())
 }
 ```
 

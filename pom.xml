@@ -6,7 +6,7 @@
 
     <groupId>io.github.sonmoosans</groupId>
     <artifactId>dui</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.2</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
