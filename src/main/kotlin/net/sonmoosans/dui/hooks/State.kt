@@ -56,6 +56,9 @@ interface StateContext<P> {
         this.value = value(this.value)
     }
 
+    val State<out Collection<*>>.size
+        get() = value.size
+
     operator fun<E> State<out Iterable<E>>.plus(element: E) = value + element
     operator fun State<Int>.plus(other: Int) = value + other
     operator fun State<Double>.plus(other: Double) = value + other
