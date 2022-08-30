@@ -44,15 +44,48 @@ interface StateContext<P> {
             current.raw = v
         }
 
-    infix fun<S> State<S>.update(updater: S.() -> Unit) {
+    operator fun<S> State<S>.invoke(updater: S.() -> Unit) {
         updater(value)
     }
 
-    operator fun<S> State<S>.timesAssign(value: S) { this.value = value }
+    infix fun<S> State<S>.set(value: S) {
+        this.value = value
+    }
 
     infix fun<S> State<S>.set(value: (prev: S) -> S) {
         this.value = value(this.value)
     }
+
+    operator fun<E> State<out Iterable<E>>.plus(element: E) = value + element
+    operator fun State<Int>.plus(other: Int) = value + other
+    operator fun State<Double>.plus(other: Double) = value + other
+
+    operator fun<E> State<out Iterable<E>>.plusAssign(element: E) { value += element }
+    operator fun State<Int>.plusAssign(other: Int) { value += other }
+    operator fun State<Double>.plusAssign(other: Double) { value += other }
+
+    fun<E> State<out Iterable<E>>.minusAssign(element: E) { value -= element }
+    operator fun State<Int>.minusAssign(other: Int) { value -= other }
+    operator fun State<Double>.minusAssign(other: Double) { value -= other }
+
+    operator fun State<Int>.timesAssign(other: Int) { value *= other }
+    operator fun State<Double>.timesAssign(other: Double) { value *= other }
+
+    operator fun State<Int>.divAssign(other: Int) { value /= other }
+    operator fun State<Double>.divAssign(other: Double) { value /= other }
+
+    operator fun State<Int>.remAssign(other: Int) { value %= other }
+    operator fun State<Double>.remAssign(other: Double) { value %= other }
+
+    infix fun<E> State<E>.eq(other: E) = value == other
+    operator fun State<Int>.compareTo(other: Int) = value.compareTo(other)
+    operator fun State<Double>.compareTo(other: Double) = value.compareTo(other)
+
+    fun<E> State<out Iterable<E>>.forEach(body: (E) -> Unit) = value.forEach(body)
+    fun<E> State<out Iterable<E>>.forEachIndex(body: (Int, E) -> Unit) = value.forEachIndexed(body)
+
+    fun<E, R> State<out Iterable<E>>.map(mapper: (E) -> R) = value.map(mapper)
+    fun<E, R> State<out Iterable<E>>.mapIndex(mapper: (Int, E) -> R) = value.mapIndexed(mapper)
 
     fun<S> State<S>.asString() = raw.toString()
 }

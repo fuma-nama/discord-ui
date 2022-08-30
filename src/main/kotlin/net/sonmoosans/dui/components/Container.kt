@@ -122,7 +122,8 @@ fun<C: RenderContext<*, *>> C.tabLayout(
             }
 
             submit("change_tab") {
-                state *= event.value().toInt()
+                state.value = event.value().toInt()
+
                 event.edit()
             }
         }
