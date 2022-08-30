@@ -1,8 +1,8 @@
-import bjda.bjda
-import bjda.plugins.supercommand.builder.command
-import bjda.plugins.supercommand.supercommand
-import bjda.wrapper.Mode
 import net.dv8tion.jda.api.interactions.DiscordLocale
+import net.sonmoosans.bjda.bjda
+import net.sonmoosans.bjda.plugins.supercommand.builder.command
+import net.sonmoosans.bjda.plugins.supercommand.supercommand
+import net.sonmoosans.bjda.wrapper.Mode
 import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
