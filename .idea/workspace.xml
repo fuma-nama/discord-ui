@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Deploy to 1.1.2">
+    <list default="true" id="d8673a2b-a83b-4504-b715-51251c7b6ef7" name="Changes" comment="Upgrade to BJDA 6.0.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +200,7 @@
       <workItem from="1661667574705" duration="8745000" />
       <workItem from="1661688183549" duration="5378000" />
       <workItem from="1661779885595" duration="3570000" />
-      <workItem from="1661826487529" duration="2985000" />
+      <workItem from="1661826487529" duration="3683000" />
     </task>
     <task id="LOCAL-00001" summary="Initial Commit">
       <created>1661485727410</created>
@@ -517,7 +517,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661781849458</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Upgrade to BJDA 6.0.1">
+      <created>1661840741982</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1661840741982</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Supports Nested Contexts" />
     <MESSAGE value="Move State Context" />
     <MESSAGE value="Change Data Id to Long" />
     <MESSAGE value="Support Nested Components" />
@@ -560,6 +566,7 @@
     <MESSAGE value="Checks Listener ID Length" />
     <MESSAGE value="Improve Locale API" />
     <MESSAGE value="Deploy to 1.1.2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deploy to 1.1.2" />
+    <MESSAGE value="Upgrade to BJDA 6.0.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upgrade to BJDA 6.0.1" />
   </component>
 </project>
