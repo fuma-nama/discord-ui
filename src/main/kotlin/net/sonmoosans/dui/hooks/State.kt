@@ -28,7 +28,7 @@ fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): State<S> {
 /**
  * Generates an ID from initial lambda's class
  */
-fun<S: Any> RenderContext<*, *>.useState(initial: () -> S) = useState(generateId(initial), initial)
+fun<S> RenderContext<*, *>.useState(initial: () -> S) = useState(generateId(initial), initial)
 
 fun<S> RenderContext<*, *>.useState(id: String, initial: S) = useState(id) { initial }
 
