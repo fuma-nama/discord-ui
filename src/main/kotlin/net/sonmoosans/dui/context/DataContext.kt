@@ -18,6 +18,9 @@ open class DataContext<P : Any>(
         get() = this
     var props by data::props
 
+    fun render() = component.render(data)
+    fun renderEdit() = component.edit(data)
+
     /**
      * Delete the Message
      * @param destroy If enabled, Data will be destroyed after delete
