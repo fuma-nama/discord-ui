@@ -114,7 +114,7 @@ row {
 }
 ```
 
-<img src="./document/todo-example.jpg" alt="banner" width="600px"/>
+<img src="./document/todo-example.jpg" alt="banner" width="200px"/>
 ### Highly Flexible
 Not only embed or text, DUI supports render everything. Including rendering UI with Graphics2D
 <br>
