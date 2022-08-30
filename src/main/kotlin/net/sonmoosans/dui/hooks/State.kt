@@ -84,6 +84,8 @@ interface StateContext<P> {
     fun<E> State<out Iterable<E>>.forEach(body: (E) -> Unit) = value.forEach(body)
     fun<E> State<out Iterable<E>>.forEachIndex(body: (Int, E) -> Unit) = value.forEachIndexed(body)
 
+    fun<E> State<out Iterable<E>>.indexOf(element: E) = value.indexOf(element)
+
     fun<E, R> State<out Iterable<E>>.map(mapper: (E) -> R) = value.map(mapper)
     fun<E, R> State<out Iterable<E>>.mapIndex(mapper: (Int, E) -> R) = value.mapIndexed(mapper)
 
