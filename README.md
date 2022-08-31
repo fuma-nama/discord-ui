@@ -57,6 +57,7 @@ val confirmModal = useModal {
 useEffect(dependencies) {
     println("Updated!")
 }
+useExport(data = "Export Something")
 ```
 
 ### Built-in Components
