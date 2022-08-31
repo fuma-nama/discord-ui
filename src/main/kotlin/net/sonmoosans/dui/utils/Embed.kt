@@ -5,6 +5,7 @@ import net.sonmoosans.dui.context.DslBuilder
 import net.dv8tion.jda.api.entities.EmbedType
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.MessageEmbed.*
+import net.dv8tion.jda.api.entities.User
 import java.awt.Color
 import java.time.OffsetDateTime
 
@@ -71,14 +72,14 @@ class ThumbnailBuilder: Builder<Thumbnail> {
     var width = 0
     var height = 0
 
-    override fun build() = MessageEmbed.Thumbnail(url, proxyUrl, width, height)
+    override fun build() = Thumbnail(url, proxyUrl, width, height)
 }
 
 class ProviderBuilder: Builder<Provider> {
     var name: String? = null
     var url: String? = null
 
-    override fun build() = MessageEmbed.Provider(name, url)
+    override fun build() = Provider(name, url)
 }
 
 class AuthorBuilder: Builder<AuthorInfo> {
@@ -99,4 +100,9 @@ fun<O, B: Builder<O>> B.build(apply: (B.() -> Unit)?): O? {
 
 interface Builder<E> {
     fun build(): E
+}
+
+fun User.toAuthor(): AuthorBuilder.() -> Unit = {
+    this.name = this@toAuthor.name
+    this.iconUrl = this@toAuthor.avatarUrl
 }
