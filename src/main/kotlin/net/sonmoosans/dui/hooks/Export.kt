@@ -28,13 +28,13 @@ fun<D> Data<*>.import(id: String = "default", vararg scopes: String): D {
 /**
  * Read Exported data from the component
  */
-fun<D> Component<*>.import(dataId: Long, id: String = "default"): D? {
-    return getData(dataId)?.import(id)
+fun<D> Component<*>.import(dataId: Long, id: String = "default", vararg scopes: String): D? {
+    return getData(dataId)?.import(id, *scopes)
 }
 
 /**
  * Read Exported data from the component
  */
-fun<D> SingleDataComponent<*>.import(id: String = "default"): D {
-    return data!!.import(id)
+fun<D> SingleDataComponent<*>.import(id: String = "default", vararg scopes: String): D {
+    return data!!.import(id, *scopes)
 }
