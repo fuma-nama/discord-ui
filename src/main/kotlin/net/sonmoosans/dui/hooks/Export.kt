@@ -1,9 +1,6 @@
 package net.sonmoosans.dui.hooks
 
-import net.sonmoosans.dui.Component
-import net.sonmoosans.dui.Data
-import net.sonmoosans.dui.HookKey
-import net.sonmoosans.dui.SingleDataComponent
+import net.sonmoosans.dui.*
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.buildId
 
@@ -15,6 +12,11 @@ fun RenderContext<*, *>.useExport(id: String = "default", data: Any) {
 
     this.data.hooks[key] = data
 }
+
+/**
+ * Read Exported data from the component
+ */
+fun<D> Ref<*>.import(id: String = "default", vararg scopes: String) = data.import<D>(id, * scopes)
 
 /**
  * Read Exported data from the component
