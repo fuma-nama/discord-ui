@@ -97,7 +97,6 @@ fun<O, B: Builder<O>> B.build(apply: (B.() -> Unit)?): O? {
     return build()
 }
 
-@DslBuilder
 interface Builder<E> {
     fun build(): E
 }

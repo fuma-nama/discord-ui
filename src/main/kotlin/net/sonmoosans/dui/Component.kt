@@ -42,7 +42,7 @@ open class IDComponent<P : Any>(
      * Update Data and renders Component
      */
     fun update(id: Long, update: Data<P>.() -> Unit, default: () -> P): MessageCreateData {
-        val data = store[id]?: Data(id, default())
+        val data = store[id]?: createData(id, default())
         store[id] = data
 
         return render(data.apply(update))
@@ -54,9 +54,34 @@ open class IDComponent<P : Any>(
      * If key duplicated, Update props and remove its parent
      */
     fun create(id: Long, props: P): MessageCreateData {
-        val data = store.setOrCreate(id, props)
+        val data = createData(id, props)
 
         return render(data)
+    }
+
+    /**
+     * Store new Data and renders Component
+     *
+     * If key duplicated, Update props and remove its parent
+     */
+    inline fun create(id: Long, props: P, init: Data<P>.() -> Unit): MessageCreateData {
+        val data = createData(id, props)
+
+        return render(data.apply(init))
+    }
+
+    /**
+     * Create A Ref with initial Data
+     */
+    fun createRef(id: Long, props: P): Ref<P> {
+        return Ref(createData(id, props), this)
+    }
+
+    /**
+     * Create Data but don't render it
+     */
+    fun createData(id: Long, props: P): Data<P> {
+        return store.setOrCreate(id, props)
     }
 
     /**
@@ -67,20 +92,9 @@ open class IDComponent<P : Any>(
      * @return the data and initial render result
      */
     fun initData(id: Long, props: P): Pair<Data<P>, MessageCreateData> {
-        val data = store.setOrCreate(id, props)
+        val data = createData(id, props)
 
         return data to render(data)
-    }
-
-    /**
-     * Store new Data and renders Component
-     *
-     * If key duplicated, Update props and remove its parent
-     */
-    inline fun create(id: Long, props: P, init: Data<P>.() -> Unit): MessageCreateData {
-        val data = store.setOrCreate(id, props)
-
-        return render(data.apply(init))
     }
 
     /**
@@ -100,26 +114,11 @@ open class IDComponent<P : Any>(
 
 abstract class AbstractComponent<P: Any> : Component<P> {
     override val listeners = hashMapOf<String, Handler<EventContext<*, P>>>()
-    var export: Any? = null
 
     override fun listen(id: String, listener: Handler<EventContext<*, P>>): String {
         listeners[id] = listener
 
         return id
-    }
-
-    /**
-     * Read Exported variable
-     */
-    fun<T> readForce(): T {
-        return export as T
-    }
-
-    /**
-     * Read Exported variable
-     */
-    inline fun<reified T> read(): T {
-        return export as T
     }
 }
 
