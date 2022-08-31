@@ -48,4 +48,8 @@ inline fun<C: IDScope> C.scope(prefix: String?, body: C.() -> Unit) {
     scope = prev
 }
 
-inline fun rootScope(domain: String = "", body: IDScope.() -> Unit) = IDScopeImpl(domain).apply(body)
+fun buildId(vararg scopes: String): String {
+    return scopes.joinToString("_")
+}
+
+inline fun scope(domain: String = "", body: IDScope.() -> Unit) = IDScopeImpl(domain).apply(body)
