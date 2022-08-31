@@ -20,7 +20,11 @@ fun<P: Any> component(store: DataStore<P>, render: RenderContext<P, *>.() -> Uni
 class NoDataComponent(
     store: DataStore<Unit> = DataStoreImpl(),
     render: RenderContext<Unit, *>.() -> Unit
-) : IDComponent<Unit>(store, render)
+) : IDComponent<Unit>(store, render) {
+
+    fun create(id: Long) = create(id, Unit)
+    fun create(id: Long, init: Data<Unit>.() -> Unit) = create(id, Unit, init)
+}
 
 /**
  * Component which has no Data required
