@@ -4,13 +4,6 @@ import net.dv8tion.jda.api.utils.messages.MessageEditData
 import net.sonmoosans.dui.context.RenderContext
 
 /**
- * Component which has no Data required
- */
-class SingleNoDataComponent(
-    render: RenderContext<Unit, *>.() -> Unit
-) : SingleDataComponent<Unit>(Data(0, Unit), render)
-
-/**
  * Component that only stores one Data
  */
 open class SingleDataComponent<P: Any>(
