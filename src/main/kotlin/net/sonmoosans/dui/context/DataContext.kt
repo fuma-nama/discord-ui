@@ -49,6 +49,6 @@ open class DataContext<P : Any>(
     }
 
     fun destroy() {
-        component.store.remove(data.id)
+        component.destroy(data)
     }
 }

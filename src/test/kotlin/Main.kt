@@ -3,6 +3,8 @@ import net.sonmoosans.bjda.bjda
 import net.sonmoosans.bjda.plugins.supercommand.builder.command
 import net.sonmoosans.bjda.plugins.supercommand.supercommand
 import net.sonmoosans.bjda.wrapper.Mode
+import net.sonmoosans.dui.NoDataComponent
+import net.sonmoosans.dui.SingleDataComponent
 import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
@@ -10,10 +12,7 @@ import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.graphics.drawStringCenter
 import net.sonmoosans.dui.graphics.paint
 import net.sonmoosans.dui.graphics.toInputStream
-import net.sonmoosans.dui.hooks.sync
-import net.sonmoosans.dui.hooks.useChange
-import net.sonmoosans.dui.hooks.useModalLazy
-import net.sonmoosans.dui.hooks.useState
+import net.sonmoosans.dui.hooks.*
 import net.sonmoosans.dui.utils.*
 import java.awt.Color
 import java.awt.image.BufferedImage

@@ -35,7 +35,7 @@ fun<P : Any> RenderContext<P, *>.modal(
 data class RawId(val comp: Int, val dataId: Long, val listenerId: String) {
     fun<P: Any, E> build(): DynamicId<P, E>? {
         val comp = ComponentListener.components[this.comp]?: return null
-        val data = comp.store[this.dataId]?: return null
+        val data = comp.getData(this.dataId)?: return null
         val listener = comp.listeners[this.listenerId]?: return null
 
         return DynamicId(comp as Component<P>, data as Data<P>, listener as Handler<E>)
