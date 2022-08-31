@@ -89,7 +89,7 @@ suspend fun main() {
         }
 
         supercommand(
-            TestCommand(), TodoCommand()
+            TestCommand(), TodoCommand(), UnoCommands
         )
 
         + DUIModule()
