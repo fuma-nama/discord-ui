@@ -23,29 +23,21 @@ class NoDataComponent(
 ) : IDComponent<Unit>(store, render) {
 
     fun create(id: Long) = create(id, Unit)
-    fun create(id: Long, init: Data<Unit>.() -> Unit) = create(id, Unit, init)
+    inline fun create(id: Long, init: Data<Unit>.() -> Unit) = create(id, Unit, init)
+    fun initData(id: Long) = initData(id, Unit)
 }
 
 /**
  * Component which has no Data required
  */
 class SingleNoDataComponent(
-    override val render: RenderContext<Unit, *>.() -> Unit
-) : AbstractComponent<Unit>() {
-    val data = Data(0, Unit)
-
-    override fun getData(id: Long) = data
-
-    override fun destroy(data: Data<Unit>) {}
-
-    fun create() = render(data)
-    fun edit() = edit(data)
-}
+    render: RenderContext<Unit, *>.() -> Unit
+) : SingleDataComponent<Unit>(Data(0, Unit), render)
 
 /**
  * Component that only stores one Data
  */
-class SingleDataComponent<P: Any>(
+open class SingleDataComponent<P: Any>(
     initialData: Data<P>? = null,
     override val render: RenderContext<P, *>.() -> Unit
 ): AbstractComponent<P>() {
@@ -82,7 +74,17 @@ class SingleDataComponent<P: Any>(
 
     override fun destroy(data: Data<P>) {
         if (this.data == data) {
-            this.data = null
+            resetData()
+        }
+    }
+
+    fun resetData() {
+        val data = this.data
+
+        this.data = if (data != null) {
+            Data(0, data.props)
+        } else {
+            null
         }
     }
 }
@@ -119,10 +121,22 @@ open class IDComponent<P : Any>(
      * Store new Data and renders Component
      *
      * If key duplicated, Update props and remove its parent
+     *
+     * @return the data and initial render result
+     */
+    fun initData(id: Long, props: P): Pair<Data<P>, MessageCreateData> {
+        val data = store.setOrCreate(id, props)
+
+        return data to render(data)
+    }
+
+    /**
+     * Store new Data and renders Component
+     *
+     * If key duplicated, Update props and remove its parent
      */
     inline fun create(id: Long, props: P, init: Data<P>.() -> Unit): MessageCreateData {
         val data = store.setOrCreate(id, props)
-
 
         return render(data.apply(init))
     }
