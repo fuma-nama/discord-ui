@@ -111,6 +111,26 @@ row {
     button("Remove", id = "onRemove") { //ID: 4343243243-3-onRemove
         println("Component Interaction Event")
     }
+    
+    menu(placeholder = "Select Item") {
+        option("...", "...")
+        
+        submit("onSelect") { //ID: 4343243243-3-onSelect
+        }
+    }
+}
+```
+To Disable Dynamic Listeners, don't pass the event handler
+<br>
+Therefore, you can create your own Event handler
+<br>
+```kotlin
+row {
+    //For Select Menu, just pass the ID to root function instead of 'submit' function
+    menu(id = "onRemove", placeholder = "Select Something") {
+        option("...", "...")
+    }
+    button("Remove", id = "onRemove") //ID: onRemove
 }
 ```
 
