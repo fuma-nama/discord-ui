@@ -1,4 +1,5 @@
 package net.sonmoosans.dui
+
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.RenderContextCreate
 import net.sonmoosans.dui.context.RenderContextEdit
@@ -7,7 +8,6 @@ import net.dv8tion.jda.api.utils.messages.AbstractMessageBuilder
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
 import net.sonmoosans.dui.context.EventContext
-import net.sonmoosans.dui.utils.apply
 
 typealias MessageBuilder = AbstractMessageBuilder<*, *>
 
@@ -18,6 +18,14 @@ fun<P: Any> component(store: DataStore<P>, render: RenderContext<P, *>.() -> Uni
  * Component which has no Data required
  */
 class NoDataComponent(
+    store: DataStore<Unit> = DataStoreImpl(),
+    render: RenderContext<Unit, *>.() -> Unit
+) : IDComponent<Unit>(store, render)
+
+/**
+ * Component which has no Data required
+ */
+class SingleNoDataComponent(
     override val render: RenderContext<Unit, *>.() -> Unit
 ) : AbstractComponent<Unit>() {
     val data = Data(0, Unit)
@@ -97,8 +105,20 @@ open class IDComponent<P : Any>(
      *
      * If key duplicated, Update props and remove its parent
      */
-    fun create(id: Long, props: P, init: (Data<P>.() -> Unit)? = null): MessageCreateData {
+    fun create(id: Long, props: P): MessageCreateData {
         val data = store.setOrCreate(id, props)
+
+        return render(data)
+    }
+
+    /**
+     * Store new Data and renders Component
+     *
+     * If key duplicated, Update props and remove its parent
+     */
+    inline fun create(id: Long, props: P, init: Data<P>.() -> Unit): MessageCreateData {
+        val data = store.setOrCreate(id, props)
+
 
         return render(data.apply(init))
     }
@@ -120,11 +140,26 @@ open class IDComponent<P : Any>(
 
 abstract class AbstractComponent<P: Any> : Component<P> {
     override val listeners = hashMapOf<String, Handler<EventContext<*, P>>>()
+    var export: Any? = null
 
     override fun listen(id: String, listener: Handler<EventContext<*, P>>): String {
         listeners[id] = listener
 
         return id
+    }
+
+    /**
+     * Read Exported variable
+     */
+    fun<T> readForce(): T {
+        return export as T
+    }
+
+    /**
+     * Read Exported variable
+     */
+    inline fun<reified T> read(): T {
+        return export as T
     }
 }
 

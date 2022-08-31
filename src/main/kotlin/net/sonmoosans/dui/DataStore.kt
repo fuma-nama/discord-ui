@@ -45,7 +45,6 @@ class DataStoreImpl<P> : DataStore<P> {
 }
 
 data class HookKey(val id: String, val type: String)
-class ParentData<P: Any>(val component: Component<P>, val data: Long)
 
 class Data<P>(
     val id: Long,
