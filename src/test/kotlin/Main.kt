@@ -1,4 +1,5 @@
 import net.dv8tion.jda.api.interactions.DiscordLocale
+import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.sonmoosans.bjda.bjda
 import net.sonmoosans.bjda.plugins.supercommand.builder.command
 import net.sonmoosans.bjda.plugins.supercommand.supercommand
@@ -95,7 +96,9 @@ suspend fun main() {
     }
 }
 
-val ModernTodoApp = component<Unit> {
+typealias TodoExport = (String) -> MessageCreateData
+
+val ModernTodoApp = NoDataComponent {
     val todos = useState { mutableListOf("hello") }
 
     useChange(todos.value) {
@@ -151,6 +154,12 @@ val ModernTodoApp = component<Unit> {
     files {
         file("ui.png", image.toInputStream())
     }
+
+    useExport { s: String ->
+        todos += s
+
+        render()
+    }
 }
 
 fun TestCommand() = command("test", "Testing Command") {
@@ -166,8 +175,11 @@ fun TestCommand() = command("test", "Testing Command") {
 
 fun TodoCommand() = command("todo", "Todo App") {
     execute {
-        val ui = ModernTodoApp.create(event.user.idLong, Unit)
+        val (data) = ModernTodoApp.initData(event.user.idLong)
+        val exported = data.import<TodoExport>()
 
-        event.reply(ui).queue()
+        event.reply(
+            exported(event.user.name)
+        ).queue()
     }
 }
