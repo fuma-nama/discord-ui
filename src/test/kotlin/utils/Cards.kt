@@ -3,7 +3,7 @@ package utils
 fun generateCards(count: Int): ArrayList<Card> {
     val cards = arrayListOf<Card>()
 
-    for (i in 0..count) {
+    for (i in 0 until count) {
         cards += generateCard()
     }
     return cards

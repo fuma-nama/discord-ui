@@ -1,9 +1,10 @@
-import components.GameRuntime
-import components.Lobby
+import UnoGame
+import components.*
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.sonmoosans.bjda.plugins.supercommand.SuperCommandGroup
 import net.sonmoosans.bjda.plugins.supercommand.builder.command
+import net.sonmoosans.dui.Ref
 import net.sonmoosans.dui.utils.Embed
 import utils.Card
 import utils.generateCards
@@ -37,12 +38,12 @@ class WaitingGame(
     val canStart: Boolean
         get() = players.size >= playersCount
 
-    fun start(): GameRuntime {
+    fun start(): UnoGame {
         lobby.destroy()
         val players = this.players.map {
-            Player(it, generateCards(10))
+            Player(it, generateCards(2))
         }
-        return GameRuntime(players.toList(), hook)
+        return UnoGame(ArrayList(players), hook)
     }
 
     fun join(user: User): Boolean {
@@ -76,4 +77,11 @@ class WaitingGame(
 class Player(
     val user: User,
     val cards: ArrayList<Card>
-)
+) {
+    var hook: InteractionHook? = null
+    lateinit var action: Ref<ActionPanelProps>
+
+    fun init(game: UnoGame) {
+        action = ActionPanel.createRef(hashCode().toLong(), ActionPanelProps(game, this))
+    }
+}
