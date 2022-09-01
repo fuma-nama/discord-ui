@@ -26,9 +26,9 @@ class NoDataComponent(
     inline fun create(id: Long, init: Data<Unit>.() -> Unit) = create(id, Unit, init)
 
     /**
-     * @see IDComponent.initData
+     * @see IDComponent.createWithData
      */
-    fun initData(id: Long) = initData(id, Unit)
+    fun initData(id: Long) = createWithData(id, Unit)
 }
 
 open class IDComponent<P : Any>(
@@ -91,7 +91,7 @@ open class IDComponent<P : Any>(
      *
      * @return the data and initial render result
      */
-    fun initData(id: Long, props: P): Pair<Data<P>, MessageCreateData> {
+    fun createWithData(id: Long, props: P): Pair<Data<P>, MessageCreateData> {
         val data = createData(id, props)
 
         return data to render(data)
