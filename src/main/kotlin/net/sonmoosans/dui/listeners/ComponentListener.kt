@@ -10,27 +10,17 @@ import net.sonmoosans.dui.utils.createId
 
 typealias Handler<E> = E.() -> Unit
 
-fun<C: EventContext<*, P>, P : Any> RenderContext<P, *>.on(
+fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, *>.on(
     id: String? = null,
-    handler: Handler<C>,
+    handler: Handler<E>,
 ): String {
     val listenerId = component.listen(
         createId(id, handler),
-        handler as Handler<EventContext<*, P>>
+        handler as Handler<EventContext<*, *, *>>
     )
 
     return ComponentListener.listen(component, data, listenerId)
 }
-
-fun<E: GenericComponentInteractionCreateEvent, P : Any> RenderContext<P, *>.interaction(
-    id: String? = null,
-    handler: InteractionContext<E, P>.() -> Unit
-) = on(id, handler)
-
-fun<P : Any> RenderContext<P, *>.modal(
-    id: String? = null,
-    handler: ModalContext<P>.() -> Unit
-) = on(id, handler)
 
 data class RawId(val comp: Int, val dataId: Long, val listenerId: String) {
     fun<P: Any, E> build(): DynamicId<P, E>? {
@@ -60,7 +50,7 @@ object ComponentListener : ListenerAdapter() {
 
     private fun<P: Any> handle(event: GenericComponentInteractionCreateEvent) {
         val id = encoder.decodeId(event.componentId)?: return
-        val (comp, data, listener) = id.build<P, InteractionContext<*, P>>()?: return
+        val (comp, data, listener) = id.build<P, InteractionContext<*, *, P>>()?: return
 
         listener.invoke(
             InteractionContext(event, data, comp)
@@ -69,7 +59,7 @@ object ComponentListener : ListenerAdapter() {
 
     private fun<P: Any> handle(event: ModalInteractionEvent) {
         val id = encoder.decodeId(event.modalId)?: return
-        val (comp, data, listener) = id.build<P, ModalContext<P>>()?: return
+        val (comp, data, listener) = id.build<P, ModalContext<P, *>>()?: return
 
         listener.invoke(
             ModalContext(event, data, comp)

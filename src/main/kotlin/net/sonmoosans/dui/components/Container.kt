@@ -1,6 +1,7 @@
 package net.sonmoosans.dui.components
 
 import net.dv8tion.jda.api.entities.emoji.Emoji
+import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.annotations.RequireListener
 import net.sonmoosans.dui.annotations.RequireStates
 import net.sonmoosans.dui.context.Container
@@ -13,10 +14,10 @@ import net.sonmoosans.dui.utils.generateId
 import net.sonmoosans.dui.utils.lambdaList
 import net.sonmoosans.dui.utils.value
 
-class Page<C: RenderContext<*, *>>(val render: C.() -> Unit)
+class Page<P: Any, C: Component<P>>(val render: RenderContext<P, C>.() -> Unit)
 
-class PagesBuilder<C: RenderContext<*, *>> : ContainerImpl<Page<C>>() {
-    fun page(render: C.() -> Unit) = add(Page(render))
+class PagesBuilder<P: Any, C: Component<P>> : ContainerImpl<Page<P, C>>() {
+    fun page(render: RenderContext<P, C>.() -> Unit) = add(Page(render))
 }
 
 /**
@@ -25,9 +26,9 @@ class PagesBuilder<C: RenderContext<*, *>> : ContainerImpl<Page<C>>() {
  */
 @RequireStates("page")
 @RequireListener("prev", "next")
-fun<C: RenderContext<*, *>> C.pager(
+fun<P: Any, C: Component<P>> RenderContext<P, C>.pager(
     page: State<Int>? = null,
-    init: PagesBuilder<C>.() -> Unit,
+    init: PagesBuilder<P, C>.() -> Unit,
 ) = pager(page, generateId(init), init)
 
 /**
@@ -39,14 +40,14 @@ fun<C: RenderContext<*, *>> C.pager(
  */
 @RequireStates("page")
 @RequireListener("prev", "next")
-fun<C: RenderContext<*, *>> C.pager(
+fun<P: Any, C: Component<P>> RenderContext<P, C>.pager(
     page: State<Int>? = null,
     scope: String?,
-    init: PagesBuilder<C>.() -> Unit,
+    init: PagesBuilder<P, C>.() -> Unit,
 ) = scope(scope) {
     val state = page?: useState("page", 0)
     val current = state.value
-    val pages = PagesBuilder<C>().apply(init).list
+    val pages = PagesBuilder<P, C>().apply(init).list
 
     pages[current].render(this)
 
@@ -61,19 +62,19 @@ fun<C: RenderContext<*, *>> C.pager(
     }
 }
 
-class Tab<C: RenderContext<*, *>>(
+class Tab<P: Any, C: Component<P>>(
     val label: String,
     val description: String?,
     val emoji: Emoji?,
-    val page: C.() -> Unit
+    val page: RenderContext<P, C>.() -> Unit
 )
 
-class TabBuilder<C: RenderContext<*, *>>: ContainerImpl<Tab<C>>() {
+class TabBuilder<P: Any, C: Component<P>>: ContainerImpl<Tab<P, C>>() {
     fun tab(
         label: String,
         description: String? = null,
         emoji: Emoji? = null,
-        page: C.() -> Unit
+        page: RenderContext<P, C>.() -> Unit
     ) {
         add(Tab(label, description, emoji, page))
     }
@@ -85,9 +86,9 @@ class TabBuilder<C: RenderContext<*, *>>: ContainerImpl<Tab<C>>() {
  */
 @RequireListener("change_tab")
 @RequireStates("page")
-fun<C: RenderContext<*, *>> C.tabLayout(
+fun<P: Any, C: Component<P>> RenderContext<P, C>.tabLayout(
     page: State<Int>? = null,
-    init: TabBuilder<C>.() -> Unit,
+    init: TabBuilder<P, C>.() -> Unit,
 ) = tabLayout(page, generateId(init), init)
 
 /**
@@ -99,13 +100,13 @@ fun<C: RenderContext<*, *>> C.tabLayout(
  */
 @RequireListener("change_tab")
 @RequireStates("page")
-fun<C: RenderContext<*, *>> C.tabLayout(
+fun<P: Any, C: Component<P>> RenderContext<P, C>.tabLayout(
     page: State<Int>? = null,
     scope: String?,
-    init: TabBuilder<C>.() -> Unit,
+    init: TabBuilder<P, C>.() -> Unit,
 ) = scope(scope) {
     val state = page?: useState("page", 0)
-    val tabs = TabBuilder<C>().apply(init).list
+    val tabs = TabBuilder<P, C>().apply(init).list
     val current = state.value
 
     tabs[current].page(this)

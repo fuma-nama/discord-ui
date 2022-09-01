@@ -5,10 +5,7 @@ import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.MessageBuilder
-import net.sonmoosans.dui.context.IDScope
-import net.sonmoosans.dui.context.RenderContext
-import net.sonmoosans.dui.context.RenderContextCreate
-import net.sonmoosans.dui.context.RenderContextEdit
+import net.sonmoosans.dui.context.*
 
 /**
  * Create Hook Key
@@ -50,8 +47,8 @@ fun<P : Any> Component<P>.renderExternal(data: Data<P>, builder: MessageBuilder)
     val context = when (builder) {
         is MessageCreateBuilder -> RenderContextCreate(data, this, builder)
         is MessageEditBuilder -> RenderContextEdit(data, this, builder)
-        else -> RenderContext(data, builder, this)
+        else -> RenderContextImpl(data, this, builder)
     }
 
-    render(context)
+    this.render.invoke(context)
 }

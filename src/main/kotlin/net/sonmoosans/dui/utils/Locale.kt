@@ -21,7 +21,7 @@ operator fun DiscordLocale.invoke(
     return default
 }
 
-fun DataContext<out LocaleProps>.locale(
+fun DataContext<*, out LocaleProps>.locale(
     default: String,
     vararg locales: LocalePair,
 ): String {
@@ -29,7 +29,7 @@ fun DataContext<out LocaleProps>.locale(
     return locale(* locales)?: default
 }
 
-fun DataContext<out LocaleProps>.locale(
+fun DataContext<*, out LocaleProps>.locale(
     vararg locales: LocalePair,
 ): String? {
     for (locale in locales) {
@@ -44,14 +44,14 @@ fun DataContext<out LocaleProps>.locale(
 /**
  * Localize given string
  */
-fun DataContext<out LocaleProps>.locale(locales: Map<DiscordLocale, String>): String {
+fun DataContext<*, out LocaleProps>.locale(locales: Map<DiscordLocale, String>): String {
     return locales[props.locale]!!
 }
 
 /**
  * Localize given string
  */
-fun DataContext<out LocaleProps>.locale(
+fun DataContext<*, out LocaleProps>.locale(
     default: String,
     locales: Map<DiscordLocale, String>
 ): String {
@@ -64,7 +64,7 @@ abstract class LocalePair(val text: String) {
     abstract fun match(locale: DiscordLocale): Boolean
 }
 
-val DataContext<out LocaleProps>.locale get() = LocaleBuilder(props.locale)
+val DataContext<*, out LocaleProps>.locale get() = LocaleBuilder(props.locale)
 
 class LocaleBuilder(val target: DiscordLocale) {
     var result: String? = null

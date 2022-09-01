@@ -9,10 +9,11 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
 import net.sonmoosans.dui.context.EventContext
 
+typealias Element<P> = RenderContext<P, out Component<P>>
 typealias MessageBuilder = AbstractMessageBuilder<*, *>
 
-fun<P: Any> component(render: RenderContext<P, *>.() -> Unit) = IDComponent(render = render)
-fun<P: Any> component(store: DataStore<P>, render: RenderContext<P, *>.() -> Unit) = IDComponent(store, render)
+fun<P: Any> component(render: RenderContext<P, IDComponent<P>>.() -> Unit) = IDComponent(render = render)
+fun<P: Any> component(store: DataStore<P>, render: RenderContext<P, IDComponent<P>>.() -> Unit) = IDComponent(store, render)
 
 /**
  * Component which has no Data required
@@ -28,14 +29,13 @@ class NoDataComponent(
     /**
      * @see IDComponent.createWithData
      */
-    fun initData(id: Long) = createWithData(id, Unit)
+    fun createWithData(id: Long) = createWithData(id, Unit)
 }
 
 open class IDComponent<P : Any>(
     val store: DataStore<P> = DataStoreImpl(),
-    override val render: RenderContext<P, *>.() -> Unit
-) : AbstractComponent<P>() {
-
+    render: RenderContext<P, IDComponent<P>>.() -> Unit
+) : AbstractComponent<P, IDComponent<P>>(render) {
     override fun getData(id: Long) = store[id]
 
     /**
@@ -67,13 +67,13 @@ open class IDComponent<P : Any>(
     inline fun create(id: Long, props: P, init: Data<P>.() -> Unit): MessageCreateData {
         val data = createData(id, props)
 
-        return render(data.apply(init))
+        return render(data.apply(init) )
     }
 
     /**
      * Create A Ref with initial Data
      */
-    fun createRef(id: Long, props: P): Ref<P> {
+    fun createRef(id: Long, props: P): IDRef<P> {
         return Ref(createData(id, props), this)
     }
 
@@ -112,10 +112,13 @@ open class IDComponent<P : Any>(
     }
 }
 
-abstract class AbstractComponent<P: Any> : Component<P> {
-    override val listeners = hashMapOf<String, Handler<EventContext<*, P>>>()
+abstract class AbstractComponent<P: Any, C: AbstractComponent<P, C>>(
+    render: RenderContext<P, C>.() -> Unit
+) : Component<P> {
+    override val render = render as RenderContext<P, Component<P>>.() -> Unit
+    override val listeners = hashMapOf<String, Handler<EventContext<*, out Component<P>, P>>>()
 
-    override fun listen(id: String, listener: Handler<EventContext<*, P>>): String {
+    override fun listen(id: String, listener: Handler<EventContext<*, out Component<P>, P>>): String {
         listeners[id] = listener
 
         return id
@@ -123,12 +126,12 @@ abstract class AbstractComponent<P: Any> : Component<P> {
 }
 
 interface Component<P : Any> {
-    val listeners: Map<String, Handler<EventContext<*, P>>>
-    val render: RenderContext<P, *>.() -> Unit
+    val listeners: Map<String, Handler<EventContext<*, *, P>>>
+    val render: RenderContext<P, Component<P>>.() -> Unit
 
     fun getData(id: Long): Data<P>?
 
-    fun listen(id: String, listener: Handler<EventContext<*, P>>): String
+    fun listen(id: String, listener: Handler<EventContext<*, out Component<P>, P>>): String
 
     /**
      * renders Component

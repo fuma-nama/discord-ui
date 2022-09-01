@@ -6,6 +6,7 @@ import net.sonmoosans.dui.context.RenderContext
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
 import net.dv8tion.jda.api.utils.messages.MessageEditData
+import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.context.DataContext
 
 /**
@@ -52,13 +53,12 @@ class SyncHook(
 
 class Sync(val hook: SyncHook)
 
-interface SyncContext<P : Any> {
-    val context: DataContext<P>
-
-    private fun edit() = context.component.edit(context.data)
+interface SyncContext<C: Component<P>, P : Any> {
+    fun renderEdit(): MessageEditData
+    fun destroy()
 
     fun Sync.edit(event: IMessageEditCallback) {
-        val rendered = edit()
+        val rendered = renderEdit()
 
         event.editMessage(rendered).queue {
             invoke(it)
@@ -71,7 +71,7 @@ interface SyncContext<P : Any> {
             hook.deleteOriginal().queue()
         }
 
-        context.destroy()
+        destroy()
     }
 
     fun Sync.delete(event: IMessageEditCallback) {
@@ -83,7 +83,7 @@ interface SyncContext<P : Any> {
 
     operator fun Sync.invoke(
         event: InteractionHook,
-        rendered: MessageEditData = edit()
+        rendered: MessageEditData = renderEdit()
     ) {
 
         event.retrieveOriginal().queue { original ->
@@ -97,7 +97,7 @@ interface SyncContext<P : Any> {
     }
 
     operator fun Sync.invoke() {
-        val rendered = edit()
+        val rendered = renderEdit()
 
         hook.hooks.forEach {
             it.editOriginal(rendered).queue()

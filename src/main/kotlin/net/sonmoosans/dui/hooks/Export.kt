@@ -16,7 +16,7 @@ fun RenderContext<*, *>.useExport(id: String = "default", data: Any) {
 /**
  * Read Exported data from the component
  */
-fun<D> Ref<*>.import(id: String = "default", vararg scopes: String) = data.import<D>(id, * scopes)
+fun<D> Ref<*, *>.import(id: String = "default", vararg scopes: String) = data.import<D>(id, * scopes)
 
 /**
  * Read Exported data from the component

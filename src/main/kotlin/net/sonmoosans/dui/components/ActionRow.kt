@@ -1,7 +1,6 @@
 package net.sonmoosans.dui.components
 
 import net.sonmoosans.dui.listeners.Handler
-import net.sonmoosans.dui.listeners.interaction
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent
@@ -17,12 +16,13 @@ import net.dv8tion.jda.api.interactions.components.text.TextInputStyle
 import net.dv8tion.jda.internal.interactions.component.ButtonImpl
 import net.dv8tion.jda.internal.interactions.component.SelectMenuImpl
 import net.dv8tion.jda.internal.interactions.component.TextInputImpl
+import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.context.*
 import net.sonmoosans.dui.utils.SelectOptionImpl
 import net.sonmoosans.dui.utils.join
 import net.sonmoosans.dui.utils.lambdaList
 
-fun<P : Any> RenderContext<P, *>.row(components: RenderContainer<ActionComponent, P>.() -> Unit) {
+fun<P : Any, C: Component<P>> RenderContext<P, C>.row(components: RenderContainer<ActionComponent, C, P>.() -> Unit) {
 
     val rows = builder.components.join<LayoutComponent>(
         ActionRow.of(lambdaList(components))
@@ -38,6 +38,7 @@ fun Container<in ActionRow>.row(components: Container<ActionComponent>.() -> Uni
     )
 }
 
+
 fun Container<in Button>.button(
     label: String,
     url: String? = null,
@@ -49,13 +50,13 @@ fun Container<in Button>.button(
     ButtonImpl(id, label, style, url, disabled, emoji)
 )
 
-fun<P: Any> RenderContainer<in Button, P>.button(
+fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
     label: String,
     disabled: Boolean = false,
     emoji: Emoji? = null,
     style: ButtonStyle = ButtonStyle.PRIMARY,
     id: String? = null,
-    onClick: InteractionContext<ButtonInteractionEvent, P>.() -> Unit,
+    onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
 ) {
     val listenerId = context.interaction(id, onClick)
 
@@ -87,13 +88,13 @@ fun Container<in SelectMenu>.menu(
     )
 }
 
-fun<P: Any> RenderContainer<in SelectMenu, P>.menu(
+fun<P: Any, C: Component<P>> RenderContainer<in SelectMenu, C, P>.menu(
     placeholder: String? = null,
     minValues: Int = 1,
     maxValues: Int = 1,
     disabled: Boolean = false,
     selected: Any? = null,
-    init: MenuBuilder<P>.() -> Unit
+    init: MenuBuilder<P, C>.() -> Unit
 ) {
     val menu = MenuBuilder(context).apply(init)
     var options: List<SelectOption> = menu.list
@@ -124,10 +125,10 @@ fun Container<in SelectOption>.option(
     )
 }
 
-class MenuBuilder<P: Any>(context: RenderContext<P, *>): RenderContainer<SelectOption, P>(context) {
+class MenuBuilder<P: Any, C: Component<P>>(context: RenderContext<P, C>): RenderContainer<SelectOption, C, P>(context) {
     lateinit var id: String
 
-    fun submit(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, P>>): String {
+    fun submit(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
         this.id = context.interaction(id, onSubmit)
 
         return this.id

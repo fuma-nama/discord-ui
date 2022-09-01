@@ -12,7 +12,7 @@ import java.io.InputStream
 /**
  * Add Attachment files
  */
-fun<P: Any> RenderContextCreate<P>.addFiles(init: Container<FileUpload>.() -> Unit) {
+fun RenderContextCreate<*, *>.addFiles(init: Container<FileUpload>.() -> Unit) {
     builder.addFiles(
         lambdaList(init)
     )
@@ -21,7 +21,7 @@ fun<P: Any> RenderContextCreate<P>.addFiles(init: Container<FileUpload>.() -> Un
 /**
  * Add Attachment files
  */
-fun<P: Any> RenderContextEdit<P>.addFiles(init: Container<FileUpload>.() -> Unit) {
+fun RenderContextEdit<*, *>.addFiles(init: Container<FileUpload>.() -> Unit) {
 
     builder.setAttachments(builder.attachments + lambdaList(init))
 }
@@ -29,7 +29,7 @@ fun<P: Any> RenderContextEdit<P>.addFiles(init: Container<FileUpload>.() -> Unit
 /**
  * Set Attachment files
  */
-fun<P: Any> RenderContext<P, *>.files(init: Container<FileUpload>.() -> Unit) {
+fun RenderContext<*, *>.files(init: Container<FileUpload>.() -> Unit) {
 
     builder.setFiles(
         lambdaList(init)

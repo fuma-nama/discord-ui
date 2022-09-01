@@ -4,14 +4,14 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
 import net.sonmoosans.dui.context.RenderContext
 
-fun<P: Any> once(render: RenderContext<P, *>.() -> Unit) = OnceComponent(render)
+fun<P: Any> once(render: RenderContext<P, OnceComponent<P>>.() -> Unit) = OnceComponent(render)
 
 /**
  * Similar to SinceDataComponent, but data won't be stored at every render
  *
  * Listeners won't work since no data is stored
  */
-class OnceComponent<P: Any>(override val render: RenderContext<P, *>.() -> Unit) : AbstractComponent<P>() {
+class OnceComponent<P: Any>(render: RenderContext<P, OnceComponent<P>>.() -> Unit) : AbstractComponent<P, OnceComponent<P>>(render) {
     override fun getData(id: Long): Data<P>? {
         return null
     }

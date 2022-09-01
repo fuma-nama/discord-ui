@@ -5,11 +5,20 @@ import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback
+import net.sonmoosans.dui.components.button
+import net.sonmoosans.dui.components.row
+import net.sonmoosans.dui.once
 import net.sonmoosans.dui.utils.Embed
 import net.sonmoosans.dui.utils.toAuthor
 import utils.*
 import java.awt.Color
 
+val a = once<Unit> {
+    row {
+        button("") {
+        }
+    }
+}
 class UnoGame(val players: ArrayList<Player>, val hook: InteractionHook) {
     init {
         for (player in players) {

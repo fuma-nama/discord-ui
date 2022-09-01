@@ -1,5 +1,6 @@
 package net.sonmoosans.dui.utils
 
+import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.context.Container
 import net.sonmoosans.dui.context.RenderContainer
 import net.sonmoosans.dui.context.RenderContext
@@ -22,8 +23,8 @@ fun<E> lambdaList(lambda: Container<E>.() -> Unit): ArrayList<E> {
     return ContainerImpl<E>().apply(lambda).list
 }
 
-fun<P : Any, E> RenderContext<P, *>.lambdaList(lambda: RenderContainer<E, P>.() -> Unit): ArrayList<E> {
-    return RenderContainer<E, P>(this).apply(lambda).list
+fun<P : Any, C: Component<P>, E> RenderContext<P, C>.lambdaList(lambda: RenderContainer<E, C, P>.() -> Unit): ArrayList<E> {
+    return RenderContainer<E, C, P>(this).apply(lambda).list
 }
 
 open class ContainerImpl<E> : Container<E> {

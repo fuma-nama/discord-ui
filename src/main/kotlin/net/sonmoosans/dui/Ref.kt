@@ -1,8 +1,10 @@
 package net.sonmoosans.dui
 
-data class Ref<P : Any>(
+typealias IDRef<P> = Ref<P, in IDComponent<P>>
+
+data class Ref<P : Any, C: Component<P>>(
     val data: Data<P>,
-    val comp: Component<P>
+    val comp: C
 ) {
     fun render() = comp.render(data)
     fun edit() = comp.edit(data)

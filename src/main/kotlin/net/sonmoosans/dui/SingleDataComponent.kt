@@ -8,8 +8,8 @@ import net.sonmoosans.dui.context.RenderContext
  */
 open class SingleDataComponent<P: Any>(
     initialData: Data<P>? = null,
-    override val render: RenderContext<P, *>.() -> Unit
-): AbstractComponent<P>() {
+    render: RenderContext<P, SingleDataComponent<P>>.() -> Unit
+): AbstractComponent<P, SingleDataComponent<P>>(render) {
     var data: Data<P>? = initialData
 
     override fun getData(id: Long): Data<P>? {

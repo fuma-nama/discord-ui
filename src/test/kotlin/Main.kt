@@ -1,14 +1,17 @@
 import net.dv8tion.jda.api.interactions.DiscordLocale
+import net.dv8tion.jda.api.interactions.components.ActionComponent
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.sonmoosans.bjda.bjda
 import net.sonmoosans.bjda.plugins.supercommand.builder.command
 import net.sonmoosans.bjda.plugins.supercommand.supercommand
 import net.sonmoosans.bjda.wrapper.Mode
+import net.sonmoosans.dui.Component
+import net.sonmoosans.dui.Element
 import net.sonmoosans.dui.NoDataComponent
-import net.sonmoosans.dui.SingleDataComponent
 import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
+import net.sonmoosans.dui.context.RenderContainer
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.graphics.drawStringCenter
 import net.sonmoosans.dui.graphics.paint
@@ -18,8 +21,8 @@ import net.sonmoosans.dui.utils.*
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-data class Props(override val locale: DiscordLocale): LocaleProps
-
+data class Props(override val locale: DiscordLocale): LocaleProps, Data
+interface Data
 val example = component<Props> {
 
     tabLayout {
@@ -52,7 +55,7 @@ val example = component<Props> {
     }
 }
 
-fun RenderContext<*, *>.todo() {
+fun<P : Any> Element<P>.todo() {
     val todos = useState { arrayListOf<String>() }
 
     val addModal by useModalLazy {
@@ -76,6 +79,10 @@ fun RenderContext<*, *>.todo() {
     }
 
     row {
+
+        menu(placeholder = "fds") {
+
+        }
         button(label = "Add") {
             addModal.open(event)
         }
@@ -175,7 +182,7 @@ fun TestCommand() = command("test", "Testing Command") {
 
 fun TodoCommand() = command("todo", "Todo App") {
     execute {
-        val (data) = ModernTodoApp.initData(event.user.idLong)
+        val (data) = ModernTodoApp.createWithData(event.user.idLong)
         val exported = data.import<TodoExport>()
 
         event.reply(

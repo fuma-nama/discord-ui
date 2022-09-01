@@ -99,7 +99,7 @@ val ActionPanel = component<ActionPanelProps> {
     }
 }
 
-inline fun<T> EventContext<out T, *>.put(game: UnoGame, player: Player, card: Card, then: () -> Unit) where T: IReplyCallback, T: IMessageEditCallback {
+inline fun<T> EventContext<out T, *, *>.put(game: UnoGame, player: Player, card: Card, then: () -> Unit) where T: IReplyCallback, T: IMessageEditCallback {
     if (game.put(player, card)) {
 
         if (game.winners.contains(player)) {

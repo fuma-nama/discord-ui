@@ -35,9 +35,7 @@ val Dashboard = component<UnoGame> {
 
             event.reply(player.action.render()).apply {
                 setEphemeral(true)
-                queue {
-                    player.hook = it
-                }
+                queue()
             }
         }
 
@@ -87,7 +85,7 @@ val BankBoard = once<List<Player>> {
 
 data class Last(val owner: Player, val card: Card)
 
-inline fun EventContext<out IReplyCallback, *>.checkPlayer(current: Player, onFail: () -> Unit) {
+inline fun EventContext<out IReplyCallback, *, *>.checkPlayer(current: Player, onFail: () -> Unit) {
     if (event.user != current.user) {
         Embed(
             title = "It's not your round!",

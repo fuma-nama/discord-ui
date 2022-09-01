@@ -10,16 +10,14 @@ import net.sonmoosans.dui.utils.LocaleBuilder
 import net.sonmoosans.dui.utils.LocalePair
 
 @DslBuilder
-open class DataContext<P : Any>(
+open class DataContext<C: Component<P>, P : Any>(
     final override val data: Data<P>,
-    val component: Component<P>
-): StateContext<P>, SyncContext<P> {
-    override val context
-        get() = this
+    val component: C
+): StateContext<P>, SyncContext<C, P> {
     var props by data::props
 
     fun render() = component.render(data)
-    fun renderEdit() = component.edit(data)
+    override fun renderEdit() = component.edit(data)
 
     /**
      * Delete the Message
@@ -48,7 +46,7 @@ open class DataContext<P : Any>(
         reply(component.render(data)).queue()
     }
 
-    fun destroy() {
+    override fun destroy() {
         component.destroy(data)
     }
 }

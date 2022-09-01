@@ -1,38 +1,57 @@
 package net.sonmoosans.dui.context
 
+import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteractionCreateEvent
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.hooks.Context
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.MessageBuilder
+import net.sonmoosans.dui.listeners.on
 
 @DslMarker
 annotation class DslBuilder
 
-class RenderContextEdit<P: Any>(
+class RenderContextEdit<P: Any, C: Component<P>>(
     data: Data<P>,
-    component: Component<P>,
-    builder: MessageEditBuilder = MessageEditBuilder().setReplace(true)
+    component: C,
+    override val builder: MessageEditBuilder = MessageEditBuilder().setReplace(true)
 ) :
-    RenderContext<P, MessageEditBuilder>(
-        data, builder, component
+    RenderContext<P, C>(
+        data, component
     )
 
-class RenderContextCreate<P: Any>(
+class RenderContextCreate<P: Any, C: Component<P>>(
     data: Data<P>,
-    component: Component<P>,
-    builder: MessageCreateBuilder = MessageCreateBuilder()
+    component: C,
+    override val builder: MessageCreateBuilder = MessageCreateBuilder()
 ) :
-    RenderContext<P, MessageCreateBuilder>(
-        data, builder, component
+    RenderContext<P, C>(
+        data, component
     )
 
-open class RenderContext<P: Any, B: MessageBuilder>(
+class RenderContextImpl<P: Any, C: Component<P>>(
     data: Data<P>,
-    val builder: B,
-    component: Component<P>
-): DataContext<P>(data, component), IDScope {
+    component: C,
+    override val builder: MessageBuilder
+) : RenderContext<P, C>(data, component)
+
+abstract class RenderContext<P: Any, C: Component<P>>(
+    data: Data<P>,
+    component: C
+): DataContext<C, P>(data, component), IDScope {
+    abstract val builder: MessageBuilder
+
+    fun<E: GenericComponentInteractionCreateEvent> interaction(
+        id: String? = null,
+        handler: InteractionContext<E, C, P>.() -> Unit
+    ) = on(id, handler)
+
+    fun modal(
+        id: String? = null,
+        handler: ModalContext<P, C>.() -> Unit
+    ) = on(id, handler)
+
     /**
      * Current ID Scope, used for avoiding ID duplication
      */
@@ -42,18 +61,18 @@ open class RenderContext<P: Any, B: MessageBuilder>(
     /**
      * Run lambda if render mode is edit
      */
-    inline fun onEdit(run: RenderContextEdit<P>.() -> Unit) {
+    inline fun onEdit(run: RenderContextEdit<P, C>.() -> Unit) {
         if (this is RenderContextEdit) {
-            run(this as RenderContextEdit<P>)
+            run(this as RenderContextEdit<P, C>)
         }
     }
 
     /**
      * Run lambda if render mode is create
      */
-    inline fun onCreate(run: RenderContextCreate<P>.() -> Unit) {
+    inline fun onCreate(run: RenderContextCreate<P, C>.() -> Unit) {
         if (this is RenderContextCreate) {
-            run(this as RenderContextCreate<P>)
+            run(this as RenderContextCreate<P, C>)
         }
     }
 
@@ -62,9 +81,9 @@ open class RenderContext<P: Any, B: MessageBuilder>(
      *
      * We don't recommend to use nested components, use extension function instead
      */
-    operator fun Component<P>.invoke() = render.invoke(this@RenderContext)
+    operator fun Component<P>.invoke() = this.render.invoke(this@RenderContext as RenderContext<P, Component<P>>)
 
-    fun<C : Any> Context<C>.provider(value: C, children: RenderContext<P, B>.() -> Unit) {
+    fun<T : Any> Context<T>.provider(value: T, children: RenderContext<P, C>.() -> Unit) {
         val prev = contexts
 
         contexts = HashMap(prev).also {

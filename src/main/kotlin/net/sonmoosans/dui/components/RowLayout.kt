@@ -6,6 +6,7 @@ import net.sonmoosans.dui.context.RenderContext
 import net.dv8tion.jda.api.interactions.components.ActionComponent
 import net.dv8tion.jda.api.interactions.components.ActionRow
 import net.dv8tion.jda.api.interactions.components.LayoutComponent
+import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.utils.join
 import net.sonmoosans.dui.utils.lambdaList
 import java.util.*
@@ -15,7 +16,7 @@ private const val rowSpace = 1.0
 /**
  * Detects and split overflowed components into multi Action Rows
  */
-fun<P : Any> RenderContext<P, *>.rowLayout(components: RenderContainer<ActionComponent, P>.() -> Unit) {
+fun<P : Any, C: Component<P>> RenderContext<P, C>.rowLayout(components: RenderContainer<ActionComponent, C, P>.() -> Unit) {
 
     val rows = builder.components.join<LayoutComponent>(
         split(lambdaList(components))
