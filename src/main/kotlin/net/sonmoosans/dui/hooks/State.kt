@@ -11,16 +11,16 @@ import net.sonmoosans.dui.utils.generateId
  *
  * State will be memorized every renders
  */
-fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): State<S> {
+fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): S {
     val key = createKey(id, initial, "useState")
 
     val cache = data.hooks[key]
 
     if (cache != null) {
-        return cache as State<S>
+        return cache as S
     }
 
-    val state = State(key, initial())
+    val state = initial()
 
     data.hooks[key] = state
     return state
@@ -33,71 +33,60 @@ fun<S> RenderContext<*, *>.useState(initial: () -> S) = useState(generateId(init
 
 fun<S> RenderContext<*, *>.useState(id: String, initial: S) = useState(id) { initial }
 
-interface StateContext<P : Any> {
+fun<S> RenderContext<*, *>.useRef(id: String? = null, initial: () -> S): Ref<S> {
+    val key = createKey(id, initial, "useRef")
+    val ref = data.hooks[key] as S?
+
+    return if (ref != null) {
+        Ref(key, ref)
+    } else {
+        Ref(key, initial()).also {
+            data.hooks[key] = it
+        }
+    }
+}
+
+interface RefContext<P : Any> {
     val data: Data<P>
 
-    val<S> State<S>.current
-        get() = data.hooks[key]!! as State<S>
+    var <S> Ref<S>.current: S
+        get() = data.hooks[key]!! as S
+        set(v) { data.hooks[key] = v }
 
-    var <S> State<S>.value: S
-        get() = current.raw
-        set(v) {
-            current.raw = v
-        }
-
-    operator fun<S> State<S>.invoke(updater: S.() -> Unit) {
-        updater(value)
+    operator fun<S> Ref<S>.invoke(updater: S.() -> Unit) {
+        updater(current)
     }
 
-    infix fun<S> State<S>.set(value: S) {
-        this.value = value
+    infix fun<S> Ref<S>.set(value: S) {
+        this.current = value
     }
 
-    infix fun<S> State<S>.set(value: (prev: S) -> S) {
-        this.value = value(this.value)
+    infix fun<S> Ref<S>.set(value: (prev: S) -> S) {
+        this.current = value(this.current)
     }
 
-    val State<out Collection<*>>.size
-        get() = value.size
+    val Ref<out Collection<*>>.size
+        get() = current.size
 
-    operator fun<E> State<out Iterable<E>>.plus(element: E) = value + element
-    operator fun State<Int>.plus(other: Int) = value + other
-    operator fun State<Double>.plus(other: Double) = value + other
+    operator fun<E> Ref<out Iterable<E>>.plus(element: E) = current + element
 
-    operator fun<E> State<out Iterable<E>>.plusAssign(element: E) { value += element }
-    operator fun State<Int>.plusAssign(other: Int) { value += other }
-    operator fun State<Double>.plusAssign(other: Double) { value += other }
+    operator fun<E> Ref<out Iterable<E>>.plusAssign(element: E) { current += element }
 
-    fun<E> State<out Iterable<E>>.minusAssign(element: E) { value -= element }
-    operator fun State<Int>.minusAssign(other: Int) { value -= other }
-    operator fun State<Double>.minusAssign(other: Double) { value -= other }
+    infix fun<E> Ref<E>.eq(other: E) = current == other
 
-    operator fun State<Int>.timesAssign(other: Int) { value *= other }
-    operator fun State<Double>.timesAssign(other: Double) { value *= other }
+    fun<E> Ref<out Iterable<E>>.forEach(body: (E) -> Unit) = current.forEach(body)
+    fun<E> Ref<out Iterable<E>>.forEachIndex(body: (Int, E) -> Unit) = current.forEachIndexed(body)
 
-    operator fun State<Int>.divAssign(other: Int) { value /= other }
-    operator fun State<Double>.divAssign(other: Double) { value /= other }
+    fun<E> Ref<out Iterable<E>>.indexOf(element: E) = current.indexOf(element)
 
-    operator fun State<Int>.remAssign(other: Int) { value %= other }
-    operator fun State<Double>.remAssign(other: Double) { value %= other }
+    fun<E, R> Ref<out Iterable<E>>.map(mapper: (E) -> R) = current.map(mapper)
+    fun<E, R> Ref<out Iterable<E>>.mapIndex(mapper: (Int, E) -> R) = current.mapIndexed(mapper)
 
-    infix fun<E> State<E>.eq(other: E) = value == other
-    operator fun State<Int>.compareTo(other: Int) = value.compareTo(other)
-    operator fun State<Double>.compareTo(other: Double) = value.compareTo(other)
-
-    fun<E> State<out Iterable<E>>.forEach(body: (E) -> Unit) = value.forEach(body)
-    fun<E> State<out Iterable<E>>.forEachIndex(body: (Int, E) -> Unit) = value.forEachIndexed(body)
-
-    fun<E> State<out Iterable<E>>.indexOf(element: E) = value.indexOf(element)
-
-    fun<E, R> State<out Iterable<E>>.map(mapper: (E) -> R) = value.map(mapper)
-    fun<E, R> State<out Iterable<E>>.mapIndex(mapper: (Int, E) -> R) = value.mapIndexed(mapper)
-
-    fun<S> State<S>.asString() = raw.toString()
+    fun<S> Ref<S>.asString() = raw.toString()
 }
 
 
-class State<S>(
+class Ref<S>(
     val key: HookKey,
     /**
      * Never access this variable directly
