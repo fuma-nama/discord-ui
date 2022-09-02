@@ -10,28 +10,21 @@ import net.sonmoosans.dui.utils.createId
 
 typealias Handler<E> = E.() -> Unit
 
-fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.on(
-    id: String? = null,
-    handler: Handler<E>,
-): String {
-    val key = createId(id, handler)
-    data.listeners[key] = handler as Handler<EventContext<*, *, P>>
-
-    return ComponentListener.listen(component, data, key)
-}
-
 /**
  * dynamic listeners will only be used When no matching listeners in data
  */
-fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.dynamicOn(
+fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.on(
     id: String? = null,
+    dynamic: Boolean,
     handler: Handler<E>,
 ): String {
     val listenerId = createId(id, handler)
-    component.listen(
+    if (dynamic) component.listen(
         listenerId,
         handler as Handler<EventContext<*, *, P>>
-    )
+    ) else {
+        data.listeners[listenerId] = handler as Handler<EventContext<*, *, P>>
+    }
 
     return ComponentListener.listen(component, data, listenerId)
 }

@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.MessageBuilder
 import net.sonmoosans.dui.listeners.on
-import net.sonmoosans.dui.listeners.dynamicOn
 
 @DslMarker
 annotation class DslBuilder
@@ -43,25 +42,25 @@ abstract class RenderContext<P: Any, C: Component<P>>(
 ): DataContext<C, P>(data, component), IDScope {
     abstract val builder: MessageBuilder
 
+    /**
+     * Listen Interaction Events
+     * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
+     */
     fun<E: GenericComponentInteractionCreateEvent> interaction(
         id: String? = null,
+        dynamic: Boolean = false,
         handler: InteractionContext<E, C, P>.() -> Unit
-    ) = on(id, handler)
+    ) = on(id, dynamic, handler)
 
-    fun<E: GenericComponentInteractionCreateEvent> interactionDynamic(
-        id: String? = null,
-        handler: InteractionContext<E, C, P>.() -> Unit
-    ) = dynamicOn(id, handler)
-
+    /**
+     * Listen Modal Events
+     * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
+     */
     fun modal(
         id: String? = null,
+        dynamic: Boolean = false,
         handler: ModalContext<P, C>.() -> Unit
-    ) = on(id, handler)
-
-    fun modalDynamic(
-        id: String? = null,
-        handler: ModalContext<P, C>.() -> Unit
-    ) = dynamicOn(id, handler)
+    ) = on(id, dynamic, handler)
 
     /**
      * Current ID Scope, used for avoiding ID duplication

@@ -51,7 +51,7 @@ fun Container<in Button>.button(
 )
 
 /**
- * Button which use Data based Listener
+ * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
  */
 fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
     label: String,
@@ -59,27 +59,10 @@ fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
     emoji: Emoji? = null,
     style: ButtonStyle = ButtonStyle.PRIMARY,
     id: String? = null,
+    dynamic: Boolean = false,
     onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
 ) {
-    val listenerId = context.interaction(id, onClick)
-
-    add(
-        ButtonImpl(listenerId, label, style, null, disabled, emoji)
-    )
-}
-
-/**
- * Button which use Memory-Safe Dynamic Listener
- */
-fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.buttonDynamic(
-    label: String,
-    disabled: Boolean = false,
-    emoji: Emoji? = null,
-    style: ButtonStyle = ButtonStyle.PRIMARY,
-    id: String? = null,
-    onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
-) {
-    val listenerId = context.interactionDynamic(id, onClick)
+    val listenerId = context.interaction(id, dynamic, onClick)
 
     add(
         ButtonImpl(listenerId, label, style, null, disabled, emoji)
@@ -149,22 +132,13 @@ fun Container<in SelectOption>.option(
 class MenuBuilder<P: Any, C: Component<P>>(context: RenderContext<P, C>): RenderContainer<SelectOption, C, P>(context) {
     lateinit var id: String
 
-
     /**
+     * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
+     *
      * use Data based Listener
      */
-    fun submit(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
-        this.id = context.interaction(id, onSubmit)
-
-        return this.id
-    }
-
-
-    /**
-     * use Memory-Safe Dynamic Listener
-     */
-    fun submitDynamic(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
-        this.id = context.interactionDynamic(id, onSubmit)
+    fun submit(id: String? = null, dynamic: Boolean = false, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
+        this.id = context.interaction(id, dynamic, onSubmit)
 
         return this.id
     }
