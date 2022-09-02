@@ -51,6 +51,6 @@ class Data<P : Any>(
     val id: Long,
     var props: P
 ) {
-    val listeners by lazy { hashMapOf<String, Handler<EventContext<*, *, P>>>() }
-    val hooks by lazy { hashMapOf<HookKey, Any>() }
+    val listeners by lazy { hashMapOf<String, Handler<EventContext<*, out Component<P>, P>>>() }
+    val hooks by lazy { hashMapOf<HookKey, Any?>() }
 }

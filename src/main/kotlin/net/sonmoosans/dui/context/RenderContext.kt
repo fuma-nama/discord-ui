@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.utils.messages.MessageEditBuilder
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.MessageBuilder
 import net.sonmoosans.dui.listeners.on
+import net.sonmoosans.dui.listeners.onStatic
 
 @DslMarker
 annotation class DslBuilder
@@ -47,10 +48,20 @@ abstract class RenderContext<P: Any, C: Component<P>>(
         handler: InteractionContext<E, C, P>.() -> Unit
     ) = on(id, handler)
 
+    fun<E: GenericComponentInteractionCreateEvent> interactionStatic(
+        id: String? = null,
+        handler: InteractionContext<E, C, P>.() -> Unit
+    ) = onStatic(id, handler)
+
     fun modal(
         id: String? = null,
         handler: ModalContext<P, C>.() -> Unit
     ) = on(id, handler)
+
+    fun modalStatic(
+        id: String? = null,
+        handler: ModalContext<P, C>.() -> Unit
+    ) = onStatic(id, handler)
 
     /**
      * Current ID Scope, used for avoiding ID duplication

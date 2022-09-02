@@ -5,15 +5,13 @@ import net.dv8tion.jda.api.interactions.callbacks.IMessageEditCallback
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.hooks.SyncContext
-import net.sonmoosans.dui.hooks.StateContext
-import net.sonmoosans.dui.utils.LocaleBuilder
-import net.sonmoosans.dui.utils.LocalePair
+import net.sonmoosans.dui.hooks.RefContext
 
 @DslBuilder
 open class DataContext<C: Component<P>, P : Any>(
     final override val data: Data<P>,
     val component: C
-): StateContext<P>, SyncContext<C, P> {
+): RefContext<P>, SyncContext<C, P> {
     var props by data::props
 
     fun render() = component.render(data)
@@ -35,7 +33,7 @@ open class DataContext<C: Component<P>, P : Any>(
     }
 
     fun IMessageEditCallback.edit() = with (this@DataContext) {
-        editMessage(component.edit(data)).queue()
+        editMessage(renderEdit()).queue()
     }
 
     fun IMessageEditCallback.ignore() {
@@ -43,7 +41,7 @@ open class DataContext<C: Component<P>, P : Any>(
     }
 
     fun IReplyCallback.reply() = with (this@DataContext) {
-        reply(component.render(data)).queue()
+        reply(render()).queue()
     }
 
     override fun destroy() {

@@ -10,13 +10,27 @@ import net.sonmoosans.dui.utils.createId
 
 typealias Handler<E> = E.() -> Unit
 
-fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, *>.on(
+fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.on(
     id: String? = null,
     handler: Handler<E>,
 ): String {
-    val listenerId = component.listen(
-        createId(id, handler),
-        handler as Handler<EventContext<*, *, *>>
+    val key = createId(id, handler)
+    data.listeners[key] = handler as Handler<EventContext<*, *, P>>
+
+    return ComponentListener.listen(component, data, key)
+}
+
+/**
+ * When no matching listeners in data, static listeners of component will be used
+ */
+fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.onStatic(
+    id: String? = null,
+    handler: Handler<E>,
+): String {
+    val listenerId = createId(id, handler)
+    component.listen(
+        listenerId,
+        handler as Handler<EventContext<*, *, P>>
     )
 
     return ComponentListener.listen(component, data, listenerId)
@@ -26,7 +40,8 @@ data class RawId(val comp: Int, val dataId: Long, val listenerId: String) {
     fun<P: Any, E> build(): DynamicId<P, E>? {
         val comp = ComponentListener.components[this.comp]?: return null
         val data = comp.getData(this.dataId)?: return null
-        val listener = comp.listeners[this.listenerId]?: return null
+        val listener = data.listeners[listenerId]?: comp.listeners[listenerId]
+        listener?: return null
 
         return DynamicId(comp as Component<P>, data as Data<P>, listener as Handler<E>)
     }

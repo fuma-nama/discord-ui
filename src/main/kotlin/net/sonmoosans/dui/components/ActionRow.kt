@@ -50,6 +50,9 @@ fun Container<in Button>.button(
     ButtonImpl(id, label, style, url, disabled, emoji)
 )
 
+/**
+ * Button which use Data based Listener
+ */
 fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
     label: String,
     disabled: Boolean = false,
@@ -59,6 +62,24 @@ fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
     onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
 ) {
     val listenerId = context.interaction(id, onClick)
+
+    add(
+        ButtonImpl(listenerId, label, style, null, disabled, emoji)
+    )
+}
+
+/**
+ * Button which use Memory-Safe Dynamic Listener
+ */
+fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.buttonStatic(
+    label: String,
+    disabled: Boolean = false,
+    emoji: Emoji? = null,
+    style: ButtonStyle = ButtonStyle.PRIMARY,
+    id: String? = null,
+    onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
+) {
+    val listenerId = context.interactionStatic(id, onClick)
 
     add(
         ButtonImpl(listenerId, label, style, null, disabled, emoji)
@@ -128,8 +149,22 @@ fun Container<in SelectOption>.option(
 class MenuBuilder<P: Any, C: Component<P>>(context: RenderContext<P, C>): RenderContainer<SelectOption, C, P>(context) {
     lateinit var id: String
 
+
+    /**
+     * use Data based Listener
+     */
     fun submit(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
         this.id = context.interaction(id, onSubmit)
+
+        return this.id
+    }
+
+
+    /**
+     * use Memory-Safe Dynamic Listener
+     */
+    fun submitStatic(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
+        this.id = context.interactionStatic(id, onSubmit)
 
         return this.id
     }
