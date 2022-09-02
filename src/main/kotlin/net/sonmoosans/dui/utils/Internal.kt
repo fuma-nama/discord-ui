@@ -48,6 +48,7 @@ interface Delegate<S> {
 
     operator fun component1() = value
     operator fun component2() = { s: S -> value = s}
+    operator fun component3() = { updater: (S) -> S -> value = updater(value)}
 }
 
 /**
