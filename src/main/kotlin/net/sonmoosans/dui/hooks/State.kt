@@ -44,15 +44,12 @@ class State<S>(val key: HookKey, val data: Data<*>): Delegate<S> {
 
 fun<S> RenderContext<*, *>.useRef(id: String? = null, initial: () -> S): Ref<S> {
     val key = createKey(id, initial, "useRef")
-    val ref = data.hooks[key] as S?
-
-    return if (ref != null) {
-        Ref(key, ref)
-    } else {
-        Ref(key, initial()).also {
-            data.hooks[key] = it
-        }
+    val cache = data.hooks[key] as S?
+    val value = cache?: initial().also {
+        data.hooks[key] = it
     }
+
+    return Ref(key, value)
 }
 
 interface RefContext<P : Any> {

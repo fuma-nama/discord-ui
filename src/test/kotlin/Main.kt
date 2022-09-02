@@ -23,6 +23,7 @@ import java.awt.image.BufferedImage
 
 data class Props(override val locale: DiscordLocale): LocaleProps
 val example = component<Props> {
+    val a = useRef { 0 }
 
     tabLayout {
         tab("Todos") {
@@ -32,7 +33,7 @@ val example = component<Props> {
 
         tab("Settings") {
             row {
-                button("Close") {
+                buttonStatic("Close") {
                     event.delete()
                 }
             }
@@ -46,7 +47,7 @@ val example = component<Props> {
 
         tab("Settings") {
             row {
-                button("Close") {
+                buttonStatic("Close") {
                     event.delete()
                 }
             }
