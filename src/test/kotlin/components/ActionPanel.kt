@@ -20,9 +20,9 @@ import java.awt.Color
 data class ActionPanelProps(val game: UnoGame, val player: Player)
 
 val ActionPanel = component<ActionPanelProps> {
-    val selecting = useState<BlackCard?> { null }
+    var selecting by useState<BlackCard?> { null }.cached()
 
-    if (selecting.value != null) {
+    if (selecting != null) {
         embed(title = "Change color")
 
         row {
@@ -35,11 +35,11 @@ val ActionPanel = component<ActionPanelProps> {
 
                     checkPlayer(game.currentPlayer) { return@submit }
 
-                    val card = selecting.value!!
+                    val card = selecting!!
                     card.color = CardColor.valueOf(event.value())
 
                     put(game, player, card) {
-                        selecting.value = null
+                        selecting = null
 
                         event.edit()
                     }
@@ -81,7 +81,7 @@ val ActionPanel = component<ActionPanelProps> {
                 when (val card = current.cards[selected]) {
 
                     is BlackCard -> {
-                        selecting.value = card
+                        selecting = card
 
                         event.edit()
                     }

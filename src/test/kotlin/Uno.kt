@@ -1,12 +1,9 @@
-import UnoGame
 import components.*
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.interactions.InteractionHook
 import net.sonmoosans.bjda.plugins.supercommand.SuperCommandGroup
 import net.sonmoosans.bjda.plugins.supercommand.builder.command
-import net.sonmoosans.dui.IDComponent
-import net.sonmoosans.dui.IDRef
-import net.sonmoosans.dui.Ref
+import net.sonmoosans.dui.DataRef
 import net.sonmoosans.dui.utils.Embed
 import utils.Card
 import utils.generateCards
@@ -81,7 +78,7 @@ class Player(
     val cards: ArrayList<Card>
 ) {
     var hook: InteractionHook? = null
-    lateinit var action: IDRef<ActionPanelProps>
+    lateinit var action: DataRef<ActionPanelProps>
 
     fun init(game: UnoGame) {
         action = ActionPanel.createRef(hashCode().toLong(), ActionPanelProps(game, this))

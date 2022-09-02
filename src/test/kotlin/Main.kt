@@ -21,8 +21,7 @@ import net.sonmoosans.dui.utils.*
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-data class Props(override val locale: DiscordLocale): LocaleProps, Data
-interface Data
+data class Props(override val locale: DiscordLocale): LocaleProps
 val example = component<Props> {
 
     tabLayout {
@@ -56,7 +55,7 @@ val example = component<Props> {
 }
 
 fun<P : Any> Element<P>.todo() {
-    val todos = useState { arrayListOf<String>() }
+    val todos by useState { arrayListOf<String>() }
 
     val addModal by useModalLazy {
         title = "Add Todo"
@@ -66,23 +65,19 @@ fun<P : Any> Element<P>.todo() {
         }
 
         submit {
-            todos.value += event["todo"]
+            todos += event["todo"]
 
             event.edit()
         }
     }
 
     embed(title = "Todos") {
-        for (todo in todos.value) {
+        for (todo in todos) {
             field(name = todo)
         }
     }
 
     row {
-
-        menu(placeholder = "fds") {
-
-        }
         button(label = "Add") {
             addModal.open(event)
         }
@@ -106,13 +101,13 @@ suspend fun main() {
 typealias TodoExport = (String) -> MessageCreateData
 
 val ModernTodoApp = NoDataComponent {
-    val todos = useState { mutableListOf("hello") }
+    val todos by useState { mutableListOf("hello") }
 
-    useChange(todos.value) {
+    useChange(todos) {
         println("Changed")
     }
 
-    var expectedHeight = (110 * todos.value.size) + (50 * 2)
+    var expectedHeight = (110 * todos.size) + (50 * 2)
 
     if (todos.size != 0) {
         expectedHeight -= 10
@@ -172,11 +167,15 @@ val ModernTodoApp = NoDataComponent {
 fun TestCommand() = command("test", "Testing Command") {
 
     execute {
-        val ui = example.create(event.user.idLong, Props(locale = event.userLocale)) {
-            sync(event.hook)
-        }
+        try {
+            val ui = example.create(event.user.idLong, Props(locale = event.userLocale)) {
+                sync(event.hook)
+            }
 
-        event.reply(ui).queue()
+            event.reply(ui).queue()
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
     }
 }
 
