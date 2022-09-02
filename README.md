@@ -12,36 +12,37 @@ Render Interactive Message and Manage States and Listeners
 <dependency>
     <groupId>io.github.sonmoosans</groupId>
     <artifactId>dui</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.2</version>
 </dependency>
 ```
 
 ## Features
 DUI provides high code quality, high performance, memory safe UI System
 
-### React.js Style Components
+## Clean, Beautiful code
 ```kotlin
 val counter = component<Unit> {
-    val count = useState("count", 0)
+    val count by useState("count", 0)
 
-    embed(title = "Counter", description = count.asString())
+    embed(title = "Counter", description = count.toString())
 
     row {
         button("Increase") {
-            count.value++
+            count++
             event.edit()
         }
     }
 }
 ```
 
-### Useful Hooks
+## Useful Hooks
 ID of Built-in Hooks can also be anonymous, which is generated from lambda
 ```kotlin
 val theme = useContext(ThemeContext)
-val state = useState("id", "initial value")
+val state by useState("id", "initial value")
+val (count, setCount) = useState { "initial value" }
 val sync = useSync()
-val memo = useMemo(dependencies) { processString(state.value) }
+val memo = useMemo(dependencies) { processString(state) }
 val confirmModal = useModal {
     title = "Do you sure?"
 
@@ -54,13 +55,16 @@ val confirmModal = useModal {
     }
 }
 
+useChange(dependencies) {
+    println("Updated!")
+}
 useEffect(dependencies) {
     println("Updated!")
 }
 useExport(data = "Export Something")
 ```
 
-### Built-in Components
+## Built-in Components
 DUI also provides some built-in Components
 
 ```kotlin
@@ -94,14 +98,48 @@ tabLayout { //Adds a SelectMenu to switch between Tabs
 }
 ```
 
-### Memory Safe Dynamic Listeners
-Components and Listeners only needs to be created once, and can be used for multi Entries/Messages
+## Memory Safe
+Component only needs a `Data` instance for rendering, All those Data will be stored in a Map
 <br>
-Every entry contains a unique Data used for Rendering, All Data will be stored in a Map
+You can implement your own listener management system above it
 
-Dynamic ID Structure: `[Component ID]-[Data ID]-[Listener ID]`
+Remember that You **must** destroy unused Data manually
+
+## Component Listeners
+### Data Based Listeners
+```kotlin
+val result = something()
+button("Do something") {
+    println(result)
+    event.edit()
+}
+```
+Data Based Listeners are stored in each `Data` object
 <br>
-You **must** destroy unused Data manually
+Therefore, It will use some memory when creating a lot of data objects
+
+### Dynamic Listener
+```kotlin
+val ref = useRef { something() }
+button("Do Something", dynamic = true) {
+    println(ref.current)
+    event.edit()
+}
+```
+You may use Dynamic Listener instead to reduce memory usage of listeners
+
+Since they are bundled with Component itself
+<br>
+Dynamic Listeners only needs to be created once, and can be used for unlimited times.
+
+Since data is not synchronized, You cannot access any data outside the Listener
+<br>
+**You must wrap those variables inside a `useRef` hook to access them** 
+
+### Note
+Data based Listeners can override dynamic listeners by using the same ID
+### ID Structure
+Listener ID Structure: `[Component ID]-[Data ID]-[Listener ID]`
 
 ```kotlin
 row {
@@ -121,7 +159,7 @@ row {
     }
 }
 ```
-To Disable Dynamic Listeners, don't pass the event handler
+To use external Listener ID, don't pass the event handler
 <br>
 Therefore, you can create your own Event handler
 <br>
@@ -135,9 +173,9 @@ row {
 }
 ```
 
+### Highly Flexible
 <img src="./document/todo-example.jpg" alt="banner" width="200px"/>
 
-### Highly Flexible
 Not only embed or text, DUI supports render everything. Including rendering UI with Graphics2D
 <br>
 DUI also has a small Utility for Rendering with Graphics2D
