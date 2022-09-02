@@ -1,18 +1,15 @@
 import net.dv8tion.jda.api.interactions.DiscordLocale
-import net.dv8tion.jda.api.interactions.components.ActionComponent
 import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.sonmoosans.bjda.bjda
+import net.sonmoosans.bjda.plugins.supercommand.SuperCommandGroup
 import net.sonmoosans.bjda.plugins.supercommand.builder.command
 import net.sonmoosans.bjda.plugins.supercommand.supercommand
 import net.sonmoosans.bjda.wrapper.Mode
-import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.Element
 import net.sonmoosans.dui.NoDataComponent
 import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
-import net.sonmoosans.dui.context.RenderContainer
-import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.graphics.drawStringCenter
 import net.sonmoosans.dui.graphics.paint
 import net.sonmoosans.dui.graphics.toInputStream
@@ -23,8 +20,6 @@ import java.awt.image.BufferedImage
 
 data class Props(override val locale: DiscordLocale): LocaleProps
 val example = component<Props> {
-    val a = useRef { 0 }
-
     tabLayout {
         tab("Todos") {
             text("Hello World")
@@ -33,7 +28,7 @@ val example = component<Props> {
 
         tab("Settings") {
             row {
-                buttonStatic("Close") {
+                button("Close") {
                     event.delete()
                 }
             }
@@ -47,7 +42,7 @@ val example = component<Props> {
 
         tab("Settings") {
             row {
-                buttonStatic("Close") {
+                button("Close") {
                     event.delete()
                 }
             }
@@ -165,17 +160,49 @@ val ModernTodoApp = NoDataComponent {
     }
 }
 
-fun TestCommand() = command("test", "Testing Command") {
+val test = component<Unit> {
+    val r = useMemo { Math.random() }
+    val ref = useRef { r }
 
-    execute {
-        try {
+    text("Testing")
+    row {
+        /*
+        For Data Based Listener, It will get the value of current data's last render
+         */
+        button("Data Based Listener") {
+            println("Data Based Listener: Normal $r, Ref ${ref.current}")
+            event.edit()
+        }
+        /*
+        For Dynamic Listener, It will get the value of recent render
+        which might not the current data
+
+        To fix this, we must wrap it inside a Ref
+         */
+        button("Dynamic Listener", dynamic = true) {
+            println("Dynamic Listener: Normal $r, Ref ${ref.current}")
+            event.edit()
+        }
+    }
+}
+
+fun TestCommand() = SuperCommandGroup.create("test", "Testing Commands") {
+    command("listener", "Testing different types of listener") {
+        execute {
+            val ui = test.create(event.user.idLong, Unit)
+
+            event.reply(ui).queue()
+        }
+    }
+
+    command("settings", "Settings Example") {
+
+        execute {
             val ui = example.create(event.user.idLong, Props(locale = event.userLocale)) {
                 sync(event.hook)
             }
 
             event.reply(ui).queue()
-        } catch (e: Throwable) {
-            e.printStackTrace()
         }
     }
 }
