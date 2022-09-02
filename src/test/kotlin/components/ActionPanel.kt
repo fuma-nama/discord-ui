@@ -21,6 +21,7 @@ data class ActionPanelProps(val game: UnoGame, val player: Player)
 
 val ActionPanel = component<ActionPanelProps> {
     var selecting by useState<BlackCard?> { null }.cached()
+    val (game, player) = props
 
     if (selecting != null) {
         embed(title = "Change color")
@@ -30,15 +31,14 @@ val ActionPanel = component<ActionPanelProps> {
                 for (color in CardColor.values()) {
                     option(color.name, color.name)
                 }
-                submit {
-                    val (game, player) = props
 
-                    checkPlayer(game.currentPlayer) { return@submit }
+                submit {
+                    val current = checkPlayer(game.currentPlayer) { return@submit }
 
                     val card = selecting!!
                     card.color = CardColor.valueOf(event.value())
 
-                    put(game, player, card) {
+                    put(game, current, card) {
                         selecting = null
 
                         event.edit()
@@ -50,8 +50,6 @@ val ActionPanel = component<ActionPanelProps> {
         return@component
     }
 
-    val (_, player) = props
-
     if (player.cards.isEmpty()) {
         embed(title = "You already won the Game", color = Color.GREEN)
 
@@ -60,9 +58,9 @@ val ActionPanel = component<ActionPanelProps> {
 
     embed(title = "Select a Card")
     rowLayout {
-        val last = props.game.last
-
         menu(placeholder = "Select Your card") {
+            val last = game.last
+
             for ((i, card) in player.cards.withIndex()) {
                 val available = last == null || card.canPutAbove(last.card)
 
@@ -72,10 +70,7 @@ val ActionPanel = component<ActionPanelProps> {
             }
 
             submit {
-                val (game) = props
-                val current = game.currentPlayer
-
-                checkPlayer(current) { return@submit }
+                val current = checkPlayer(game.currentPlayer) { return@submit }
                 val selected = event.value().toInt()
 
                 when (val card = current.cards[selected]) {
@@ -93,7 +88,7 @@ val ActionPanel = component<ActionPanelProps> {
             }
         }
 
-        button("Update") {
+        button("Update", dynamic = true) {
             event.edit()
         }
     }

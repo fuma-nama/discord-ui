@@ -24,14 +24,14 @@ val Lobby = component<WaitingGame> {
     }
 
     row {
-        button("Start", style = ButtonStyle.SUCCESS, disabled = !props.canStart) {
+        button("Start", style = ButtonStyle.SUCCESS, disabled = !props.canStart, dynamic = true) {
 
             val game = props.start()
 
             event.editMessage(game.dashboard.edit()).queue()
         }
 
-        button("Join") {
+        button("Join", dynamic = true) {
 
             if (props.join(event.user)) {
                 Embed(
@@ -46,7 +46,7 @@ val Lobby = component<WaitingGame> {
                 ).reply(event).setEphemeral(true).queue()
             }
         }
-        button("Leave", style = ButtonStyle.DANGER) {
+        button("Leave", style = ButtonStyle.DANGER, dynamic = true) {
             if (props.leave(event.user)) {
 
                 Embed(

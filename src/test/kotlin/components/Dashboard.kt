@@ -30,19 +30,19 @@ val Dashboard = component<UnoGame> {
     }
 
     rowLayout {
-        button("Select a Card") {
+        button("Select a Card", dynamic = true) {
             val player = props.getPlayer(event) { return@button }
 
             event.reply(player.action.render()).apply {
                 setEphemeral(true)
-                queue()
+                queue {
+                    player.hook = it
+                }
             }
         }
 
-        button("Pick") {
-            val current = props.currentPlayer
-
-            checkPlayer(current) { return@button }
+        button("Pick", dynamic = true) {
+            val current = checkPlayer(props.currentPlayer) { return@button }
             val pick = props.pick(current)
 
             Embed(
@@ -79,13 +79,15 @@ val BankBoard = once<List<Player>> {
         }
 
         val others = props.drop(3).joinToString { it.user.asTag }
-        field("Others", others)
+        if (others.isNotEmpty()) {
+            field("Others", others)
+        }
     }
 }
 
 data class Last(val owner: Player, val card: Card)
 
-inline fun EventContext<out IReplyCallback, *, *>.checkPlayer(current: Player, onFail: () -> Unit) {
+inline fun EventContext<out IReplyCallback, *, *>.checkPlayer(current: Player, onFail: () -> Unit): Player {
     if (event.user != current.user) {
         Embed(
             title = "It's not your round!",
@@ -98,4 +100,6 @@ inline fun EventContext<out IReplyCallback, *, *>.checkPlayer(current: Player, o
 
         onFail()
     }
+
+    return current
 }
