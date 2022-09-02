@@ -3,35 +3,44 @@ package net.sonmoosans.dui.hooks
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.HookKey
 import net.sonmoosans.dui.context.RenderContext
+import net.sonmoosans.dui.utils.Delegate
 import net.sonmoosans.dui.utils.createKey
-import net.sonmoosans.dui.utils.generateId
 
 /**
  * Create a State
  *
  * State will be memorized every renders
+ *
+ * @param id ID of the Hook, Generates an ID from lambda If null
  */
-fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): S {
+fun<S> RenderContext<*, *>.useState(id: String? = null, initial: () -> S): State<S> {
     val key = createKey(id, initial, "useState")
 
-    val cache = data.hooks[key]
-
-    if (cache != null) {
-        return cache as S
+    if (data.hooks[key] == null) {
+        data.hooks[key] = initial()
     }
 
-    val state = initial()
-
-    data.hooks[key] = state
-    return state
+    return State(key, data)
 }
 
-/**
- * Generates an ID from initial lambda's class
- */
-fun<S> RenderContext<*, *>.useState(initial: () -> S) = useState(generateId(initial), initial)
+fun<S> RenderContext<*, *>.useState(id: String? = null, initial: S) = useState(id) { initial }
 
-fun<S> RenderContext<*, *>.useState(id: String, initial: S) = useState(id) { initial }
+class State<S>(val key: HookKey, val data: Data<*>): Delegate<S> {
+    override var value: S
+        get() = data.hooks[key] as S
+        set(value) { data.hooks[key] = value }
+
+    fun cached() = Cached(data.hooks[key] as S)
+
+    inner class Cached(var cached: S): Delegate<S> {
+        override var value: S
+            get() = cached
+            set(value) {
+                cached = value
+                data.hooks[key] = value
+            }
+    }
+}
 
 fun<S> RenderContext<*, *>.useRef(id: String? = null, initial: () -> S): Ref<S> {
     val key = createKey(id, initial, "useRef")

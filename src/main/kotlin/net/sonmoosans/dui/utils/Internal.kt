@@ -39,6 +39,16 @@ fun<O> O.apply(apply: (O.() -> Unit)? = null): O {
     return this
 }
 
+interface Delegate<S> {
+    var value: S
+    operator fun<P> getValue(parent: P, property: Any) = value
+    operator fun<P> setValue(parent: P, property: Any, value: S) {
+        this.value = value
+    }
+
+    operator fun component1() = value
+    operator fun component2() = { s: S -> value = s}
+}
 
 /**
  * Render to external builder

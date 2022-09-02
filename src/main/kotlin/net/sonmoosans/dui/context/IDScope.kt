@@ -36,7 +36,7 @@ fun<C: IDScope> C.scope(body: C.() -> Unit) = scope(generateId(body), body)
 /**
  * Open new ID Scope, used for avoiding ID duplication
  */
-inline fun<C: IDScope> C.scope(prefix: String?, body: C.() -> Unit) {
+inline fun<C: IDScope> C.scope(prefix: String? = null, body: C.() -> Unit) {
     if (prefix == null) {
         return body(this)
     }
