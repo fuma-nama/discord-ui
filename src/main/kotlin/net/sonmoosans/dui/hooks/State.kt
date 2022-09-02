@@ -41,6 +41,8 @@ class State<S>(val key: HookKey, val data: Data<*>): Delegate<S> {
     }
 }
 
+fun<S> RenderContext<*, *>.useRef(id: String, initial: S) = useRef(id as String?) { initial }
+
 fun<S> RenderContext<*, *>.useRef(id: String? = null, initial: () -> S): Ref<S> {
     val key = createKey(id, initial, "useRef")
     val value = data.hooks.getOrPut(key, initial)
