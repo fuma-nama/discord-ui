@@ -21,9 +21,9 @@ fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.on(
 }
 
 /**
- * When no matching listeners in data, static listeners of component will be used
+ * dynamic listeners will only be used When no matching listeners in data
  */
-fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.onStatic(
+fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.dynamicOn(
     id: String? = null,
     handler: Handler<E>,
 ): String {

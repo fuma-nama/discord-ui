@@ -71,7 +71,7 @@ fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
 /**
  * Button which use Memory-Safe Dynamic Listener
  */
-fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.buttonStatic(
+fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.buttonDynamic(
     label: String,
     disabled: Boolean = false,
     emoji: Emoji? = null,
@@ -79,7 +79,7 @@ fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.buttonStatic(
     id: String? = null,
     onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
 ) {
-    val listenerId = context.interactionStatic(id, onClick)
+    val listenerId = context.interactionDynamic(id, onClick)
 
     add(
         ButtonImpl(listenerId, label, style, null, disabled, emoji)
@@ -163,8 +163,8 @@ class MenuBuilder<P: Any, C: Component<P>>(context: RenderContext<P, C>): Render
     /**
      * use Memory-Safe Dynamic Listener
      */
-    fun submitStatic(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
-        this.id = context.interactionStatic(id, onSubmit)
+    fun submitDynamic(id: String? = null, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
+        this.id = context.interactionDynamic(id, onSubmit)
 
         return this.id
     }
