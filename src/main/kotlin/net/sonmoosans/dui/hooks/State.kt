@@ -1,8 +1,9 @@
 package net.sonmoosans.dui.hooks
 
 import net.sonmoosans.dui.Data
+import net.sonmoosans.dui.HookKey
 import net.sonmoosans.dui.context.RenderContext
-import net.sonmoosans.dui.context.State
+import net.sonmoosans.dui.utils.createKey
 import net.sonmoosans.dui.utils.generateId
 
 /**
@@ -11,9 +12,9 @@ import net.sonmoosans.dui.utils.generateId
  * State will be memorized every renders
  */
 fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): State<S> {
-    val key = createId(id)
+    val key = createKey(id, initial, "useState")
 
-    val cache = data.states[key]
+    val cache = data.hooks[key]
 
     if (cache != null) {
         return cache as State<S>
@@ -21,7 +22,7 @@ fun<S> RenderContext<*, *>.useState(id: String, initial: () -> S): State<S> {
 
     val state = State(key, initial())
 
-    data.states[key] = state
+    data.hooks[key] = state
     return state
 }
 
@@ -32,11 +33,11 @@ fun<S> RenderContext<*, *>.useState(initial: () -> S) = useState(generateId(init
 
 fun<S> RenderContext<*, *>.useState(id: String, initial: S) = useState(id) { initial }
 
-interface StateContext<P> {
+interface StateContext<P : Any> {
     val data: Data<P>
 
     val<S> State<S>.current
-        get() = data.states[id]!! as State<S>
+        get() = data.hooks[key]!! as State<S>
 
     var <S> State<S>.value: S
         get() = current.raw
@@ -93,4 +94,15 @@ interface StateContext<P> {
     fun<E, R> State<out Iterable<E>>.mapIndex(mapper: (Int, E) -> R) = value.mapIndexed(mapper)
 
     fun<S> State<S>.asString() = raw.toString()
+}
+
+
+class State<S>(
+    val key: HookKey,
+    /**
+     * Never access this variable directly
+     */
+    internal var raw: S
+) {
+    val id by key::id
 }

@@ -1,8 +1,9 @@
 package net.sonmoosans.dui
 
-import net.sonmoosans.dui.context.State
+import net.sonmoosans.dui.context.EventContext
+import net.sonmoosans.dui.listeners.Handler
 
-interface DataStore<P> {
+interface DataStore<P : Any> {
     /**
      * Get Props by id
      */
@@ -28,7 +29,7 @@ interface DataStore<P> {
     }
 }
 
-class DataStoreImpl<P> : DataStore<P> {
+class DataStoreImpl<P : Any> : DataStore<P> {
     val map = hashMapOf<Long, Data<P>>()
 
     override fun get(id: Long): Data<P>? {
@@ -46,10 +47,10 @@ class DataStoreImpl<P> : DataStore<P> {
 
 data class HookKey(val id: String, val type: String)
 
-class Data<P>(
+class Data<P : Any>(
     val id: Long,
     var props: P
 ) {
-    val states by lazy { hashMapOf<String, State<*>>() }
+    val listeners by lazy { hashMapOf<String, Handler<EventContext<*, *, P>>>() }
     val hooks by lazy { hashMapOf<HookKey, Any>() }
 }

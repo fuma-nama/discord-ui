@@ -63,7 +63,7 @@ abstract class RenderContext<P: Any, C: Component<P>>(
      */
     inline fun onEdit(run: RenderContextEdit<P, C>.() -> Unit) {
         if (this is RenderContextEdit) {
-            run(this as RenderContextEdit<P, C>)
+            run(this)
         }
     }
 
@@ -72,7 +72,7 @@ abstract class RenderContext<P: Any, C: Component<P>>(
      */
     inline fun onCreate(run: RenderContextCreate<P, C>.() -> Unit) {
         if (this is RenderContextCreate) {
-            run(this as RenderContextCreate<P, C>)
+            run(this)
         }
     }
 
@@ -96,10 +96,3 @@ abstract class RenderContext<P: Any, C: Component<P>>(
     }
 }
 
-class State<S>(
-    val id: String,
-    /**
-     * Never access this variable directly
-     */
-    internal var raw: S
-)
