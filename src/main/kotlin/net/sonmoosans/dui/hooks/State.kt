@@ -15,8 +15,7 @@ import net.sonmoosans.dui.utils.createKey
  */
 fun<S> RenderContext<*, *>.useState(id: String? = null, initial: () -> S): State<S> {
     val key = createKey(id, initial, "useState")
-
-    if (data.hooks[key] == null) {
+    if (!data.hooks.containsKey(key)) {
         data.hooks[key] = initial()
     }
 
@@ -44,12 +43,9 @@ class State<S>(val key: HookKey, val data: Data<*>): Delegate<S> {
 
 fun<S> RenderContext<*, *>.useRef(id: String? = null, initial: () -> S): Ref<S> {
     val key = createKey(id, initial, "useRef")
-    val cache = data.hooks[key] as S?
-    val value = cache?: initial().also {
-        data.hooks[key] = it
-    }
+    val value = data.hooks.getOrPut(key, initial)
 
-    return Ref(key, value)
+    return Ref(key, value as S)
 }
 
 interface RefContext<P : Any> {
@@ -73,10 +69,6 @@ interface RefContext<P : Any> {
 
     val Ref<out Collection<*>>.size
         get() = current.size
-
-    operator fun<E> Ref<out Iterable<E>>.plus(element: E) = current + element
-
-    operator fun<E> Ref<out Iterable<E>>.plusAssign(element: E) { current += element }
 
     infix fun<E> Ref<E>.eq(other: E) = current == other
 
