@@ -208,13 +208,13 @@ files {
 Create a Component
 ```kotlin
 val example = component {
-    val count = useState("count", 0)
+    val count by useState("count", 0)
 
-    text(count.asString())
+    text(count.toString())
 
     row {
         button("Increase") {
-            count.value++
+            count++
             event.edit()
         }
     }
@@ -232,7 +232,8 @@ fun TestCommand() = command("test", "Testing Command") {
 
     execute {
         val ui = example.create(event.user.idLong, Unit) {
-            sync(event.hook)
+            //sync(event.hook)
+            //use with useSync hook to sync multi messages
         }
 
         event.reply(ui).queue()
