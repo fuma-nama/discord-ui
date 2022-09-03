@@ -59,7 +59,7 @@ val Dashboard = component<UnoGame> {
     }
 }
 
-val BankBoard = once<List<Player>> {
+val RankBoard = once<List<Player>> {
     embed(
         title = "Game Ended",
         description = "Winners",
@@ -78,7 +78,7 @@ val BankBoard = once<List<Player>> {
             field("3rd", it)
         }
 
-        val others = props.drop(3).joinToString { it.user.asTag }
+        val others = props.subList(3, props.lastIndex).joinToString { it.user.asTag }
         if (others.isNotEmpty()) {
             field("Others", others)
         }

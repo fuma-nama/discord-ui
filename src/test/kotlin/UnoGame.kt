@@ -1,4 +1,4 @@
-import components.BankBoard
+import components.RankBoard
 import components.Dashboard
 import components.Last
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -150,7 +150,7 @@ class UnoGame(val players: ArrayList<Player>, val hook: InteractionHook) {
             player.action.destroy()
         }
 
-        hook.editOriginal(BankBoard.edit(winners)).queue()
+        hook.editOriginal(RankBoard.edit(winners)).queue()
     }
 
     private fun updateHook(current: Int) {
