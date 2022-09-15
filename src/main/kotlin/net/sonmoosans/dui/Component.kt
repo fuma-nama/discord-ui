@@ -9,34 +9,39 @@ import net.dv8tion.jda.api.utils.messages.MessageCreateData
 import net.dv8tion.jda.api.utils.messages.MessageEditData
 import net.sonmoosans.dui.context.EventContext
 
-typealias Element<P> = RenderContext<P, out Component<P>>
+typealias Element<P> = RenderContext<out Data<P>, P>
 typealias MessageBuilder = AbstractMessageBuilder<*, *>
 
+abstract class AbstractComponent<D: Data<P>, P: Any, C: AbstractComponent<D, P, C>>(
+    override val render: RenderContext<D, P>.() -> Unit
+) : Component<D, P> {
+    override val listeners = hashMapOf<String, Handler<EventContext<*, D, P>>>()
 
-
-abstract class AbstractComponent<P: Any, C: AbstractComponent<P, C>>(
-    render: RenderContext<P, C>.() -> Unit
-) : Component<P> {
-    override val render = render as RenderContext<P, Component<P>>.() -> Unit
-    override val listeners = hashMapOf<String, Handler<EventContext<*, out Component<P>, P>>>()
-
-    override fun listen(id: String, listener: Handler<EventContext<*, out Component<P>, P>>) {
+    override fun listen(id: String, listener: Handler<EventContext<*, D, P>>) {
         listeners[id] = listener
     }
 }
 
-interface Component<P : Any> {
-    val listeners: Map<String, Handler<EventContext<*, *, P>>>
-    val render: RenderContext<P, Component<P>>.() -> Unit
+interface Component<D: Data<P>, P: Any> {
+    val render: RenderContext<D, P>.() -> Unit
+    val listeners: Map<String, Handler<EventContext<*, D, P>>>
 
-    fun getData(id: Long): Data<P>?
+    fun listen(id: String, listener: Handler<EventContext<*, D, P>>)
 
-    fun listen(id: String, listener: Handler<EventContext<*, *, P>>)
+    /**
+     * parse Data from Listener Data
+     */
+    fun parseData(data: String): D?
+
+    /**
+     * Encode Listener Data
+     */
+    fun encodeData(data: D): String
 
     /**
      * renders Component
      */
-    fun render(data: Data<P>): MessageCreateData {
+    fun render(data: D): MessageCreateData {
         val context = RenderContextCreate(data, this)
 
         render(context)
@@ -47,7 +52,7 @@ interface Component<P : Any> {
     /**
      * Parse data from id and renders Component
      */
-    fun edit(data: Data<P>): MessageEditData {
+    fun edit(data: D): MessageEditData {
         val context = RenderContextEdit(data, this)
 
         render(context)
@@ -55,5 +60,5 @@ interface Component<P : Any> {
         return context.builder.build()
     }
 
-    fun destroy(data: Data<P>)
+    fun destroy(data: D)
 }
