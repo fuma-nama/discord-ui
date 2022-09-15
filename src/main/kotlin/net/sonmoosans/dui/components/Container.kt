@@ -1,7 +1,6 @@
 package net.sonmoosans.dui.components
 
 import net.dv8tion.jda.api.entities.emoji.Emoji
-import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.annotations.RequireListener
 import net.sonmoosans.dui.annotations.RequireStates
@@ -164,4 +163,19 @@ private fun<D: Data<P>, P : Any> RenderContext<D, P>.tabLayout(
             }
         }
     }
+}
+
+class SwitchBuilder<K: Any, D: Data<P>, P: Any> {
+    val map = hashMapOf<K, RenderContext<D, P>.() -> Unit>()
+
+    fun item(key: K, render: RenderContext<D, P>.() -> Unit) {
+        map[key] = render
+    }
+}
+
+/**
+ * Make item visible if its key matches specified key
+ */
+fun<K: Any, D: Data<P>, P: Any> RenderContext<D, P>.switch(key: K, init: SwitchBuilder<K, D, P>.() -> Unit) {
+    SwitchBuilder<K, D, P>().apply(init).map[key]?.invoke(this)
 }
