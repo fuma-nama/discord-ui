@@ -26,12 +26,18 @@ fun<D> Data<*>.import(id: String = "default", vararg scopes: String): D {
 
     return hooks[key] as D
 }
+/**
+ * Read Exported data from the component
+ */
+fun<D> IDComponent<*>.import(key: String, id: String = "default", vararg scopes: String): D? {
+    return getData(key)?.import(id, *scopes)
+}
 
 /**
  * Read Exported data from the component
  */
-fun<D> Component<*>.import(dataId: Long, id: String = "default", vararg scopes: String): D? {
-    return getData(dataId)?.import(id, *scopes)
+fun<D> Component<*, *>.import(data: String, id: String = "default", vararg scopes: String): D? {
+    return parseData(data)?.import(id, *scopes)
 }
 
 /**

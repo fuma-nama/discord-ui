@@ -17,12 +17,13 @@ import net.dv8tion.jda.internal.interactions.component.ButtonImpl
 import net.dv8tion.jda.internal.interactions.component.SelectMenuImpl
 import net.dv8tion.jda.internal.interactions.component.TextInputImpl
 import net.sonmoosans.dui.Component
+import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.context.*
 import net.sonmoosans.dui.utils.SelectOptionImpl
 import net.sonmoosans.dui.utils.join
 import net.sonmoosans.dui.utils.lambdaList
 
-fun<P : Any, C: Component<P>> RenderContext<P, C>.row(components: RenderContainer<ActionComponent, C, P>.() -> Unit) {
+fun<D: Data<P>, P : Any> RenderContext<D, P>.row(components: RenderContainer<ActionComponent, D, P>.() -> Unit) {
 
     val rows = builder.components.join<LayoutComponent>(
         ActionRow.of(lambdaList(components))
@@ -53,14 +54,14 @@ fun Container<in Button>.button(
 /**
  * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
  */
-fun<C: Component<P>, P: Any> RenderContainer<in Button, C, P>.button(
+fun<D: Data<P>, P : Any> RenderContainer<in Button, D, P>.button(
     label: String,
     disabled: Boolean = false,
     emoji: Emoji? = null,
     style: ButtonStyle = ButtonStyle.PRIMARY,
     id: String? = null,
     dynamic: Boolean = false,
-    onClick: InteractionContext<ButtonInteractionEvent, C, P>.() -> Unit,
+    onClick: InteractionContext<ButtonInteractionEvent, D, P>.() -> Unit,
 ) {
     val listenerId = context.interaction(id, dynamic, onClick)
 
@@ -92,13 +93,13 @@ fun Container<in SelectMenu>.menu(
     )
 }
 
-fun<P: Any, C: Component<P>> RenderContainer<in SelectMenu, C, P>.menu(
+fun<D: Data<P>, P : Any> RenderContainer<in SelectMenu, D, P>.menu(
     placeholder: String? = null,
     minValues: Int = 1,
     maxValues: Int = 1,
     disabled: Boolean = false,
     selected: Any? = null,
-    init: MenuBuilder<P, C>.() -> Unit
+    init: MenuBuilder<D, P>.() -> Unit
 ) {
     val menu = MenuBuilder(context).apply(init)
     var options: List<SelectOption> = menu.list
@@ -129,7 +130,7 @@ fun Container<in SelectOption>.option(
     )
 }
 
-class MenuBuilder<P: Any, C: Component<P>>(context: RenderContext<P, C>): RenderContainer<SelectOption, C, P>(context) {
+class MenuBuilder<D: Data<P>, P : Any>(context: RenderContext<D, P>): RenderContainer<SelectOption, D, P>(context) {
     lateinit var id: String
 
     /**
@@ -137,7 +138,7 @@ class MenuBuilder<P: Any, C: Component<P>>(context: RenderContext<P, C>): Render
      *
      * use Data based Listener
      */
-    fun submit(id: String? = null, dynamic: Boolean = false, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, C, P>>): String {
+    fun submit(id: String? = null, dynamic: Boolean = false, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, D, P>>): String {
         this.id = context.interaction(id, dynamic, onSubmit)
 
         return this.id
