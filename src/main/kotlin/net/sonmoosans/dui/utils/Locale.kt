@@ -2,6 +2,7 @@ package net.sonmoosans.dui.utils
 
 import net.dv8tion.jda.api.interactions.DiscordLocale
 import net.dv8tion.jda.api.interactions.DiscordLocale.*
+import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.context.DataContext
 
 interface LocaleProps {
@@ -21,7 +22,7 @@ operator fun DiscordLocale.invoke(
     return default
 }
 
-fun DataContext<*, out LocaleProps>.locale(
+fun<P: LocaleProps> DataContext<out Data<P>, P>.locale(
     default: String,
     vararg locales: LocalePair,
 ): String {
