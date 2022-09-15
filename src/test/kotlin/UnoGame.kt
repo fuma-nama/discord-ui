@@ -28,7 +28,7 @@ class UnoGame(val players: ArrayList<Player>, val hook: InteractionHook) {
 
     val winners = arrayListOf<Player>()
 
-    val dashboard = Dashboard.createRef(hashCode().toLong(), this)
+    val dashboard = Dashboard.createRef(hashCode().toString(), this)
     var last: Last? = null
 
     var current: Int = 0

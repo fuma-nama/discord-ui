@@ -31,7 +31,7 @@ class WaitingGame(
     val playersCount: Int,
 ) {
     lateinit var hook: InteractionHook
-    val lobby = Lobby.createRef(hashCode().toLong(), this)
+    val lobby = Lobby.createRef(hashCode().toString(), this)
     val players = hashSetOf<User>()
 
     val canStart: Boolean
@@ -81,6 +81,6 @@ class Player(
     lateinit var action: DataRef<ActionPanelProps>
 
     fun init(game: UnoGame) {
-        action = ActionPanel.createRef(hashCode().toLong(), ActionPanelProps(game, this))
+        action = ActionPanel.createRef(hashCode().toString(), ActionPanelProps(game, this))
     }
 }

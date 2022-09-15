@@ -189,7 +189,7 @@ val test = component<Unit> {
 fun TestCommand() = SuperCommandGroup.create("test", "Testing Commands") {
     command("listener", "Testing different types of listener") {
         execute {
-            val ui = test.create(event.user.idLong, Unit)
+            val ui = test.create(event.user.id, Unit)
 
             event.reply(ui).queue()
         }
@@ -198,7 +198,7 @@ fun TestCommand() = SuperCommandGroup.create("test", "Testing Commands") {
     command("settings", "Settings Example") {
 
         execute {
-            val ui = example.create(event.user.idLong, Props(locale = event.userLocale)) {
+            val ui = example.create(event.user.id, Props(locale = event.userLocale)) {
                 sync(event.hook)
             }
 
@@ -209,7 +209,7 @@ fun TestCommand() = SuperCommandGroup.create("test", "Testing Commands") {
 
 fun TodoCommand() = command("todo", "Todo App") {
     execute {
-        val (data) = ModernTodoApp.createWithData(event.user.idLong)
+        val (data) = ModernTodoApp.createWithData(event.user.id)
         val exported = data.import<TodoExport>()
 
         event.reply(
