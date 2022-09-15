@@ -54,7 +54,7 @@ interface Delegate<S> {
 /**
  * Render to external builder
  */
-fun<P : Any> Component<P>.renderExternal(data: Data<P>, builder: MessageBuilder) {
+fun<D: Data<P>, P : Any> Component<D, P>.renderExternal(data: D, builder: MessageBuilder) {
     val context = when (builder) {
         is MessageCreateBuilder -> RenderContextCreate(data, this, builder)
         is MessageEditBuilder -> RenderContextEdit(data, this, builder)

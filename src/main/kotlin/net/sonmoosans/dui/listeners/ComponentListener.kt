@@ -13,7 +13,7 @@ typealias Handler<E> = E.() -> Unit
 /**
  * dynamic listeners will only be used When no matching listeners in data
  */
-fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.on(
+fun<E: EventContext<*, D, P>, D: Data<P>, P : Any> RenderContext<D, P>.on(
     id: String? = null,
     dynamic: Boolean,
     handler: Handler<E>,
@@ -21,36 +21,36 @@ fun<E: EventContext<*, C, P>, C: Component<P>, P : Any> RenderContext<P, C>.on(
     val listenerId = createId(id, handler)
     if (dynamic) component.listen(
         listenerId,
-        handler as Handler<EventContext<*, *, P>>
+        handler as Handler<EventContext<*, D, P>>
     ) else {
-        data.listeners[listenerId] = handler as Handler<EventContext<*, *, P>>
+        data.listeners[listenerId] = handler as Handler<EventContext<*, Data<P>, P>>
     }
 
-    return ComponentListener.listen(component, data, listenerId)
+    return ComponentListener.listen(component, component.encodeData(data), listenerId)
 }
 
-data class RawId(val comp: Int, val dataId: Long, val listenerId: String) {
-    fun<P: Any, E> build(): DynamicId<P, E>? {
+data class RawId(val comp: Int, val dataId: String, val listenerId: String) {
+    fun<D: Data<P>, P: Any, E> build(): DynamicId<D, P, E>? {
         val comp = ComponentListener.components[this.comp]?: return null
-        val data = comp.getData(this.dataId)?: return null
+        val data = comp.parseData(this.dataId)?: return null
         val listener = data.listeners[listenerId]?: comp.listeners[listenerId]
         listener?: return null
 
-        return DynamicId(comp as Component<P>, data as Data<P>, listener as Handler<E>)
+        return DynamicId(comp as Component<D, P>, data as D, listener as Handler<E>)
     }
 }
 
-data class DynamicId<P: Any, E>(val comp: Component<P>, val data: Data<P>, val listener: Handler<E>)
+data class DynamicId<D: Data<P>, P: Any, E>(val comp: Component<D, P>, val data: D, val listener: Handler<E>)
 
 object ComponentListener : ListenerAdapter() {
     /** Pair<ComponentId, Component> **/
-    val components = hashMapOf<Int, Component<*>>()
+    val components = hashMapOf<Int, Component<*, *>>()
     var encoder: Encoder = DefaultEncoder()
 
-    fun listen(component: Component<*>, data: Data<*>, listener: String): String {
+    fun listen(component: Component<*, *>, data: String, listener: String): String {
         components[component.hashCode()] = component
 
-        return encoder.encodeId(component, data.id, listener)
+        return encoder.encodeId(component, data, listener)
     }
 
     override fun onGenericComponentInteractionCreate(event: GenericComponentInteractionCreateEvent) = handle<Any>(event)
@@ -58,7 +58,7 @@ object ComponentListener : ListenerAdapter() {
 
     private fun<P: Any> handle(event: GenericComponentInteractionCreateEvent) {
         val id = encoder.decodeId(event.componentId)?: return
-        val (comp, data, listener) = id.build<P, InteractionContext<*, *, P>>()?: return
+        val (comp, data, listener) = id.build<Data<P>, P, InteractionContext<*, *, P>>()?: return
 
         listener.invoke(
             InteractionContext(event, data, comp)
@@ -67,7 +67,7 @@ object ComponentListener : ListenerAdapter() {
 
     private fun<P: Any> handle(event: ModalInteractionEvent) {
         val id = encoder.decodeId(event.modalId)?: return
-        val (comp, data, listener) = id.build<P, ModalContext<P, *>>()?: return
+        val (comp, data, listener) = id.build<Data<P>, P, ModalContext<Data<P>, P>>()?: return
 
         listener.invoke(
             ModalContext(event, data, comp)
@@ -76,19 +76,19 @@ object ComponentListener : ListenerAdapter() {
 }
 
 interface Encoder {
-    fun encodeId(comp: Component<*>, dataId: Long, listenerId: String): String
+    fun encodeId(comp: Component<*, *>, data: String, listenerId: String): String
 
     fun decodeId(id: String): RawId?
 }
 
 class DefaultEncoder : Encoder {
-    override fun encodeId(comp: Component<*>, dataId: Long, listenerId: String): String {
+    override fun encodeId(comp: Component<*, *>, data: String, listenerId: String): String {
 
         if (listenerId.contains("-")) error(
             "Listener Id cannot contains '-'"
         )
 
-        val id = "${comp.hashCode()}-$dataId-$listenerId"
+        val id = "${comp.hashCode()}-$data-$listenerId"
 
         if (id.length > 100) error(
             "Your Listener ID is too long: $id, try reduce Scopes amount or Listener ID length"
@@ -102,7 +102,7 @@ class DefaultEncoder : Encoder {
             return null
         }
 
-        return RawId(compId.toInt(), dataId.toLong(), listenerId)
+        return RawId(compId.toInt(), dataId, listenerId)
     }
 
     private inline fun List<String>.verify(onFail: () -> Unit): List<String> {

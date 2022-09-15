@@ -12,34 +12,34 @@ import net.sonmoosans.dui.listeners.on
 @DslMarker
 annotation class DslBuilder
 
-class RenderContextEdit<P: Any, C: Component<P>>(
-    data: Data<P>,
-    component: C,
+class RenderContextEdit<D: Data<P>, P: Any>(
+    data: D,
+    component: Component<D, P>,
     override val builder: MessageEditBuilder = MessageEditBuilder().setReplace(true)
 ) :
-    RenderContext<P, C>(
+    RenderContext<D, P>(
         data, component
     )
 
-class RenderContextCreate<P: Any, C: Component<P>>(
-    data: Data<P>,
-    component: C,
+class RenderContextCreate<D: Data<P>, P: Any>(
+    data: D,
+    component: Component<D, P>,
     override val builder: MessageCreateBuilder = MessageCreateBuilder()
 ) :
-    RenderContext<P, C>(
+    RenderContext<D, P>(
         data, component
     )
 
-class RenderContextImpl<P: Any, C: Component<P>>(
-    data: Data<P>,
-    component: C,
+class RenderContextImpl<D: Data<P>, P: Any>(
+    data: D,
+    component: Component<D, P>,
     override val builder: MessageBuilder
-) : RenderContext<P, C>(data, component)
+) : RenderContext<D, P>(data, component)
 
-abstract class RenderContext<P: Any, C: Component<P>>(
-    data: Data<P>,
-    component: C
-): DataContext<C, P>(data, component), IDScope {
+abstract class RenderContext<D: Data<P>, P: Any>(
+    data: D,
+    component: Component<D, P>
+): DataContext<D, P>(data, component), IDScope {
     abstract val builder: MessageBuilder
 
     /**
@@ -49,7 +49,7 @@ abstract class RenderContext<P: Any, C: Component<P>>(
     fun<E: GenericComponentInteractionCreateEvent> interaction(
         id: String? = null,
         dynamic: Boolean = false,
-        handler: InteractionContext<E, C, P>.() -> Unit
+        handler: InteractionContext<E, D, P>.() -> Unit
     ) = on(id, dynamic, handler)
 
     /**
@@ -59,7 +59,7 @@ abstract class RenderContext<P: Any, C: Component<P>>(
     fun modal(
         id: String? = null,
         dynamic: Boolean = false,
-        handler: ModalContext<P, C>.() -> Unit
+        handler: ModalContext<D, P>.() -> Unit
     ) = on(id, dynamic, handler)
 
     /**
@@ -71,7 +71,7 @@ abstract class RenderContext<P: Any, C: Component<P>>(
     /**
      * Run lambda if render mode is edit
      */
-    inline fun onEdit(run: RenderContextEdit<P, C>.() -> Unit) {
+    inline fun onEdit(run: RenderContextEdit<D, P>.() -> Unit) {
         if (this is RenderContextEdit) {
             run(this)
         }
@@ -80,7 +80,7 @@ abstract class RenderContext<P: Any, C: Component<P>>(
     /**
      * Run lambda if render mode is create
      */
-    inline fun onCreate(run: RenderContextCreate<P, C>.() -> Unit) {
+    inline fun onCreate(run: RenderContextCreate<D, P>.() -> Unit) {
         if (this is RenderContextCreate) {
             run(this)
         }
@@ -91,9 +91,9 @@ abstract class RenderContext<P: Any, C: Component<P>>(
      *
      * We don't recommend to use nested components, use extension function instead
      */
-    operator fun Component<P>.invoke() = this.render.invoke(this@RenderContext as RenderContext<P, Component<P>>)
+    operator fun Component<D, P>.invoke() = this.render.invoke(this@RenderContext)
 
-    fun<T : Any> Context<T>.provider(value: T, children: RenderContext<P, C>.() -> Unit) {
+    fun<T : Any> Context<T>.provider(value: T, children: RenderContext<D, P>.() -> Unit) {
         val prev = contexts
 
         contexts = HashMap(prev).also {

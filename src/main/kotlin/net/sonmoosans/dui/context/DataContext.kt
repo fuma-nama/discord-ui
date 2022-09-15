@@ -8,10 +8,10 @@ import net.sonmoosans.dui.hooks.SyncContext
 import net.sonmoosans.dui.hooks.RefContext
 
 @DslBuilder
-open class DataContext<C: Component<P>, P : Any>(
-    final override val data: Data<P>,
-    val component: C
-): RefContext<P>, SyncContext<C, P> {
+open class DataContext<D: Data<P>, P : Any>(
+    final override val data: D,
+    val component: Component<D, P>
+): RefContext<P>, SyncContext {
     var props by data::props
 
     fun render() = component.render(data)

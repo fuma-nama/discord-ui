@@ -5,12 +5,12 @@ import net.dv8tion.jda.api.events.interaction.component.GenericComponentInteract
 import net.sonmoosans.dui.Component
 import net.sonmoosans.dui.Data
 
-open class EventContext<E, C: Component<P>, P : Any>(val event: E, data: Data<P>, comp: C): DataContext<C, P>(data, comp)
+open class EventContext<E, D: Data<P>, P : Any>(val event: E, data: D, comp: Component<D, P>): DataContext<D, P>(data, comp)
 
-class InteractionContext<E: GenericComponentInteractionCreateEvent, C: Component<P>, P : Any>(
-    event: E, data: Data<P>, comp: C
-): EventContext<E, C, P>(event, data, comp)
+class InteractionContext<E: GenericComponentInteractionCreateEvent, D: Data<P>, P: Any>(
+    event: E, data: D, comp: Component<D, P>
+): EventContext<E, D, P>(event, data, comp)
 
-class ModalContext<P: Any, C: Component<P>>(
-    event: ModalInteractionEvent, data: Data<P>, component: C
-): EventContext<ModalInteractionEvent, C, P>(event, data, component)
+class ModalContext<D: Data<P>, P: Any>(
+    event: ModalInteractionEvent, data: D, component: Component<D, P>
+): EventContext<ModalInteractionEvent, D, P>(event, data, component)
