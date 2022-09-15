@@ -8,17 +8,9 @@ import net.sonmoosans.dui.context.RenderContext
  */
 open class SingleDataComponent<P: Any>(
     initialData: Data<P>? = null,
-    render: RenderContext<P, SingleDataComponent<P>>.() -> Unit
-): AbstractComponent<P, SingleDataComponent<P>>(render) {
+    render: RenderContext<Data<P>, P>.() -> Unit
+): AbstractComponent<Data<P>, P, SingleDataComponent<P>>(render) {
     var data: Data<P>? = initialData
-
-    override fun getData(id: Long): Data<P>? {
-        val data = this.data
-
-        return if (data != null && data.id == id) {
-            data
-        } else null
-    }
 
     /**
      * Set current Data and Return Component itself
@@ -29,7 +21,7 @@ open class SingleDataComponent<P: Any>(
         if (editOnly && data != null) {
             data!!.props = props
         } else {
-            data = Data(0, props)
+            data = Data(props)
         }
 
         return this
@@ -51,7 +43,15 @@ open class SingleDataComponent<P: Any>(
         val data = this.data
 
          if (data != null) {
-            this.data = Data(0, data.props)
+            this.data = Data(data.props)
         }
+    }
+
+    override fun parseData(data: String): Data<P>? {
+        return this.data
+    }
+
+    override fun encodeData(data: Data<P>): String {
+        return ""
     }
 }

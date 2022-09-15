@@ -53,7 +53,7 @@ class SyncHook(
 
 class Sync(val hook: SyncHook)
 
-interface SyncContext<C: Component<P>, P : Any> {
+interface SyncContext {
     fun renderEdit(): MessageEditData
     fun destroy()
 
