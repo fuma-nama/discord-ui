@@ -7,21 +7,21 @@ interface DataStore<P : Any> {
     /**
      * Get Props by id
      */
-    operator fun get(id: Long): Data<P>?
+    operator fun get(id: String): KeyData<P>?
 
-    operator fun set(key: Long, value: Data<P>)
+    operator fun set(key: String, value: KeyData<P>)
 
-    fun remove(key: Long)
+    fun remove(key: String)
 
     /**
      * If data exists, update its props
      *
      * Otherwise, create a new one
      */
-    fun setOrCreate(id: Long, props: P): Data<P> {
+    fun setOrCreate(id: String, props: P): KeyData<P> {
         val data = this[id]?.also {
             it.props = props
-        } ?: Data(id, props).also {
+        } ?: KeyData(id, props).also {
             this[id] = it
         }
 
@@ -30,27 +30,28 @@ interface DataStore<P : Any> {
 }
 
 class DataStoreImpl<P : Any> : DataStore<P> {
-    val map = hashMapOf<Long, Data<P>>()
+    val map = hashMapOf<String, KeyData<P>>()
 
-    override fun get(id: Long): Data<P>? {
+    override fun get(id: String): KeyData<P>? {
         return map[id]
     }
 
-    override fun set(key: Long, value: Data<P>) {
+    override fun set(key: String, value: KeyData<P>) {
         map[key] = value
     }
 
-    override fun remove(key: Long) {
+    override fun remove(key: String) {
         map.remove(key)
     }
 }
 
 data class HookKey(val id: String, val type: String)
 
-class Data<P : Any>(
-    val id: Long,
+class KeyData<P: Any>(val key: String, props: P) : Data<P>(props)
+
+open class Data<P : Any>(
     var props: P
 ) {
-    val listeners by lazy { hashMapOf<String, Handler<EventContext<*, out Component<P>, P>>>() }
+    val listeners by lazy { hashMapOf<String, Handler<EventContext<*, Data<P>, P>>>() }
     val hooks by lazy { hashMapOf<HookKey, Any?>() }
 }
