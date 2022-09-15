@@ -195,6 +195,14 @@ fun TestCommand() = SuperCommandGroup.create("test", "Testing Commands") {
         }
     }
 
+    command("dynamic", "Test Dynamic Component") {
+        execute {
+            val ui = PagerExample.render(PagerProps(0))
+
+            event.reply(ui).queue()
+        }
+    }
+
     command("settings", "Settings Example") {
 
         execute {
