@@ -1,9 +1,11 @@
 package net.sonmoosans.dui.components
 
 import net.dv8tion.jda.api.entities.emoji.Emoji
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.annotations.RequireListener
 import net.sonmoosans.dui.annotations.RequireStates
+import net.sonmoosans.dui.context.InteractionContext
 import net.sonmoosans.dui.context.RenderContext
 import net.sonmoosans.dui.context.scope
 import net.sonmoosans.dui.hooks.State
@@ -34,7 +36,7 @@ fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
 ) = scope(generateId(scope, init)) {
     val (state, setState) = page?: useState("page", 0)
 
-    return pager(state, setState, init)
+    return pager(state, { setState(it) }, init)
 }
 
 /**
@@ -48,7 +50,7 @@ fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
 @RequireListener("prev", "next")
 fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
     page: Int,
-    setPage: (page: Int) -> Unit,
+    setPage: InteractionContext<ButtonInteractionEvent, D, P>.(page: Int) -> Unit,
     scope: String? = null,
     init: PagesBuilder<D, P>.() -> Unit,
 ) = scope(generateId(scope, init)) {
@@ -59,10 +61,9 @@ fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
 @RequireListener("prev", "next")
 private fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
     page: Int,
-    setPage: (page: Int) -> Unit,
+    setPage: InteractionContext<ButtonInteractionEvent, D, P>.(page: Int) -> Unit,
     init: PagesBuilder<D, P>.() -> Unit,
 ) {
-    println(page)
     val pages = PagesBuilder<D, P>().apply(init).list
 
     pages[page].render(this)
