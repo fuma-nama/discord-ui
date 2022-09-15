@@ -58,6 +58,7 @@ object ComponentListener : ListenerAdapter() {
 
     private fun<P: Any> handle(event: GenericComponentInteractionCreateEvent) {
         val id = encoder.decodeId(event.componentId)?: return
+
         val (comp, data, listener) = id.build<Data<P>, P, InteractionContext<*, *, P>>()?: return
 
         listener.invoke(

@@ -27,7 +27,7 @@ fun<D: Data<P>, P: Any> RenderContext<D, P>.useModalLazy(init: ModalBuilder<D, P
 /**
  * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
  */
-fun<D: Data<P>, P: Any> RenderContext<D, P>.useModal(factory: ModalFactory, id: String? = null, dynamic: Boolean = false, handler: ModalHandler<D, P>): Modal {
+fun<D: Data<P>, P: Any> RenderContext<D, P>.useModal(factory: ModalFactory, id: String? = null, dynamic: Boolean = this.dynamic, handler: ModalHandler<D, P>): Modal {
     val listener = modal(id, dynamic, handler)
 
     return factory.build(listener)
@@ -40,7 +40,7 @@ class ModalBuilder<D: Data<P>, P: Any>(context: RenderContext<D, P>): RenderCont
     /**
      * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
      */
-    fun submit(id: String? = null, dynamic: Boolean = false, handler: ModalHandler<D, P>) {
+    fun submit(id: String? = null, dynamic: Boolean = context.dynamic, handler: ModalHandler<D, P>) {
         this.id = context.modal(id, dynamic, handler)
     }
 }

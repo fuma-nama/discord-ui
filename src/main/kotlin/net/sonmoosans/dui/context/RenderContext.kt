@@ -43,12 +43,19 @@ abstract class RenderContext<D: Data<P>, P: Any>(
     abstract val builder: MessageBuilder
 
     /**
+     * Listener type to use when not specified
+     *
+     * Use Data based Listeners in default
+     */
+    var dynamic: Boolean = false
+
+    /**
      * Listen Interaction Events
      * @param dynamic If enabled, use Memory-Safe Dynamic Listener. Otherwise, use Data Based Listener
      */
     fun<E: GenericComponentInteractionCreateEvent> interaction(
         id: String? = null,
-        dynamic: Boolean = false,
+        dynamic: Boolean = this.dynamic,
         handler: InteractionContext<E, D, P>.() -> Unit
     ) = on(id, dynamic, handler)
 
@@ -58,7 +65,7 @@ abstract class RenderContext<D: Data<P>, P: Any>(
      */
     fun modal(
         id: String? = null,
-        dynamic: Boolean = false,
+        dynamic: Boolean = this.dynamic,
         handler: ModalContext<D, P>.() -> Unit
     ) = on(id, dynamic, handler)
 

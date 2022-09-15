@@ -60,7 +60,7 @@ fun<D: Data<P>, P : Any> RenderContainer<in Button, D, P>.button(
     emoji: Emoji? = null,
     style: ButtonStyle = ButtonStyle.PRIMARY,
     id: String? = null,
-    dynamic: Boolean = false,
+    dynamic: Boolean = context.dynamic,
     onClick: InteractionContext<ButtonInteractionEvent, D, P>.() -> Unit,
 ) {
     val listenerId = context.interaction(id, dynamic, onClick)
@@ -138,7 +138,7 @@ class MenuBuilder<D: Data<P>, P : Any>(context: RenderContext<D, P>): RenderCont
      *
      * use Data based Listener
      */
-    fun submit(id: String? = null, dynamic: Boolean = false, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, D, P>>): String {
+    fun submit(id: String? = null, dynamic: Boolean = context.dynamic, onSubmit: Handler<InteractionContext<SelectMenuInteractionEvent, D, P>>): String {
         this.id = context.interaction(id, dynamic, onSubmit)
 
         return this.id
