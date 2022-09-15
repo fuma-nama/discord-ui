@@ -63,6 +63,7 @@ private fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
     setPage: (page: Int) -> Unit,
     init: PagesBuilder<D, P>.() -> Unit,
 ) {
+    println(page)
     val pages = PagesBuilder<D, P>().apply(init).list
 
     pages[page].render(this)
@@ -70,10 +71,12 @@ private fun<D: Data<P>, P : Any> RenderContext<D, P>.pager(
     row {
         button("<", disabled = page <= 0, id = "prev") {
             setPage(page - 1)
+            event.edit()
         }
 
         button(">", disabled = page >= pages.lastIndex, id = "next") {
             setPage(page + 1)
+            event.edit()
         }
     }
 }
