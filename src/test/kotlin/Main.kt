@@ -6,7 +6,7 @@ import net.sonmoosans.bjda.plugins.supercommand.builder.command
 import net.sonmoosans.bjda.plugins.supercommand.supercommand
 import net.sonmoosans.bjda.wrapper.Mode
 import net.sonmoosans.dui.Element
-import net.sonmoosans.dui.NoDataComponent
+import net.sonmoosans.dui.NoPropsComponent
 import net.sonmoosans.dui.bjda.DUIModule
 import net.sonmoosans.dui.component
 import net.sonmoosans.dui.components.*
@@ -96,7 +96,7 @@ suspend fun main() {
 
 typealias TodoExport = (String) -> MessageCreateData
 
-val ModernTodoApp = NoDataComponent {
+val ModernTodoApp = NoPropsComponent {
     val todos by useState { mutableListOf("hello") }
 
     useChange(todos) {

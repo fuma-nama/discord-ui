@@ -7,9 +7,9 @@ fun<P: Any> component(render: RenderContext<P, IDComponent<P>>.() -> Unit) = IDC
 fun<P: Any> component(store: DataStore<P>, render: RenderContext<P, IDComponent<P>>.() -> Unit) = IDComponent(store, render)
 
 /**
- * Component which has no Data required
+ * Component which has no Props required
  */
-class NoDataComponent(
+class NoPropsComponent(
     store: DataStore<Unit> = DataStoreImpl(),
     render: RenderContext<Unit, *>.() -> Unit
 ) : IDComponent<Unit>(store, render) {
