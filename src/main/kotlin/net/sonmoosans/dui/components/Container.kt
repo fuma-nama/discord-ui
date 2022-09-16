@@ -2,6 +2,7 @@ package net.sonmoosans.dui.components
 
 import net.dv8tion.jda.api.entities.emoji.Emoji
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent
+import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent
 import net.sonmoosans.dui.Data
 import net.sonmoosans.dui.annotations.RequireListener
 import net.sonmoosans.dui.annotations.RequireStates
@@ -115,7 +116,7 @@ fun<D: Data<P>, P : Any> RenderContext<D, P>.tabLayout(
 ) = scope(generateId(scope, init)) {
     val (state, setState) = page?: useState("page", 0)
 
-    tabLayout(state, setState, init)
+    tabLayout(state, { setState(it) }, init)
 }
 
 /**
@@ -129,7 +130,7 @@ fun<D: Data<P>, P : Any> RenderContext<D, P>.tabLayout(
 @RequireStates("page")
 fun<D: Data<P>, P : Any> RenderContext<D, P>.tabLayout(
     page: Int,
-    setPage: (page: Int) -> Unit,
+    setPage: InteractionContext<SelectMenuInteractionEvent, D, P>.(page: Int) -> Unit,
     scope: String? = null,
     init: TabBuilder<D, P>.() -> Unit,
 ) = scope(generateId(scope, init)) {
@@ -140,7 +141,7 @@ fun<D: Data<P>, P : Any> RenderContext<D, P>.tabLayout(
 @RequireStates("page")
 private fun<D: Data<P>, P : Any> RenderContext<D, P>.tabLayout(
     page: Int,
-    setPage: (page: Int) -> Unit,
+    setPage: InteractionContext<SelectMenuInteractionEvent, D, P>.(page: Int) -> Unit,
     init: TabBuilder<D, P>.() -> Unit,
 ) {
     val tabs = TabBuilder<D, P>().apply(init).list
