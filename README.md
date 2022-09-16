@@ -117,11 +117,17 @@ tabLayout { //Adds a SelectMenu to switch between Tabs
 ## Memory Safe
 Component only needs a `Data` instance for rendering.
 
-For `IDComponent`, All those Data will be stored in a Map
+### ID Component
+```kotlin
+val Test = component<Props> {
+    embed(title = props.value)
+}
+```
+All Data entries will be stored in a Map
 <br>
 You can implement your own management system above it
-<br>
-Remember that You might need to **destroy** unused Data manually
+
+Remember that You **must destroy** unused Data manually
 
 ### Dynamic Components
 ```kotlin
