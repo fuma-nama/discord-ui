@@ -43,11 +43,14 @@ abstract class RenderContext<D: Data<P>, P: Any>(
     abstract val builder: MessageBuilder
 
     /**
-     * Listener type to use when not specified
-     *
-     * Use Data based Listeners in default
+     * Whether to Use Dynamic Listeners in default
      */
-    var dynamic: Boolean = false
+    var dynamic: Boolean = component.dynamic
+    /**
+     * Current ID Scope, used for avoiding ID duplication
+     */
+    override var scope = ""
+    var contexts: Map<Context<*>, Any?>? = null
 
     /**
      * Listen Interaction Events
@@ -68,12 +71,6 @@ abstract class RenderContext<D: Data<P>, P: Any>(
         dynamic: Boolean = this.dynamic,
         handler: ModalContext<D, P>.() -> Unit
     ) = on(id, dynamic, handler)
-
-    /**
-     * Current ID Scope, used for avoiding ID duplication
-     */
-    override var scope = ""
-    var contexts: Map<Context<*>, Any?>? = null
 
     /**
      * Run lambda if render mode is edit
@@ -113,3 +110,13 @@ abstract class RenderContext<D: Data<P>, P: Any>(
     }
 }
 
+/**
+ * Use Dynamic Listeners within this scope
+ */
+fun<C: RenderContext<*, *>> C.dynamic(dynamic: Boolean = true, render: C.() -> Unit) {
+    val prev = this.dynamic
+    this.dynamic = dynamic
+    render(this)
+
+    this.dynamic = prev
+}

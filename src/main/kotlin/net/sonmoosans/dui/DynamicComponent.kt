@@ -25,6 +25,7 @@ class DynamicComponent<P: Any>(
     val generator: Generator<P>,
     render: RenderContext<Data<P>, P>.() -> Unit
 ) : AbstractComponent<Data<P>, P, DynamicComponent<P>>(render) {
+    override val dynamic: Boolean = true
 
     @Deprecated("You can use render instead", replaceWith = ReplaceWith("render(props)"))
     fun create(props: P) = render(props)

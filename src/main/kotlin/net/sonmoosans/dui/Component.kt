@@ -23,6 +23,10 @@ abstract class AbstractComponent<D: Data<P>, P: Any, C: AbstractComponent<D, P, 
 }
 
 interface Component<D: Data<P>, P: Any> {
+    /**
+     * Whether to Use Dynamic Listeners in default
+     */
+    val dynamic: Boolean get() = false
     val render: RenderContext<D, P>.() -> Unit
     val listeners: Map<String, Handler<EventContext<*, D, P>>>
 

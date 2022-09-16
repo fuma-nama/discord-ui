@@ -9,9 +9,11 @@ fun<P: Any> once(render: RenderContext<Data<P>, P>.() -> Unit) = OnceComponent(r
 /**
  * Similar to SinceDataComponent, but data won't be stored at every render
  *
- * Listeners won't work since no data is stored
+ * since no data is stored, you must use Dynamic Listeners and pass an initial data
  */
 class OnceComponent<P: Any>(render: RenderContext<Data<P>, P>.() -> Unit) : AbstractComponent<Data<P>, P, OnceComponent<P>>(render) {
+    override val dynamic: Boolean = true
+
     fun create(props: P) = render(createData(props))
     fun edit(props: P) = edit(createData(props))
 
