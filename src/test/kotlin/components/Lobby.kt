@@ -13,6 +13,7 @@ import utils.reply
 import java.awt.Color
 
 val Lobby = component<WaitingGame> {
+    dynamic = true
 
     embed(
         title = "Waiting for Players",
@@ -24,14 +25,14 @@ val Lobby = component<WaitingGame> {
     }
 
     row {
-        button("Start", style = ButtonStyle.SUCCESS, disabled = !props.canStart, dynamic = true) {
+        button("Start", style = ButtonStyle.SUCCESS, disabled = !props.canStart) {
 
             val game = props.start()
 
             event.editMessage(game.dashboard.edit()).queue()
         }
 
-        button("Join", dynamic = true) {
+        button("Join") {
 
             if (props.join(event.user)) {
                 Embed(
@@ -46,7 +47,7 @@ val Lobby = component<WaitingGame> {
                 ).reply(event).setEphemeral(true).queue()
             }
         }
-        button("Leave", style = ButtonStyle.DANGER, dynamic = true) {
+        button("Leave", style = ButtonStyle.DANGER) {
             if (props.leave(event.user)) {
 
                 Embed(

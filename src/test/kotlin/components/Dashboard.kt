@@ -13,6 +13,7 @@ import utils.*
 import java.awt.Color
 
 val Dashboard = component<UnoGame> {
+    dynamic = true
 
     with (props) {
         embed(
@@ -30,7 +31,7 @@ val Dashboard = component<UnoGame> {
     }
 
     rowLayout {
-        button("Select a Card", dynamic = true) {
+        button("Select a Card") {
             val player = props.getPlayer(event) { return@button }
 
             event.reply(player.action.render()).apply {
@@ -41,7 +42,7 @@ val Dashboard = component<UnoGame> {
             }
         }
 
-        button("Pick", dynamic = true) {
+        button("Pick") {
             val current = checkPlayer(props.currentPlayer) { return@button }
             val pick = props.pick(current)
 

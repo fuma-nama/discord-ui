@@ -17,8 +17,6 @@ private object PropsGenerator : Generator<PagerProps> {
 }
 
 val PagerExample = dynamicComponent(PropsGenerator) {
-    dynamic = true
-
     //Notice that the 'props' outside the 'setPage' lambda is not same as the one inside
     //InteractionContext::props points to the data parsed from Interaction Event
     pager(page = props.page, setPage = {this.props.page = it}) {
