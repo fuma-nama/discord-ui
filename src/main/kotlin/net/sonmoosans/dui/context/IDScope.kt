@@ -22,10 +22,6 @@ interface IDScope {
     }
 }
 
-open class IDScopeImpl(default: String = "") : IDScope {
-    override var scope = default
-}
-
 /**
  * Generate Prefix from body lambda
  *
@@ -51,5 +47,3 @@ inline fun<C: IDScope> C.scope(prefix: String? = null, body: C.() -> Unit) {
 fun buildId(vararg scopes: String): String {
     return scopes.joinToString("_")
 }
-
-inline fun scope(domain: String = "", body: IDScope.() -> Unit) = IDScopeImpl(domain).apply(body)
